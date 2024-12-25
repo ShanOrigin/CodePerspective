@@ -1,0 +1,135 @@
+.footer-container {
+  box-shadow: 0px -4px 8px 4px rgba(0, 0, 0, 0.1); /* Negative vertical offset to move shadow to top */
+  background-color: var(--element-color);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-box,
+.services,
+.social-media {
+  margin: 2px 0px;
+  padding: 0.5em 0.5em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  background-color: var(--element-color);
+}
+
+.services ul {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--element-color);
+}
+
+.address-box div {
+  font-size: 1.1em;
+  padding: 0.5em 0.5em;
+  background-color: var(--element-color);
+}
+.address-box .address-title {
+  font-weight: bold;
+  font-size: 1.4em;
+  background-color: var(--element-color);
+}
+
+.services {
+  padding-bottom: 0px;
+}
+.services ul li {
+  list-style: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0.5em 0px;
+  background-color: var(--element-color);
+  color: var(--link-color);
+}
+
+.services ul li:hover {
+  background-color: var(--hover-color);
+  padding: 0.5em 0.9em;
+  border-radius: 5px;
+}
+
+.services ul a,
+.social-media a {
+  text-decoration: none;
+}
+
+.social-media i {
+  font-size: 3.5em;
+  border-radius: 10px;
+  padding: 0.3em 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+  background-color: var(--element-color);
+}
+
+.social-media i:hover {
+  background-color: var(--hover-color);
+  color: var(--link-color);
+}
+
+.copy-right {
+  font-weight: bolder;
+  padding: 0.5em 0px;
+  background-color: var(--element-color);
+}
+
+@media (max-width: 500px) {
+  .address-box,
+  .services {
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .address-box .address-title {
+    font-size: 1.1em;
+  }
+  .address-box div {
+    font-size: 0.9em;
+  }
+
+  .services ul {
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 0px 0px;
+    margin: 0px;
+  }
+  .services ul li {
+    font-size: 1em;
+    flex: 0 0 30%;
+
+    padding: 0px 5px;
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+
+  .services ul li:hover {
+    background-color: var(--hover-color);
+    padding: 0em 0.6em;
+    border-radius: 5px;
+  }
+
+  .social-media i {
+    font-size: 2em;
+  }
+  .copy-right {
+    font-size: 0.7em;
+  }
+}
