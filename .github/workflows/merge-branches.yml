@@ -1,3 +1,4 @@
+
 name: Workflow for Merging Branches
 
 on:
@@ -55,22 +56,6 @@ jobs:
                 CURRENT_BRANCH=${BRANCHES[i]}
                 NEXT_BRANCH=${BRANCHES[i+1]}
 
-<<<<<<< HEAD
-                # Ensure the next branch exists
-                echo "Checking if branch '$NEXT_BRANCH' exists..."
-                git fetch origin $NEXT_BRANCH
-
-                if git show-ref --verify --quiet refs/heads/$NEXT_BRANCH; then
-                  echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
-                  git checkout $NEXT_BRANCH
-                else
-                  echo "Branch '$NEXT_BRANCH' does not exist. Skipping merge for this group."
-                  break
-                fi
-
-                echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
-                git merge --no-ff $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
-=======
                 # Ensure the next branch exists remotely
                 echo "Checking if branch '$NEXT_BRANCH' exists..."
                 if git ls-remote --exit-code origin $NEXT_BRANCH; then
@@ -82,16 +67,15 @@ jobs:
 
                   echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
                   git merge --no-ff --allow-unrelated-histories $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
->>>>>>> 2c18556451d8f061138d3508886287c679a13c69
 
-                  # Push changes to the remote repository
-                  git push origin $NEXT_BRANCH
-
-                  # Check for merge conflicts and stop if found
+                  # Check for merge conflicts
                   if [ $? -ne 0 ]; then
                     echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH"
                     exit 1
                   fi
+
+                  # Push changes to the remote repository
+                  git push origin $NEXT_BRANCH
                 else
                   echo "Branch '$NEXT_BRANCH' does not exist or was not found. Skipping merge for this group."
                   break
@@ -102,9 +86,4 @@ jobs:
           done
 
           echo "Merging process completed for $TRIGGERED_BRANCH"
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> 2c18556451d8f061138d3508886287c679a13c69
