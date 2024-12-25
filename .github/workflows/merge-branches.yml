@@ -1,22 +1,23 @@
-name: Workflow for Merging Branches
+name: Merge Branches
 
 on:
   push:
     branches:
-      - '**'  # Trigger for all branches
+      - '**' # Trigger on push to any branch
 
 jobs:
-  merge-branches:
+  merge:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Fetch all branches
-        run: git fetch --all
+      - name: Set up Git user
+        run: |
+          git config --global user.name "SOC2050"
+          git config --global user.email "gv2422244242@gmail.com"
 
-      - name: Run the merge script
+      - name: Run branch merging script
         run: |
           #!/bin/bash
 
