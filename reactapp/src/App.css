@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* Define CSS variables in the :root for day mode */
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --element-color: white;
+  --hover-color: #f0f0f0;
+  --link-color: hsl(210, 100%, 56%) /*hsl(180, 100%, 40%)*/;
+  --button-bg: lightgray;
+  --button-text: black;
+}
+
+/* Day mode styles */
+.root-container.day-mode {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.day-mode a {
+  color: var(--link-color);
+}
+
+.day-mode .button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+/* Define CSS variables for night mode */
+.root-container.night-mode {
+  --bg-color: hsl(207, 26%, 17%);
+  --text-color: white;
+  --element-color: hsl(209, 23%, 22%);
+  --hover-color: var(--bg-color);
+  --link-color: hsl(210, 100%, 56%) /*hsl(180, 100%, 40%)*/;
+  --button-bg: darkgray;
+  --button-text: white;
+}
+
+/* Night mode styles */
+.night-mode {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.night-mode a {
+  color: var(--link-color);
+}
+
+.night-mode .button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+.root-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main-container {
+  flex-grow: 1;
+  flex-basis: 100%;
+}
+
+* {
+  /* background-color: var(--bg-color); */
+  /* color: var(--text-color); */
+}
