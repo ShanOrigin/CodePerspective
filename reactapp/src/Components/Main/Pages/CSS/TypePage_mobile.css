@@ -1,0 +1,360 @@
+/* Mobile screen css for typepage  */
+
+@media (max-width: 500px) {
+  .page-container {
+    gap: unset;
+    flex-direction: row-reverse;
+    padding: unset;
+
+    background-color: red;
+    margin-bottom: 1rem;
+  }
+  .page-container .guide-toggle {
+    display: block;
+    z-index: 100;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+    background: transparent;
+    position: absolute;
+  }
+  /* tree structure of side bar style */
+  .side-bar {
+    position: absolute;
+    z-index: 10;
+    font-size: 1rem;
+    transform: translate(300px, -100px);
+    opacity: 0;
+
+    transition:
+      opacity 300ms ease-in-out,
+      transform 300ms ease-out;
+  }
+
+  .open-guide {
+    opacity: 1;
+    transform: translate(0, 0); /* Move to the original position */
+  }
+
+  .close-guide {
+    opacity: 0;
+    transform: translate(300px, -100px); /* Move out of view */
+  }
+
+  .side-bar h2 {
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .Tree {
+    margin-inline: 0.5rem 0.3rem;
+    padding-right: 0.3rem;
+  }
+
+  .Tree a {
+    text-decoration: none;
+  }
+
+  .branch {
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  .branch h4 {
+    margin-left: 0.2rem;
+  }
+  .branch h4 a {
+    color: rgb(71, 128, 196);
+    font-size: 0.95rem;
+  }
+  .branch > a {
+    color: rgb(110, 176, 255);
+    font-size: 0.75rem;
+  }
+
+  /*   .leaves .sub-tree 
+   // no change in this above classes
+ 
+ */
+
+  .sub-tree li {
+    padding: 0.25rem 0;
+  }
+  /* tree structure end */
+
+  .page {
+    flex-basis: 100%;
+    padding: 0.1rem; /* Optional padding */
+  }
+
+  .page .page-title {
+    padding: 0.5rem 0;
+    font-size: 1.8rem;
+  }
+  .section {
+    padding: 0;
+    margin-block: 0;
+    font-size: 1.2rem;
+  }
+
+  /* flow selection css style */
+  .choice-box {
+    top: -10px;
+    right: 5px;
+
+    background-color: unset;
+  }
+
+  /* choice box section style for laptop  : modify required */
+  .choice-box span {
+    display: block;
+    font-size: 1.5rem;
+  }
+
+  .choice-box-list {
+    padding: 0.1rem 0.1rem;
+    margin-right: 0.25rem;
+    /* set display none after all proper */
+    background-color: rgb(109, 100, 100);
+    gap: 0;
+    opacity: 0;
+    transform: translate(200px, 0);
+
+    transition:
+      opacity 300ms ease-in-out,
+      transform 300ms ease-out;
+  }
+
+  .open-choice-box {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .close-choice-box {
+    opacity: 0;
+    transform: translate(200px, 0);
+  }
+
+  .fa-arrow-down,
+  .fa-arrow-up,
+  .fa-arrow-right {
+    font-size: 1.2rem;
+  }
+
+  .choice-box-list li label {
+    padding: 0.3rem 0.25rem;
+    gap: 6px;
+  }
+  .choice-box-list li label input {
+    transform: scale(1.3);
+  }
+  /* choice box style end */
+
+  /* commen css */
+
+  .sub-title {
+    padding: 0rem 0.3rem 0.2rem;
+
+    font-size: 1.6rem;
+  }
+
+  .photo {
+    float: unset;
+    display: block;
+    width: 60%;
+    margin: 0.5rem auto 0.3rem auto;
+  }
+
+  /* commen css end */
+  /* concept section style */
+
+  .concept-section img {
+    width: 80%;
+    margin: 0.5rem auto 0.3rem auto;
+  }
+
+  .concept-section p {
+    padding: 0.5rem 0rem 0 1rem;
+  }
+
+  /* concept section end */
+
+  /* history section normal flow style */
+
+  .history-section .normal-flow {
+    padding: 0.2rem;
+  }
+
+  .history-section .normal-flow .inventor-card .inventor-img {
+    width: 60%;
+    margin: 0.5rem auto 0.3rem auto;
+    float: unset;
+    display: block;
+  }
+
+  .history-section .normal-flow .inventor-card .inventor-name {
+    font-weight: bold;
+    padding-top: 0.7rem;
+    padding-bottom: 0;
+    text-align: center;
+  }
+
+  .history-section .normal-flow div:not(:last-child) {
+    border-bottom: 3px dotted rgb(200, 200, 200);
+    margin-bottom: 1.5rem;
+  }
+  /* history section normal flow end */
+
+  /* types section normal flow  style */
+
+  .types-section .normal-flow .types-card {
+    padding: 0.5rem;
+  }
+  .types-section .normal-flow .types-card .types-title {
+    font-size: 1.4rem;
+
+    padding: 0.1rem 0 0.8rem 0.5rem;
+  }
+
+  .types-section .normal-flow .types-card .types-info {
+    padding: 0.4rem;
+  }
+
+  .types-section .normal-flow div:not(:last-child) {
+    border-bottom: 3px dotted rgb(200, 200, 200);
+    margin-bottom: 0.5rem;
+  }
+
+  /* types section normal flow end */
+
+  /* purpose and importance section normal flow style */
+
+  .purpose-importance-section .normal-flow .qna-card {
+    padding-left: 0.8rem;
+  }
+
+  .purpose-importance-section .normal-flow .qna-card .question {
+    font-size: 1.4rem;
+  }
+
+  .purpose-importance-section .normal-flow .qna-card .answer {
+    margin-left: 1.2rem;
+  }
+
+  /* purpose and importance section normal flow ebd */
+
+  /* explaination section normal flow style */
+
+  .explanation-section .normal-flow .explanation-card {
+    margin-inline: 1rem;
+  }
+
+  .explanation-section .normal-flow .explanation-card .explanation-steps {
+    font-size: 1.4rem;
+
+    padding: 0.5rem 0;
+  }
+
+  .explanation-section .normal-flow .explanation-card .steps-image {
+    width: 80%;
+    display: block;
+    margin: 0.2rem auto;
+  }
+
+  .explanation-section .normal-flow .explanation-card .step-explanation {
+    padding: 0.5rem 0;
+  }
+
+  /* explaination section normal flow end */
+
+  /* advantages and disadvantages section normal flow style */
+
+  .advantages-disadvantages-section .normal-flow .advdis-card {
+    margin-inline: 1rem;
+  }
+
+  .advantages-disadvantages-section .normal-flow .advdis-card .advdis-title {
+    font-size: 1.4rem;
+  }
+
+  .advantages-disadvantages-section .normal-flow .advdis-card .advdis-points {
+    margin-left: 1rem;
+  }
+
+  /* advantages and disadvantages section normal flow end */
+
+  /* use case section normal flow style */
+
+  .usecase-section .normal-flow .usecase-card {
+    margin-inline: 1rem;
+  }
+
+  .usecase-section .normal-flow .usecase-card .case {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .usecase-section .normal-flow .usecase-card .case-info {
+    margin-left: 1rem;
+  }
+
+  /* use case section normal flow end */
+
+  /* key aspects normal flow style */
+
+  .key-aspects-section .normal-flow .aspects-card {
+    margin-inline: 1rem;
+  }
+
+  .key-aspects-section .normal-flow .aspects-card .aspects-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  .key-aspects-section .normal-flow .aspects-card .aspect-title {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+    padding: 0.2rem;
+  }
+
+  .key-aspects-section .normal-flow .aspects-card .aspect-info {
+    margin-left: 2.5rem;
+  }
+
+  .key-aspects-section .normal-flow .aspect-seperator {
+    border-bottom: 3px dotted rgb(150, 150, 150);
+    border-top: none;
+    margin: 1rem 0;
+  }
+
+  /* key aspects section normal flow end */
+
+  /* scenarios section style */
+
+  .scenarios-section .normal-flow .scenarios-card {
+    margin-inline: 1rem;
+  }
+
+  .scenarios-section .normal-flow .scenarios-card .scenarios-title {
+    font-size: 1.4rem;
+
+    padding: 0.2rem 0;
+  }
+
+  .scenarios-section .normal-flow .scenarios-card .scenarios-image {
+    width: 80%;
+    display: block;
+    margin: 0.25rem auto;
+    float: unset;
+  }
+
+  .scenarios-section .normal-flow .scenarios-card .scenarios-explanation {
+    padding: 0.5rem 0.5rem;
+  }
+
+  /* scenarios section end */
+}
+
+/* mobaile screen css end */

@@ -1,0 +1,61 @@
+{
+    "default": {
+        "rectWidth": 30,
+        "rectHeight": 30,
+        "nextPos": 33
+    },
+    "types": {
+        "array": {
+            "rectWidth": 36,
+            "rectHeight": 36,
+            "nextPos": 39
+        },
+        "array2D": {
+            "rectWidth": 36,
+            "rectHeight": 36,
+            "nextPos": 39
+        },
+        "sorts": {
+            "rectWidth": 36,
+            "rectHeight": 36,
+            "nextPos": 39
+        },
+        "LL": {
+            "rectWidth": 25,
+            "rectHeight": 25,
+            "nextPos": 28
+        },
+        "stack": {
+            "rectWidth": 40,
+            "rectHeight": 40,
+            "nextPos": 43
+        },
+        "queue": {
+            "rectWidth": 40,
+            "rectHeight": 40,
+            "nextPos": 43
+        },
+        "HT": {
+            "rectWidth": 40,
+            "rectHeight": 40,
+            "nextPos": 43
+        }
+    },
+    "canvas": {
+     
+
+        "defaultWidth": 0.95,
+        "drawYPosFactor": 0.1,
+        "rectRadius": 5,
+        "fontSize": {
+            "cfontSize": 12,
+            "ifontSize": 8,
+            "comfontSize": 11,
+            "afontSize": 10
+        },
+         "ScreenConfig": {
+            "minSize": 250,
+            "maxSize": 767
+        }
+    }
+}
