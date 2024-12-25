@@ -1,0 +1,77 @@
+/* Basic styling */
+
+/* Off-canvas toggle button */
+.toggle-btn {
+  font-size: 18px;
+
+  z-index: 999;
+  background-color: transparent !important ;
+}
+
+/* Hide checkbox input visually */
+.toggle-checkbox {
+  display: none;
+}
+
+/* Overlay to dim background when menu is open */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+/* Sidebar container */
+.off-canvas {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Hidden off-screen initially */
+  height: 100%;
+
+  /*background-color: #333; */
+  background-color: var(--element-color);
+  color: var(--text-color);
+  color: white;
+  padding: 0.8em 1.2em 0.8em 0.8em;
+  transition: left 0.3s ease; /* Smooth transition */
+  z-index: 1000;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.off-canvas h2 {
+  background-color: var(--element-color);
+  color: var(--bg-color);
+  text-align: center;
+  padding: 1em 0em 1em 0em;
+  z-index: 1002;
+  font-size: 2.5em;
+}
+/* Sidebar links */
+.off-canvas a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 15px 0;
+  font-size: 18px;
+}
+
+/* Move sidebar and show overlay when checkbox is checked */
+.toggle-checkbox:checked ~ .off-canvas {
+  left: 0; /* Slide in */
+}
+
+.toggle-checkbox:checked ~ .off-canvas h2 {
+  color: var(--text-color);
+}
+
+.toggle-checkbox:checked ~ .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
