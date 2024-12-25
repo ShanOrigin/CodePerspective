@@ -1,0 +1,31 @@
+{
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "pouchdb": "^9.0.0",
+    "punycode": "^2.3.1"
+  },
+  "scripts": {
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix",
+    "s": "npm run server",
+    "r": "npm run react",
+    "start": "concurrently \"npm run server\" \"npm run react\"",
+    "QueenMedusa": "concurrently \"npm run server\" \"npm run react\"",
+    "server": "cd server && node --no-deprecation server.js",
+    "react": "cd reactapp && npm run dev",
+    "DNM": "rm -rf node_modules && cd database && rm -rf node_modules && cd ../reactapp && rm -rf node_modules ",
+    "initial": "npm install && cd database && npm install && cd ../reactapp/src && npm install && cd ../.. && npm run QueenMedusa",
+    "mainP": "cd ./reactapp/src/Components/Main/Pages/JS",
+    "cmp": "cd ./reactapp/src/Components/"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.25.9",
+    "@eslint/js": "^9.17.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.14.0"
+  }
+}
