@@ -8,10 +8,13 @@ on:
 jobs:
   merge-branches:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Fetch all branches
+        run: git fetch --all
 
       - name: Run the merge script
         run: |
@@ -52,21 +55,34 @@ jobs:
                 CURRENT_BRANCH=${BRANCHES[i]}
                 NEXT_BRANCH=${BRANCHES[i+1]}
 
-                echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
+                # Ensure the next branch exists
+                echo "Checking if branch '$NEXT_BRANCH' exists..."
 
-                # Checkout the parent branch (next branch)
-                git checkout $NEXT_BRANCH
+                # Fetch the latest changes for the next branch
+                git fetch origin $NEXT_BRANCH
 
-                # Merge the child branch (current branch) into the parent branch
-                git merge --no-ff $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
+                # Verify that the next branch exists in the remote repository
+                if git show-ref --verify --quiet refs/remotes/origin/$NEXT_BRANCH; then
+                  echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
 
-                # Push changes to the remote repository
-                git push origin $NEXT_BRANCH
+                  # Checkout the next branch and ensure it is up-to-date
+                  git checkout $NEXT_BRANCH
+                  git pull origin $NEXT_BRANCH
 
-                # Check for merge conflicts and stop if found
-                if [ $? -ne 0 ]; then
-                  echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH"
-                  exit 1
+                  echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
+                  git merge --no-ff $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
+
+                  # Push changes to the remote repository
+                  git push origin $NEXT_BRANCH
+
+                  # Check for merge conflicts and stop if found
+                  if [ $? -ne 0 ]; then
+                    echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH"
+                    exit 1
+                  fi
+                else
+                  echo "Branch '$NEXT_BRANCH' does not exist or was not found. Skipping merge for this group."
+                  break
                 fi
               done
               break  # Exit the loop after processing the matched group
@@ -74,4 +90,3 @@ jobs:
           done
 
           echo "Merging process completed for $TRIGGERED_BRANCH"
-
