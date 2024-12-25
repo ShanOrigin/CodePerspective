@@ -1,42 +1,27 @@
-name: Merge Branches
+name: Workflow for Merging Branches
 
 on:
   push:
     branches:
-      - '**' # Trigger on push to any branch
+      - '**'  # Trigger for all branches
 
 jobs:
-  merge:
+  merge-branches:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Fetch full history for all branches
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Git configuration
-      - name: Set up Git user
-        run: |
-          git config --global user.name "SOC2050"
-          git config --global user.email "gv2422244242@gmail.com"
+      - name: Fetch all branches
+        run: git fetch --all --prune
 
-      # Step 3: Run the branch merging script
-      - name: Run branch merging script
+      - name: Run the merge script
         run: |
           #!/bin/bash
 
-          set -e # Exit on any error
-          set -x # Enable debugging
-
           # Get the branch name that triggered the push
           TRIGGERED_BRANCH=${GITHUB_REF##*/}
-
-          # Validate the triggered branch
-          if [[ -z "$TRIGGERED_BRANCH" ]]; then
-            echo "Error: TRIGGERED_BRANCH is empty."
-            exit 1
-          fi
           echo "Triggered branch: $TRIGGERED_BRANCH"
 
           # Define the hierarchical branch groups for merging (child to parent)
@@ -56,56 +41,59 @@ jobs:
             "database main"
           )
 
-          # Fetch all remote branches to ensure they are available locally
-          git fetch --all --prune
-
-          # Process each branch group
+          # Loop through each branch group
           for GROUP in "${BRANCH_GROUPS[@]}"; do
-            # Split group into an array of branches
+            # Convert the group into an array of branches
             BRANCHES=($GROUP)
 
-            # Check if the triggered branch matches the first branch in the group
+            # Check if the triggered branch is the first element of the current group
             if [[ "${BRANCHES[0]}" == "$TRIGGERED_BRANCH" ]]; then
               echo "Processing branch group: $GROUP"
-
-              # Iterate through the branches in the group
+              
+              # Loop through each branch in the group (from child to parent)
               for ((i = 0; i < ${#BRANCHES[@]} - 1; i++)); do
                 CURRENT_BRANCH=${BRANCHES[i]}
                 NEXT_BRANCH=${BRANCHES[i+1]}
 
                 # Ensure the next branch exists remotely
+                echo "Checking if branch '$NEXT_BRANCH' exists..."
                 if git ls-remote --exit-code origin $NEXT_BRANCH; then
-                  echo "Branch '$NEXT_BRANCH' exists. Proceeding with merge..."
+                  echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
 
-                  # Checkout the next branch or create it if missing locally
+                  # Checkout the next branch and ensure it is up-to-date
                   git checkout $NEXT_BRANCH || git checkout -b $NEXT_BRANCH --track origin/$NEXT_BRANCH
-
-                  # Pull the latest changes
                   git pull origin $NEXT_BRANCH
 
-                  # Merge the current branch into the next branch
                   echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
                   git merge --no-ff --allow-unrelated-histories $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
 
-                  # Push the changes back to the remote repository
-                  git push origin $NEXT_BRANCH || {
-                    echo "Error: Failed to push changes for $NEXT_BRANCH."
-                    exit 1
-                  }
-
-                  # Check for merge conflicts
+                  # Handle merge conflicts automatically
                   if [ $? -ne 0 ]; then
-                    echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH"
-                    exit 1
+                    echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH. Attempting auto-resolution."
+                    
+                    # Attempt to resolve conflicts automatically by preferring the current branch
+                    git merge --strategy-option theirs
+
+                    # If conflicts persist, log and abort
+                    if [ $? -ne 0 ]; then
+                      echo "Merge conflict could not be automatically resolved. Logging conflicts for manual resolution."
+                      git diff --name-only --diff-filter=U > merge_conflicts.log
+                      git merge --abort
+                      exit 1
+                    fi
                   fi
+
+                  # Push changes to the remote repository
+                  git push origin $NEXT_BRANCH
+
                 else
-                  echo "Branch '$NEXT_BRANCH' does not exist remotely. Skipping this group."
+                  echo "Branch '$NEXT_BRANCH' does not exist or was not found. Skipping merge for this group."
                   break
                 fi
               done
-              break # Exit the loop after processing the matched group
+              break  # Exit the loop after processing the matched group
             fi
           done
 
-          echo "Merging process completed for $TRIGGERED_BRANCH."
+          echo "Merging process completed for $TRIGGERED_BRANCH"
 
