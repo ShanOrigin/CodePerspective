@@ -19,3 +19,5 @@ const dbPath = path.resolve(__dirname, './CodePerspective');
 const db = new PouchDB(dbPath);
 
 export default db;
+
+// this file is responsible for bd access
