@@ -1,0 +1,9 @@
+{
+  "extends": ["eslint:recommended", "prettier"],
+  "rules": {
+    "no-multiple-empty-lines": ["error", { "max": 3 }],
+    "no-trailing-spaces": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+  }
+}
+
