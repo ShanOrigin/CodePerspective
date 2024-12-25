@@ -55,22 +55,17 @@ jobs:
                 CURRENT_BRANCH=${BRANCHES[i]}
                 NEXT_BRANCH=${BRANCHES[i+1]}
 
-                # Ensure the next branch exists
+                # Ensure the next branch exists remotely
                 echo "Checking if branch '$NEXT_BRANCH' exists..."
-
-                # Fetch the latest changes for the next branch
-                git fetch origin $NEXT_BRANCH
-
-                # Verify that the next branch exists in the remote repository
-                if git show-ref --verify --quiet refs/remotes/origin/$NEXT_BRANCH; then
+                if git ls-remote --exit-code origin $NEXT_BRANCH; then
                   echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
 
                   # Checkout the next branch and ensure it is up-to-date
-                  git checkout $NEXT_BRANCH
+                  git checkout $NEXT_BRANCH || git checkout -b $NEXT_BRANCH --track origin/$NEXT_BRANCH
                   git pull origin $NEXT_BRANCH
 
                   echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
-                  git merge --no-ff $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
+                  git merge --no-ff --allow-unrelated-histories $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
 
                   # Push changes to the remote repository
                   git push origin $NEXT_BRANCH
