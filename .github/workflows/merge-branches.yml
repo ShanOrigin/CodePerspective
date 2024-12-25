@@ -1,99 +1,104 @@
-name: Workflow for Merging Branches
+name: Merge Branches
 
 on:
   push:
     branches:
-      - '**'  # Trigger for all branches
+      - 'react'  # Trigger this action on push to the 'react' branch
 
 jobs:
-  merge-branches:
-    runs-on: ubuntu-latest
+  merge:
+    runs-on: ubuntu-latest  # Run the job on an Ubuntu runner
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3  # Checkout the repository code
 
-      - name: Fetch all branches
-        run: git fetch --all --prune
+    - name: Set up Git identity
+      run: |
+        git config --global user.email "gv2422244242@gmail.com"  # Replace with your email
+        git config --global user.name "SOC2050"  # Replace with your name
 
-      - name: Run the merge script
-        run: |
-          #!/bin/bash
+    - name: Fetch all branches
+      run: git fetch --all --prune
 
-          # Get the branch name that triggered the push
-          TRIGGERED_BRANCH=${GITHUB_REF##*/}
-          echo "Triggered branch: $TRIGGERED_BRANCH"
+    - name: Merge branches
+      run: |
+        #!/bin/bash
+        
+        # Get the branch name that triggered the push
+        TRIGGERED_BRANCH=${GITHUB_REF##*/}
+        echo "Triggered branch: $TRIGGERED_BRANCH"
 
-          # Define the hierarchical branch groups for merging (child to parent)
-          declare -a BRANCH_GROUPS=(
-            "react_src_components_head react_src_components react_src react main"
-            "react_src_components_Footer react_src_components react_src react main"
-            "react_src_components_Main react_src_components react_src react main"
-            "react_src_components react_src react main"
-            "react_src_Hooks react_src react main"
-            "react_src_Contexts react_src react main"
-            "react_src_Animation react_src react main"
-            "react_src react main"
-            "react_public react main"
-            "react main"
-            "server main"
-            "database_data database main"
-            "database main"
-          )
+        # Define the hierarchical branch groups for merging (child to parent)
+        declare -a BRANCH_GROUPS=(
+          "react_src_components_head react_src_components react_src react main"
+          "react_src_components_Footer react_src_components react_src react main"
+          "react_src_components_Main react_src_components react_src react main"
+          "react_src_components react_src react main"
+          "react_src_Hooks react_src react main"
+          "react_src_Contexts react_src react main"
+          "react_src_Animation react_src react main"
+          "react_src react main"
+          "react_public react main"
+          "react main"
+          "server main"
+          "database_data database main"
+          "database main"
+        )
 
-          # Loop through each branch group
-          for GROUP in "${BRANCH_GROUPS[@]}"; do
-            # Convert the group into an array of branches
-            BRANCHES=($GROUP)
+        # Loop through each branch group
+        for GROUP in "${BRANCH_GROUPS[@]}"; do
+          # Convert the group into an array of branches
+          BRANCHES=($GROUP)
 
-            # Check if the triggered branch is the first element of the current group
-            if [[ "${BRANCHES[0]}" == "$TRIGGERED_BRANCH" ]]; then
-              echo "Processing branch group: $GROUP"
-              
-              # Loop through each branch in the group (from child to parent)
-              for ((i = 0; i < ${#BRANCHES[@]} - 1; i++)); do
-                CURRENT_BRANCH=${BRANCHES[i]}
-                NEXT_BRANCH=${BRANCHES[i+1]}
+          # Check if the triggered branch is the first element of the current group
+          if [[ "${BRANCHES[0]}" == "$TRIGGERED_BRANCH" ]]; then
+            echo "Processing branch group: $GROUP"
+            
+            # Loop through each branch in the group (from child to parent)
+            for ((i = 0; i < ${#BRANCHES[@]} - 1; i++)); do
+              CURRENT_BRANCH=${BRANCHES[i]}
+              NEXT_BRANCH=${BRANCHES[i+1]}
 
-                # Ensure the next branch exists remotely
-                echo "Checking if branch '$NEXT_BRANCH' exists..."
-                if git ls-remote --exit-code origin $NEXT_BRANCH; then
-                  echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
+              # Ensure the next branch exists remotely
+              echo "Checking if branch '$NEXT_BRANCH' exists..."
+              if git ls-remote --exit-code origin $NEXT_BRANCH; then
+                echo "Branch '$NEXT_BRANCH' exists, proceeding with merge..."
 
-                  # Checkout the next branch and ensure it is up-to-date
-                  git checkout $NEXT_BRANCH || git checkout -b $NEXT_BRANCH --track origin/$NEXT_BRANCH
-                  git pull origin $NEXT_BRANCH
+                # Checkout the next branch and ensure it is up-to-date
+                git checkout $NEXT_BRANCH || git checkout -b $NEXT_BRANCH --track origin/$NEXT_BRANCH
+                git pull origin $NEXT_BRANCH
 
-                  echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
-                  git merge --no-ff --allow-unrelated-histories $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
+                echo "Merging $CURRENT_BRANCH into $NEXT_BRANCH"
+                git merge --no-ff --allow-unrelated-histories $CURRENT_BRANCH -m "Automated merge of $CURRENT_BRANCH into $NEXT_BRANCH"
 
-                  # Handle merge conflicts automatically
+                # Handle merge conflicts automatically
+                if [ $? -ne 0 ]; then
+                  echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH. Attempting auto-resolution."
+                  
+                  # Attempt to resolve conflicts automatically by preferring the current branch
+                  git merge --strategy-option theirs
+
+                  # If conflicts persist, log and abort
                   if [ $? -ne 0 ]; then
-                    echo "Merge conflict detected during merging $CURRENT_BRANCH into $NEXT_BRANCH. Attempting auto-resolution."
-                    
-                    # Attempt to resolve conflicts automatically by preferring the current branch
-                    git merge --strategy-option theirs
-
-                    # If conflicts persist, log and abort
-                    if [ $? -ne 0 ]; then
-                      echo "Merge conflict could not be automatically resolved. Logging conflicts for manual resolution."
-                      git diff --name-only --diff-filter=U > merge_conflicts.log
-                      git merge --abort
-                      exit 1
-                    fi
+                    echo "Merge conflict could not be automatically resolved. Logging conflicts for manual resolution."
+                    git diff --name-only --diff-filter=U > merge_conflicts.log
+                    git merge --abort
+                    exit 1
                   fi
-
-                  # Push changes to the remote repository
-                  git push origin $NEXT_BRANCH
-
-                else
-                  echo "Branch '$NEXT_BRANCH' does not exist or was not found. Skipping merge for this group."
-                  break
                 fi
-              done
-              break  # Exit the loop after processing the matched group
-            fi
-          done
 
-          echo "Merging process completed for $TRIGGERED_BRANCH"
+                # Push changes to the remote repository
+                git push origin $NEXT_BRANCH
+
+              else
+                echo "Branch '$NEXT_BRANCH' does not exist or was not found. Skipping merge for this group."
+                break
+              fi
+            done
+            break  # Exit the loop after processing the matched group
+          fi
+        done
+
+        echo "Merging process completed for $TRIGGERED_BRANCH"
 
