@@ -1,0 +1,79 @@
+/* Accordion container styling */
+.accordion-container {
+  width: 100%;
+
+  margin: 0px 5px;
+
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+
+/* Accordion item styling */
+.accordion-item {
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+/* Title styling with arrow indicator */
+.accordion-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.1em 0.8em 0.1em 1em;
+
+  font-weight: 1000;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: var(--hover-color);
+  color: var(--text-color);
+}
+.accordion-title a {
+  font-size: 1.3em;
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+/* Rotate the arrow when the section is open */
+.accordion-title .arrow {
+  background-color: var(--hover-color);
+
+  transition: transform 0.3s ease;
+}
+
+.accordion-title .arrow.open {
+  transform: rotate(90deg);
+}
+
+/* Smooth transition for content open/close */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: #f1f1f1;
+  padding: 0 0px;
+  background-color: var(--element-color);
+}
+
+.accordion-content.show {
+  max-height: max-content; /* Set an appropriate max-height for your content */
+  padding: 10px 15px;
+}
+
+.content-item {
+  margin: 1px;
+  padding: 0.25em 1em;
+  background-color: var(--element-color);
+}
+
+.content-item .accordian-links,
+.content-item .accordian-links strong {
+  background-color: transparent;
+}
+.content-item:hover,
+.content-item .accordian-links:hover {
+  background-color: var(--hover-color);
+  border-radius: 0.3em;
+  text-align: center;
+}
