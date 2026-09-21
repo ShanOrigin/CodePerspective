@@ -1,0 +1,111 @@
+/* ============================================================
+   ANIMATED ICON MODULE STYLING
+   Continuous subtle expanding ring / ripple animation
+   ============================================================ */
+
+.rippleWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+/* Stable inner icon */
+.iconContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Subtle continuous ripple ring using pseudo-element */
+.rippleRing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.rippleRing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  border: 1.5px solid var(--color-accent);
+  opacity: 0;
+  animation: continuousRipple 3.8s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+@keyframes continuousRipple {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(1.52);
+    opacity: 0;
+  }
+}
+
+/* Size Variants */
+.size_sm {
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+}
+
+.size_md {
+  width: 52px;
+  height: 52px;
+  font-size: 1.5rem;
+}
+
+.size_lg {
+  width: 68px;
+  height: 68px;
+  font-size: 2rem;
+}
+
+/* Visual Theme Variants */
+.variant_inset {
+  background-color: var(--color-surface-inset);
+  box-shadow: var(--shadow-inset-sm);
+  color: var(--color-accent);
+}
+
+.variant_raised {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-sm);
+  color: var(--color-accent);
+}
+
+.variant_accent {
+  background: var(--accent-gradient);
+  box-shadow: var(--shadow-raised-sm);
+  color: #ffffff;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .rippleRing::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

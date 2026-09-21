@@ -1,0 +1,99 @@
+/* ============================================================
+   GLOBAL PAGE TRANSITION LOADER
+   Fixed overlay, centered horizontally and vertically, zero layout shift
+   ============================================================ */
+
+.loaderBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  opacity: 0.96;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  pointer-events: all;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.loaderContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2.5rem 3rem;
+  border-radius: 24px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-lg);
+  transform: scale(0.96);
+  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 12px rgba(79, 70, 229, 0.25));
+}
+
+:global(.night-mode) .spinnerContainer {
+  filter: drop-shadow(0 4px 16px rgba(129, 140, 248, 0.35));
+}
+
+.loadingText {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  animation: textPulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.96;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes textPulse {
+  0% {
+    opacity: 0.6;
+    color: var(--color-text-secondary);
+  }
+  100% {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loaderBackdrop,
+  .loaderContent,
+  .loadingText {
+    animation: none !important;
+  }
+}
