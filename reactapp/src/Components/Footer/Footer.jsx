@@ -1,39 +1,64 @@
-import './Footer.css';
-import FootLinks from './SubComponents/FootLinks';
-import SocialMediaIcons from './SubComponents/SocialMediaIcons';
+import React from 'react'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
+import AnimatedIcon from '../common/AnimatedIcon'
+import styles from './Footer.module.css'
+import FootLinks from './SubComponents/FootLinks'
+import SocialMediaIcons from './SubComponents/SocialMediaIcons'
 
-export default function Footer(props) {
+export default function Footer() {
   return (
-    <>
-      <footer className="footer-container">
-        <div className="address-box">
-          <div>
-            <span className="address-title">Contact : </span> 9069990303
-          </div>
+    <footer className={styles.footerContainer}>
+      <div className={styles.footerContent}>
+        {/* Contact Info */}
+        <div className={styles.contactGrid}>
+          <a href="tel:9965963535" className={styles.contactItem}>
+            <AnimatedIcon size="md" variant="inset">
+              <FaPhoneAlt />
+            </AnimatedIcon>
+            <div className={styles.contactDetails}>
+              <span className={styles.contactLabel}>Contact</span>
+              <span className={styles.contactValue}>9965963535</span>
+            </div>
+          </a>
 
-          <div>
-            <span className="address-title"> Email : </span>
-            gv2422244242@gmail.com
-          </div>
+          <a href="mailto:shantanusuryawanshi3.14@gmail.com" className={styles.contactItem}>
+            <AnimatedIcon size="md" variant="inset">
+              <FaEnvelope />
+            </AnimatedIcon>
+            <div className={styles.contactDetails}>
+              <span className={styles.contactLabel}>Email</span>
+              <span className={styles.contactValue}>shantanusuryawanshi3.14@gmail.com</span>
+            </div>
+          </a>
 
-          <div>
-            <span className="address-title">Address : </span> Pimpari Chinchawad
-            , Pune
+          <div className={styles.contactItem}>
+            <AnimatedIcon size="md" variant="inset">
+              <FaMapMarkerAlt />
+            </AnimatedIcon>
+            <div className={styles.contactDetails}>
+              <span className={styles.contactLabel}>Address</span>
+              <span className={styles.contactValue}>Pune, India 411003</span>
+            </div>
           </div>
         </div>
 
-        <div className="services">
-          <ul>
-            <FootLinks />
+        {/* Navigation Links */}
+        <nav className={styles.linksNav} aria-label="Footer Navigation">
+          <ul className={styles.linksList}>
+            <FootLinks linkItemClass={styles.linkItem} />
           </ul>
+        </nav>
+
+        {/* Social Media Icons */}
+        <div className={styles.socialSection}>
+          <SocialMediaIcons buttonClass={styles.socialButton} />
         </div>
-        <div className="social-media">
-          <SocialMediaIcons />
+
+        {/* Copyright */}
+        <div className={styles.copyrightBar}>
+          © {new Date().getFullYear()} PersPective. Visualizing algorithms &amp; code. All rights reserved.
         </div>
-        <div className="copy-right">
-          C-Perspective.com All Rights Are Reserved @Copyright
-        </div>
-      </footer>
-    </>
-  );
+      </div>
+    </footer>
+  )
 }
