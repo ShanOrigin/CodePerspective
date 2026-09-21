@@ -1,0 +1,25 @@
+use std::io;
+
+fn main() {
+    let mut input = String::new();
+    
+    println!("Enter the size of the array: ");
+    io::stdin().read_line(&mut input).expect("Failed to read input");
+    let n: usize = input.trim().parse().expect("Please enter a number");
+    
+    let mut arr = Vec::new();
+    
+    println!("Enter {} elements:", n);
+    for i in 0..n {
+        let mut element = String::new();
+        print!("Element {}: ", i + 1);
+        io::stdin().read_line(&mut element).expect("Failed to read input");
+        let num: i32 = element.trim().parse().expect("Please enter a number");
+        arr.push(num);
+    }
+    
+    println!("The array you entered is:");
+    for num in &arr {
+        print!("{} ", num);
+    }
+}

@@ -1,0 +1,23 @@
+use std::mem;
+
+fn delete_element(arr: &mut [i32], size: &mut usize, pos: usize) {
+    if pos < 1 || pos > *size {
+        println!("Invalid position");
+        return;
+    }
+
+    for i in pos - 1..*size - 1 {
+        arr[i] = arr[i + 1];
+    }
+    *size -= 1;
+}
+
+fn main() {
+    let mut arr = [1, 2, 4, 5, 8, 9];
+    let mut size = 6; // Current size of the array
+    let pos = 3; // Position to delete the element
+
+    delete_element(&mut arr, &mut size, pos);
+
+    println!("Updated array: {:?}", &arr[..size]);
+}

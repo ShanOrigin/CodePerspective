@@ -1,0 +1,35 @@
+using System;
+
+class Program
+{
+    static void DeleteElement(int[] arr, ref int size, int pos)
+    {
+        if (pos < 1 || pos > size)
+        {
+            Console.WriteLine("Invalid position");
+            return;
+        }
+
+        for (int i = pos - 1; i < size - 1; i++)
+        {
+            arr[i] = arr[i + 1];
+        }
+        size--;
+    }
+
+    static void Main()
+    {
+        int[] arr = {1, 2, 4, 5, 8, 9};
+        int size = 6; // Current size of the array
+        int pos = 3; // Position to delete the element
+
+        DeleteElement(arr, ref size, pos);
+
+        Console.Write("Updated array: ");
+        for (int i = 0; i < size; i++)
+        {
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+    }
+}

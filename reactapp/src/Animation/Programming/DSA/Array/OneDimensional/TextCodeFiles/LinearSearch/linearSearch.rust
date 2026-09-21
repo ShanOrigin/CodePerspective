@@ -1,0 +1,18 @@
+fn linear_search(arr: &[i32], key: i32) -> Option<usize> {
+    for (i, &num) in arr.iter().enumerate() {
+        if num == key {
+            return Some(i); // Return index if key is found
+        }
+    }
+    None // Return None if key is not found
+}
+
+fn main() {
+    let arr = [1, 4, 8, 2, 9, 5];
+    let key = 8;
+
+    match linear_search(&arr, key) {
+        Some(index) => println!("Element found at index {}", index),
+        None => println!("Element not found"),
+    }
+}

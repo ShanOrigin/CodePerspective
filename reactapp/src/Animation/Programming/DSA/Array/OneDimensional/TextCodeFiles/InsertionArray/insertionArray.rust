@@ -1,0 +1,22 @@
+fn insert_element(arr: &mut [i32], size: usize, pos: usize, element: i32) {
+    if pos < 1 || pos > size + 1 {
+        println!("Invalid position");
+        return;
+    }
+
+    for i in (pos - 1..size).rev() {
+        arr[i + 1] = arr[i];
+    }
+    arr[pos - 1] = element;
+}
+
+fn main() {
+    let mut arr = [1, 2, 4, 5, 8, 9];
+    let size = 6; // Current size of the array
+    let pos = 3; // Position to insert the element
+    let element = 6; // Element to be inserted
+
+    insert_element(&mut arr, size, pos, element);
+
+    println!("Updated array: {:?}", arr);
+}

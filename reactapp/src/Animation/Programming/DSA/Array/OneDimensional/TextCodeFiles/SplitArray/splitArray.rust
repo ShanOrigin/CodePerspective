@@ -1,0 +1,15 @@
+fn split_array(arr: &[i32], index: usize) -> (Vec<i32>, Vec<i32>) {
+    let first = arr[..index].to_vec();
+    let second = arr[index..].to_vec();
+    (first, second)
+}
+
+fn main() {
+    let arr = [1, 2, 3, 4, 5];
+    let index = 2;
+
+    let (first, second) = split_array(&arr, index);
+
+    println!("First array: {:?}", first);
+    println!("Second array: {:?}", second);
+}

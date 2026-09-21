@@ -1,0 +1,14 @@
+fn reverse_array(arr: &mut [i32]) {
+    let size = arr.len();
+    for i in 0..size / 2 {
+        arr.swap(i, size - i - 1);
+    }
+}
+
+fn main() {
+    let mut arr = [1, 2, 3, 4, 5];
+
+    reverse_array(&mut arr);
+
+    println!("Reversed array: {:?}", arr);
+}

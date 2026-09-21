@@ -1,0 +1,39 @@
+fn merge_arrays(arr1: &[i32], arr2: &[i32], result: &mut [i32]) {
+    let mut k = 0;
+    for &num1 in arr1 {
+        let mut found = false;
+        for &num in result.iter().take(k) {
+            if num1 == num {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            result[k] = num1;
+            k += 1;
+        }
+    }
+    for &num2 in arr2 {
+        let mut found = false;
+        for &num in result.iter().take(k) {
+            if num2 == num {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            result[k] = num2;
+            k += 1;
+        }
+    }
+}
+
+fn main() {
+    let arr1 = [1, 2, 3];
+    let arr2 = [4, 5, 6];
+    let mut result = vec![0; arr1.len() + arr2.len()];
+
+    merge_arrays(&arr1, &arr2, &mut result);
+
+    println!("Merged array: {:?}", result);
+}

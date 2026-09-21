@@ -1,0 +1,36 @@
+using System;
+
+class Program
+{
+    static void InsertElement(int[] arr, int size, int pos, int element)
+    {
+        if (pos < 1 || pos > size + 1)
+        {
+            Console.WriteLine("Invalid position");
+            return;
+        }
+
+        for (int i = size; i >= pos; i--)
+        {
+            arr[i] = arr[i - 1];
+        }
+        arr[pos - 1] = element;
+    }
+
+    static void Main()
+    {
+        int[] arr = {1, 2, 4, 5, 8, 9};
+        int size = 6; // Current size of the array
+        int pos = 3; // Position to insert the element
+        int element = 6; // Element to be inserted
+
+        InsertElement(arr, size, pos, element);
+
+        Console.Write("Updated array: ");
+        foreach (int num in arr)
+        {
+            Console.Write(num + " ");
+        }
+        Console.WriteLine();
+    }
+}
