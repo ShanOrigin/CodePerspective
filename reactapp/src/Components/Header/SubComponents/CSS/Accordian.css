@@ -51,7 +51,6 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  background-color: #f1f1f1;
   padding: 0 0px;
   background-color: var(--element-color);
 }

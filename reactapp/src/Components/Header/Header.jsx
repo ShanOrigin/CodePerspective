@@ -1,177 +1,84 @@
-/*
-import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import './Header.css';
-import Logo from './Images/logo.svg';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { FaSun, FaMoon, FaThLarge } from 'react-icons/fa'
+import styles from './Header.module.css'
+import FilteredSearch from './SubComponents/JS/Search'
+import Offcanvas from './SubComponents/JS/LeftOffCanvas'
+import { useNavigationData } from '../../Hooks/useNavigationData'
 
-import FilterdSearch from './SubComponents/JS/Search';
-import Offcanvas from './SubComponents/JS/LeftOffCanvas';
+const BRAND_NAME = 'PersPective'
 
 export default function NavBar(props) {
-  const [isToggle, setIsToggle] = useState(false);
-  const [isThemeModeDark, setIsThemeModeDark] = props.theme;
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
+  const [isThemeModeDark, setIsThemeModeDark] = props.theme
+  const navigationData = useNavigationData()
 
-  const [input, setInput] = useState('');
-  const [windowSize, setWindowSize] = useState(window.innerWidth);
-
-  useEffect(() => {
-    window.addEventListener('resize', () => setWindowSize(window.innerWidth));
-  }, []);
+  const toggleTheme = () => {
+    const nextTheme = !isThemeModeDark
+    setIsThemeModeDark(nextTheme)
+    localStorage.setItem('isThemeModeDark', JSON.stringify(nextTheme))
+  }
 
   return (
     <>
-      <header className={`header-container `}>
-        <nav className="nav-bar">
-          <div className="left-navbar-container">
-            <div className="dashbord">
-              <Offcanvas></Offcanvas>
-            </div>
-            <div className="logo">
-              <img src={Logo} alt="p logo" />
-            </div>
+      <header className={styles.headerContainer}>
+        <nav className={styles.navBar} aria-label="Main Navigation">
+          {/* Left: Offcanvas Control & Brand */}
+          <div className={styles.leftSection}>
             <button
-              onClick={() => {
-                setIsToggle(!isToggle);
-                setInput('');
-              }}
-              className="toggle-button"
+              type="button"
+              className={styles.canvasControlButton}
+              onClick={() => setIsOffcanvasOpen(true)}
+              aria-label="Open programming topics menu"
+              title="Browse Topics"
             >
-              <i className={`fa-solid fa-${isToggle ? 'x' : `bars`}`}></i>
+              <FaThLarge />
             </button>
+
+            <Link to="/" className={styles.brandLink} aria-label="PersPective Home">
+              <span className={styles.brandWord}>
+                {BRAND_NAME.split('').map((char, index) => (
+                  <span
+                    key={index}
+                    className={`${styles.brandLetter} ${styles[`letter${index}`]}`}
+                    style={{ '--char-index': index }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </Link>
           </div>
 
-          <div
-            className={`right-navbar-container ${isToggle ? 'showMenu' : ''}`}
-          >
-            <div className="link-container">
-              <NavLink className="links" exact to="/">
-                <span className="nav-links">Home</span>{' '}
-              </NavLink>
-              <NavLink className="links" exact to="/LogIn">
-                <span className="nav-links">LogIn</span>
-              </NavLink>
-            </div>
-
-            <div className="search-view-mode">
-              <div className="search-container">
-                <i className="fa-solid fa-magnifying-glass"></i>
-                <input
-                  type="text"
-                  value={input}
-                  placeholder="Search for a operation..."
-                  onChange={(e) => {
-                    setInput(e.target.value.toLowerCase());
-                    console.log(input);
-                  }}
-                />
-
-                {windowSize > 500 && input.length > 0 ? (
-                  <div className="filter-search">
-                    <FilterdSearch queryArray={[input, setInput]} />
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="theme-changer">
-                <button
-                  className="button-none"
-                  onClick={() => {
-                    setIsThemeModeDark(!isThemeModeDark);
-                    localStorage.setItem('isThemeModeDark', !isThemeModeDark);
-                  }}
-                >
-                  <i
-                    className={`fa-solid fa-${isThemeModeDark ? 'sun' : 'moon'}`}
-                  ></i>
-                </button>
-              </div>
-            </div>
+          {/* Center: Live Search */}
+          <div className={styles.centerSection}>
+            <FilteredSearch Data={navigationData} />
           </div>
-        </nav>
 
-        {windowSize < 500 && input.length > 0 ? (
-          <div className="filter-search">
-            <FilterdSearch queryArray={[input, setInput]} />
-          </div>
-        ) : null}
-      </header>
-    </>
-  );
-}
-
-*/
-
-import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import './Header.css';
-import Logo from './Images/logo.svg';
-
-import FilterdSearch from './SubComponents/JS/Search';
-import Offcanvas from './SubComponents/JS/LeftOffCanvas';
-import { useNavigationData } from '../../Hooks/useNavigationData';
-
-export default function NavBar(props) {
-  const [isToggle, setIsToggle] = useState(false);
-  const [isThemeModeDark, setIsThemeModeDark] = props.theme;
-
-  useEffect(() => {
-    console.log('rendering parent component');
-  });
-
-  return (
-    <>
-      <header className={`header-container `}>
-        <nav className="nav-bar">
-          <div className="left-navbar-container">
-            <div className="dashbord">
-              <Offcanvas></Offcanvas>
-            </div>
-            <div className="logo">
-              <img src={Logo} alt="p logo" />
-            </div>
+          {/* Right: Theme Toggle */}
+          <div className={styles.rightSection}>
             <button
-              onClick={() => {
-                setIsToggle(!isToggle);
-              }}
-              className="toggle-button"
+              type="button"
+              className={styles.themeToggle}
+              onClick={toggleTheme}
+              aria-label={isThemeModeDark ? 'Switch to light theme' : 'Switch to dark theme'}
+              title={isThemeModeDark ? 'Light mode' : 'Dark mode'}
             >
-              <i className={`fa-solid fa-${isToggle ? 'x' : `bars`}`}></i>
+              {isThemeModeDark ? (
+                <FaSun className={styles.themeIcon} style={{ color: '#f59e0b' }} />
+              ) : (
+                <FaMoon className={styles.themeIcon} style={{ color: '#0284c7' }} />
+              )}
             </button>
-          </div>
-
-          <div
-            className={`right-navbar-container ${isToggle ? 'showMenu' : ''}`}
-          >
-            <div className="link-container">
-              <NavLink className="links" exact to="/">
-                <span className="nav-links">Home</span>{' '}
-              </NavLink>
-              <NavLink className="links" exact to="/LogIn">
-                <span className="nav-links">LogIn</span>
-              </NavLink>
-            </div>
-
-            <div className="search-view-mode">
-              <div className="search-area">
-                <FilterdSearch Data={useNavigationData()} />
-              </div>
-              <div className="theme-changer">
-                <button
-                  className="button-none"
-                  onClick={() => {
-                    setIsThemeModeDark(!isThemeModeDark);
-                    localStorage.setItem('isThemeModeDark', !isThemeModeDark);
-                  }}
-                >
-                  <i
-                    className={`fa-solid fa-${isThemeModeDark ? 'sun' : 'moon'}`}
-                  ></i>
-                </button>
-              </div>
-            </div>
           </div>
         </nav>
       </header>
+
+      {/* Programming Navigation Drawer */}
+      <Offcanvas
+        isOpen={isOffcanvasOpen}
+        onClose={() => setIsOffcanvasOpen(false)}
+      />
     </>
-  );
+  )
 }
