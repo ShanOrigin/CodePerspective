@@ -1,42 +1,74 @@
-import React, { useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react'
+import { BrowserRouter, useLocation } from 'react-router-dom'
 
-import './App.css';
-import NavBar from './Components/Header/Header';
-import HeadNavigation from './Components/Header/Navigation';
+import './styles/globals.css'
+import './App.css'
+import NavBar from './Components/Header/Header'
+import HeadNavigation from './Components/Header/Navigation'
+import MainNavigation from './Components/Main/Navigation'
+import Footer from './Components/Footer/Footer'
+import FooterNavigation from './Components/Footer/Navigation'
+import PageTransitionLoader from './Components/common/PageTransitionLoader'
+import { ThemeContext } from './Contexts/ThemeContext'
 
-import MainNavigation from './Components/Main/Navigation';
+function RouteTransitionWrapper({ children }) {
+  const location = useLocation()
+  const [isLoading, setIsLoading] = useState(false)
+  const isFirstRender = useRef(true)
 
-import Footer from './Components/Footer/Footer';
-import FooterNavigation from './Components/Footer/Navigation';
+  useEffect(() => {
+    // Skip loader on initial page load
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
+    setIsLoading(true)
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 280) // 280ms smooth route transition
 
-function App() {
-  const [isThemeModeDark, setIsThemeModeDark] = useState(
-    JSON.parse(localStorage.getItem('isThemeModeDark'))
-  );
+    return () => clearTimeout(timer)
+  }, [location.pathname, location.search])
+
   return (
     <>
+      <PageTransitionLoader visible={isLoading} />
+      {children}
+    </>
+  )
+}
+
+function App() {
+  const [isThemeModeDark, setIsThemeModeDark] = useState(() => {
+    const saved = localStorage.getItem('isThemeModeDark')
+    return saved !== null ? JSON.parse(saved) : true
+  })
+
+  return (
+    <ThemeContext.Provider value={{ isThemeModeDark, setIsThemeModeDark }}>
       <div
         className={`root-container ${
           isThemeModeDark ? 'night-mode' : 'day-mode'
-        }  `}
+        }`}
       >
-        <BrowserRouter>
-          <NavBar theme={[isThemeModeDark, setIsThemeModeDark]} />
+        <BrowserRouter basename="/the-code-perspective/">
+          <RouteTransitionWrapper>
+            <NavBar theme={[isThemeModeDark, setIsThemeModeDark]} />
 
-          <main className="main-container">
-            {/* Main section */}
-            <HeadNavigation /> {/* Calling header Navigation*/}
-            <MainNavigation /> {/*Calling Main Navigation*/}
-            <FooterNavigation /> {/* Calling Footer Navigation*/}
-          </main>
-          <Footer />
+            <main className="main-container">
+              {/* Main section */}
+              <HeadNavigation />
+              <MainNavigation />
+              <FooterNavigation />
+            </main>
+            <Footer />
+          </RouteTransitionWrapper>
         </BrowserRouter>
       </div>
-    </>
-  );
+    </ThemeContext.Provider>
+  )
 }
 
-export default App;
+export default App
+
