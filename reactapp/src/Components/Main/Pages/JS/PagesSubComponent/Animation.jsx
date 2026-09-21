@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import InitAnimation from '../../../../__initAnimation__';
-import CodeSwiper from './CodeEditor';
+import InitAnimation from '../../../../__initAnimation__'
+import CodeSwiper from './CodeEditor'
 
-export default function Animation() {
+export default function Animation({ name }) {
+
   const code = {
     C: {
       language: 'c_cpp',
@@ -13,7 +13,7 @@ export default function Animation() {
    int input;printf("Enter value: ");
    scanf("%d", &input);
  }
-       `
+       `,
     },
     'C++': {
       language: 'c_cpp',
@@ -25,14 +25,14 @@ export default function Animation() {
            printf("Enter value: ");
            scanf("%d", &input);
          }
-       `
+       `,
     },
     Python: {
       language: 'python',
       code: `
          input_value = int(input("Enter value: "))
          print(f"You entered: {input_value}")
-       `
+       `,
     },
     Java: {
       language: 'java',
@@ -47,14 +47,14 @@ export default function Animation() {
              System.out.println("You entered: " + input);
            }
          }
-       `
+       `,
     },
     JavaScript: {
       language: 'javascript',
       code: `
          const input = prompt("Enter value:");
          console.log(\`You entered: \${input}\`);
-       `
+       `,
     },
     CSharp: {
       language: 'csharp',
@@ -68,20 +68,23 @@ export default function Animation() {
              Console.WriteLine($"You entered: {input}");
            }
          }
-       `
-    }
-  };
+       `,
+    },
+  }
 
   return (
     <>
       <div className="animation-section ">
         <div className="animation-area">
-          <InitAnimation />
+          <InitAnimation
+            key={`${location.pathname}?${location.search}`}
+            aniName={name}
+          />
         </div>
         <div className="code-area">
           <CodeSwiper code={code} />
         </div>
       </div>
     </>
-  );
+  )
 }
