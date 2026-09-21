@@ -1,0 +1,235 @@
+/* ============================================================
+   NAVBAR MODULE STYLING
+   CodePerspective Modern Neumorphic Header
+   ============================================================ */
+
+.headerContainer {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-sm);
+  z-index: 900;
+  padding-block: 0.75rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navBar {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* Left Brand Section */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.canvasControlButton {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-flat);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.15rem;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
+}
+
+.canvasControlButton:hover,
+.canvasControlButton:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.canvasControlButton:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
+}
+
+.brandLink {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.brandLink:hover {
+  opacity: 0.92;
+}
+
+.brandWord {
+  display: inline-flex;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.brandLetter {
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transform-origin: center bottom;
+  animation: letterTickSequence 5.6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  animation-delay: calc(var(--char-index) * 0.14s);
+}
+
+/* Theme-Aware Deterministic Letter Gradients */
+/* Light Mode default gradients */
+.letter0 { background-image: linear-gradient(135deg, #0369a1, #0284c7); }
+.letter1 { background-image: linear-gradient(135deg, #0284c7, #0891b2); }
+.letter2 { background-image: linear-gradient(135deg, #0891b2, #0d9488); }
+.letter3 { background-image: linear-gradient(135deg, #0f766e, #059669); }
+.letter4 { background-image: linear-gradient(135deg, #4338ca, #6366f1); }
+.letter5 { background-image: linear-gradient(135deg, #6d28d9, #7c3aed); }
+.letter6 { background-image: linear-gradient(135deg, #7e22ce, #9333ea); }
+.letter7 { background-image: linear-gradient(135deg, #a21caf, #c026d3); }
+.letter8 { background-image: linear-gradient(135deg, #be185d, #db2777); }
+.letter9 { background-image: linear-gradient(135deg, #b91c1c, #e11d48); }
+.letter10 { background-image: linear-gradient(135deg, #1d4ed8, #0284c7); }
+
+/* Dark Mode vivid gradients */
+:global(.night-mode) .letter0 { background-image: linear-gradient(135deg, #38bdf8, #7dd3fc); }
+:global(.night-mode) .letter1 { background-image: linear-gradient(135deg, #38bdf8, #22d3ee); }
+:global(.night-mode) .letter2 { background-image: linear-gradient(135deg, #22d3ee, #2dd4bf); }
+:global(.night-mode) .letter3 { background-image: linear-gradient(135deg, #2dd4bf, #34d399); }
+:global(.night-mode) .letter4 { background-image: linear-gradient(135deg, #818cf8, #a5b4fc); }
+:global(.night-mode) .letter5 { background-image: linear-gradient(135deg, #a78bfa, #c4b5fd); }
+:global(.night-mode) .letter6 { background-image: linear-gradient(135deg, #c084fc, #e9d5ff); }
+:global(.night-mode) .letter7 { background-image: linear-gradient(135deg, #e879f9, #f5d0fe); }
+:global(.night-mode) .letter8 { background-image: linear-gradient(135deg, #f472b6, #fbcfe8); }
+:global(.night-mode) .letter9 { background-image: linear-gradient(135deg, #fb7185, #fecdd3); }
+:global(.night-mode) .letter10 { background-image: linear-gradient(135deg, #60a5fa, #38bdf8); }
+
+@keyframes letterTickSequence {
+  0% {
+    opacity: 0;
+    transform: translateX(-14px) rotate(-6deg) scale(0.94);
+  }
+  7% {
+    opacity: 1;
+    transform: translateX(2px) rotate(1.5deg) scale(1.02);
+  }
+  13% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+  90% {
+    opacity: 0.35;
+    transform: translateX(-3px) rotate(-1deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-14px) rotate(-6deg) scale(0.94);
+  }
+}
+
+/* Center Search Section */
+.centerSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 520px;
+}
+
+/* Right Controls Section */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.themeToggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-flat);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.15rem;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.themeToggle:hover,
+.themeToggle:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.themeToggle:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
+}
+
+.themeIcon {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navBar {
+    padding: 0.65rem 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .leftSection {
+    flex: 1;
+  }
+
+  .brandWord {
+    font-size: 1.5rem;
+  }
+
+  .centerSection {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .rightSection {
+    order: 2;
+  }
+
+  .canvasControlButton,
+  .themeToggle {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+}
