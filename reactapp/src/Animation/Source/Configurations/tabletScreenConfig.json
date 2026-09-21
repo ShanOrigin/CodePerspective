@@ -1,60 +1,82 @@
 {
-    "default": {
-        "rectWidth": 30,
-        "rectHeight": 30,
-        "nextPos": 33
+  "default": {
+    "rectWidth": 30,
+    "rectHeight": 30,
+    "nextPos": 33
+  },
+  "types": {
+    "array": {
+      "rectWidth": 50,
+      "rectHeight": 50,
+      "nextPos": 53
     },
-    "types": {
-        "array": {
-            "rectWidth": 50,
-            "rectHeight": 50,
-            "nextPos": 53
-        },
-        "array2D": {
-            "rectWidth": 50,
-            "rectHeight": 50,
-            "nextPos": 53
-        },
-        "sorts": {
-            "rectWidth": 50,
-            "rectHeight": 50,
-            "nextPos": 53
-        },
-        "LL": {
-            "rectWidth": 45,
-            "rectHeight": 45,
-            "nextPos": 48
-        },
-        "stack": {
-            "rectWidth": 60,
-            "rectHeight": 60,
-            "nextPos": 63
-        },
-        "queue": {
-            "rectWidth": 60,
-            "rectHeight": 60,
-            "nextPos": 63
-        },
-        "HT": {
-            "rectWidth": 60,
-            "rectHeight": 60,
-            "nextPos": 63
-        }
+    "array2D": {
+      "rectWidth": 50,
+      "rectHeight": 50,
+      "nextPos": 53
     },
-    "canvas": {
-     
-        "defaultWidth": 0.6,
-        "drawYPosFactor": 0.1,
-        "rectRadius": 5,
-        "fontSize": {
-            "cfontSize": 16,
-            "ifontSize": 13,
-            "comfontSize": 14,
-            "afontSize": 16
-        },
-         "ScreenConfig": {
-            "minSize": 768,
-            "maxSize": 1023
-        }
+    "sorts": {
+      "rectWidth": 50,
+      "rectHeight": 50,
+      "nextPos": 53
+    },
+    "LL": {
+      "rectWidth": 45,
+      "rectHeight": 45,
+      "nextPos": 48
+    },
+
+    "SLL": {
+      "rectWidth": 42,
+      "rectHeight": 42,
+      "nextPos": 45,
+      "min": 1,
+      "max": 6
+    },
+    "DLL": {
+      "rectWidth": 42,
+      "rectHeight": 42,
+      "nextPos": 45,
+      "min": 1,
+      "max": 6
+    },
+    "stack": {
+      "rectWidth": 60,
+      "rectHeight": 60,
+      "nextPos": 63
+    },
+    "queue": {
+      "rectWidth": 60,
+      "rectHeight": 60,
+      "nextPos": 63
+    },
+    "HT": {
+      "rectWidth": 60,
+      "rectHeight": 60,
+      "nextPos": 63
+    },
+
+    "BitOperator": {
+      "rectWidth": 33,
+      "rectHeight": 33,
+      "nextPos": 36,
+      "min": 3,
+      "max": 5
     }
+  },
+  "canvas": {
+    "defaultWidth": 0.6,
+    "drawYPosFactor": 0.1,
+    "rectRadius": 5,
+    "fontSize": {
+      "cfontSize": 16,
+      "ifontSize": 13,
+      "comfontSize": 14,
+      "afontSize": 16
+    },
+    "ScreenConfig": {
+      "minSize": 768,
+      "maxSize": 1023
+    }
+  }
 }

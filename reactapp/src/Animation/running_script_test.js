@@ -1,22 +1,22 @@
-import { CanvasHandler } from './Source/Components/Canvas.js';
+import { CanvasHandler } from './Source/Components/Canvas.js'
 import {
   waitForLength,
   clearCanvas,
   createButton,
-  canvasFunction
-} from './Source/Utilities/utilities.js';
+  canvasFunction,
+} from './Source/Utilities/utilities.js'
 
-console.log('canvas script loaded Successfully');
+console.log('canvas script loaded Successfully')
 
 // Declare the object with all properties initialized to null
 const ANIMATION_FUNCTION = {
   ONE_D_ARRAY: null,
   TWO_D_ARRAY: null,
-  LINKED_LIST: null
+  LINKED_LIST: null,
   // STACK: null,
   // QUEUE: null,
   // HASH_TABLE: null,
-};
+}
 
 /*
 // Immediately invoked async function to dynamically import modules and assign them to object properties
@@ -53,8 +53,8 @@ async function getCurrentFunction(
   REQUESTED_MODULE_FUNCTION
 ) {
   try {
-    console.log(`Requested Module Type: ${REQUESTED_MODULE_TYPE}`);
-    console.log(`Requested Function: ${REQUESTED_MODULE_FUNCTION}`);
+    console.log(`Requested Module Type: ${REQUESTED_MODULE_TYPE}`)
+    console.log(`Requested Function: ${REQUESTED_MODULE_FUNCTION}`)
     switch (REQUESTED_MODULE_TYPE) {
       case 'array':
       case 'sorts':
@@ -62,41 +62,41 @@ async function getCurrentFunction(
           ANIMATION_FUNCTION.ONE_D_ARRAY &&
           REQUESTED_MODULE_FUNCTION in ANIMATION_FUNCTION.ONE_D_ARRAY
         ) {
-          return ANIMATION_FUNCTION.ONE_D_ARRAY[REQUESTED_MODULE_FUNCTION];
+          return ANIMATION_FUNCTION.ONE_D_ARRAY[REQUESTED_MODULE_FUNCTION]
         }
-        break;
+        break
 
       case 'array2D':
         if (
           ANIMATION_FUNCTION.TWO_D_ARRAY &&
           REQUESTED_MODULE_FUNCTION in ANIMATION_FUNCTION.TWO_D_ARRAY
         ) {
-          return ANIMATION_FUNCTION.TWO_D_ARRAY[REQUESTED_MODULE_FUNCTION];
+          return ANIMATION_FUNCTION.TWO_D_ARRAY[REQUESTED_MODULE_FUNCTION]
         }
-        break;
+        break
 
       case 'LL':
         if (
           ANIMATION_FUNCTION.LINKED_LIST &&
           REQUESTED_MODULE_FUNCTION in ANIMATION_FUNCTION.LINKED_LIST
         ) {
-          return ANIMATION_FUNCTION.LINKED_LIST[REQUESTED_MODULE_FUNCTION];
+          return ANIMATION_FUNCTION.LINKED_LIST[REQUESTED_MODULE_FUNCTION]
         }
-        break;
+        break
 
       case 'stack':
       case 'queue':
       case 'HT':
-        return null;
+        return null
 
       default:
-        console.log('Requested module type not supported.');
-        break;
+        console.log('Requested module type not supported.')
+        break
     }
-    return null; // Default return value if no match found
+    return null // Default return value if no match found
   } catch (e) {
-    console.log(e);
-    return null;
+    console.log(e)
+    return null
   }
 }
 
@@ -109,18 +109,18 @@ async function getCurrentFunction(
 // Function to enable/disable all buttons
 function toggleButtons(btn) {
   // const buttons = document.querySelectorAll('button');
-  const button = document.getElementById(btn);
+  const button = document.getElementById(btn)
 
-  button.disabled = true;
+  button.disabled = true
 
   // Enable the buttons after 5 seconds
   setTimeout(() => {
-    button.disabled = false;
-  }, 5000); // 5 seconds delay
+    button.disabled = false
+  }, 5000) // 5 seconds delay
 }
 
-let canvasHandler = null;
-let isRunning = false;
+let canvasHandler = null
+let isRunning = false
 
 /**
  * Toggles canvas creation and destruction based on the canvas state and provided parameters.
@@ -131,7 +131,20 @@ let isRunning = false;
  * @param {string} structureType - The type of canvas to be created.
  */
 
-window.run = false;
+window.run = false
+
+const canvasHandlerPromise = (() => {
+  let resolveHandler, rejectHandler
+  const promise = new Promise((resolve, reject) => {
+    resolveHandler = resolve
+    rejectHandler = reject
+  })
+  return {
+    promise,
+    resolve: value => resolveHandler(value),
+    reject: err => rejectHandler(err),
+  }
+})()
 
 async function toggleCanvas(
   canvasID,
@@ -140,58 +153,59 @@ async function toggleCanvas(
   structureType
 ) {
   try {
-    canvasID = canvasID + 'Canvas';
+    canvasID = canvasID + 'Canvas'
 
     if (canvasHandler) {
       if (canvasHandler.canvasExists && window.run) {
-        canvasHandler.abort = true;
+        canvasHandler.abort = true
 
-        await destroyCanvas(canvasID);
+        await destroyCanvas(canvasID)
         // Optional: Toggle buttons if necessary
         // Optional: toggleButtons(functorName);
 
-        canvasHandler = null;
-        isRunning = false;
+        canvasHandler = null
+        isRunning = false
       }
     } else {
       if (!isRunning) {
-        canvasHandler = new CanvasHandler();
+        canvasHandler = new CanvasHandler()
 
-        let arrayLength = 0;
+        canvasHandlerPromise.resolve(canvasHandler)
+        let arrayLength = 0
         /*
                 if (["sorts"].includes(structureType)) {
                     arrayLength = await waitForLength({canvas : canvasHandler , umin : 0, umax : 0});
                 }
 */
-        await canvasHandler.delay();
+        await canvasHandler.delay()
 
         await createAndSetupCanvas(
           canvasID,
           structureType,
           functorName,
           arrayLength
-        );
-        await canvasHandler.delay();
+        )
+        await canvasHandler.delay()
 
-        setupCanvasButtons();
-        canvasFunction(canvasHandler, false);
+        setupCanvasButtons()
+        canvasFunction(canvasHandler, false)
 
         // Uncomment this block if you need code display functionality
         //   handleCodeDisplay(canvasHandler, structureType, functorName);
 
         if (canvasHandler.canvasExists && !isRunning) {
-          await canvasHandler.delay({ time: 300 });
+          await canvasHandler.delay({ time: 300 })
           if (typeof canvasFunction === 'function') {
-            await runningFunction({ canvas: canvasHandler });
-            console.log('hi queen');
+            await runningFunction({ canvas: canvasHandler })
+            console.log('hi queen')
           }
-          isRunning = !isRunning;
-          window.run = true;
+          isRunning = !isRunning
+          window.run = true
         }
       }
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
@@ -206,13 +220,13 @@ async function destroyCanvas(canvasID) {
     try {
       canvasHandler.destroyCanvas({
         canvasID: canvasID,
-        paper: canvasHandler.paper
-      });
-      resolve();
+        paper: canvasHandler.paper,
+      })
+      resolve()
     } catch (error) {
-      reject(error);
+      reject(error)
     }
-  });
+  })
 }
 
 /**
@@ -233,8 +247,8 @@ async function createAndSetupCanvas(
     canvasID: canvasID,
     structureType: structureType,
     functorName: functorName,
-    ArrayLength: arrayLength
-  });
+    ArrayLength: arrayLength,
+  })
 }
 
 /**
@@ -248,8 +262,8 @@ function setupCanvasButtons() {
     colorCode: 3,
     id: 'reset',
     textContent: 'Reset',
-    padding: 10
-  });
+    padding: 10,
+  })
 
   canvasHandler.playButton = createButton({
     canvas: canvasHandler,
@@ -259,13 +273,13 @@ function setupCanvasButtons() {
     id: 'play',
     textContent: 'Play',
     maxWidth: canvasHandler.resetButton.maxWidth,
-    padding: 10
-  });
+    padding: 10,
+  })
   canvasHandler.playButton.addClickAction(() => {
-    canvasHandler.isPaused = false;
-    canvasHandler.pauseButton.enableButton();
-    canvasHandler.playButton.enableButton();
-  });
+    canvasHandler.isPaused = false
+    canvasHandler.pauseButton.enableButton()
+    canvasHandler.playButton.enableButton()
+  })
 
   canvasHandler.pauseButton = createButton({
     canvas: canvasHandler,
@@ -275,12 +289,12 @@ function setupCanvasButtons() {
     id: 'pause',
     textContent: 'Pause',
     maxWidth: canvasHandler.resetButton.maxWidth,
-    padding: 10
-  });
+    padding: 10,
+  })
   canvasHandler.pauseButton.addClickAction(() => {
-    canvasHandler.isPaused = true;
-    canvasHandler.resetButton.disableButton();
-  });
+    canvasHandler.isPaused = true
+    canvasHandler.resetButton.disableButton()
+  })
 }
 
 /**
@@ -301,22 +315,22 @@ function handleCodeDisplay(canvasHandler, structureType, functorName) {
     DLL: './DSA/LinkedList/Doubly_Linked_List/TextCodeFiles',
     stack: './DSA/Stack/__StackOperation_Imports__.js',
     queue: './DSA/Queue/__QueueOperation_Imports__.js',
-    HT: './DSA/HashTable/__HTOperation_Imports__.js'
-  };
-  const code = document.getElementById('Array-Code');
-  code.style.display = 'block';
-  code.style.display = 'flex';
+    HT: './DSA/HashTable/__HTOperation_Imports__.js',
+  }
+  const code = document.getElementById('Array-Code')
+  code.style.display = 'block'
+  code.style.display = 'flex'
 
-  code.style.height = canvasHandler.canvasHeight + 'px';
+  code.style.height = canvasHandler.canvasHeight + 'px'
 
   // Get references to the select element and the textarea container
-  const languageSelect = document.getElementById('languageSelect');
-  const codeContainer = document.getElementById('Array-Code');
+  const languageSelect = document.getElementById('languageSelect')
+  const codeContainer = document.getElementById('Array-Code')
 
   // Add event listener to the select element
   languageSelect.addEventListener('change', async function () {
     // Get the selected option value
-    const selectedLanguage = this.value;
+    const selectedLanguage = this.value
 
     // Read the file corresponding to the selected language
     const filePath =
@@ -326,36 +340,36 @@ function handleCodeDisplay(canvasHandler, structureType, functorName) {
       '/' +
       functorName +
       '.' +
-      selectedLanguage;
-    const fileContents = (await readFile(filePath)) + '';
+      selectedLanguage
+    const fileContents = (await readFile(filePath)) + ''
 
     // Remove previous CodeMirror instance
-    const previousCodeMirror = codeContainer.querySelector('.CodeMirror');
+    const previousCodeMirror = codeContainer.querySelector('.CodeMirror')
     if (previousCodeMirror) {
-      previousCodeMirror.CodeMirror.toTextArea();
-      previousCodeMirror.remove();
+      previousCodeMirror.CodeMirror.toTextArea()
+      previousCodeMirror.remove()
     }
 
-    const previousTextArea = document.getElementById('code-area');
+    const previousTextArea = document.getElementById('code-area')
 
     if (previousTextArea) {
       // previousTextArea.value ='' ;
-      previousTextArea.remove();
+      previousTextArea.remove()
 
-      console.log('hi remove textarea');
+      console.log('hi remove textarea')
     }
 
     // Create new textarea element
-    const newTextArea = document.createElement('textarea');
-    newTextArea.id = 'code-area';
-    newTextArea.value = fileContents;
+    const newTextArea = document.createElement('textarea')
+    newTextArea.id = 'code-area'
+    newTextArea.value = fileContents
 
     // Insert new textarea into container
-    codeContainer.appendChild(newTextArea);
+    codeContainer.appendChild(newTextArea)
 
     // Initialize new CodeMirror instance
-    initializeCodeMirror();
-  });
+    initializeCodeMirror()
+  })
 }
 
 /**
@@ -369,9 +383,9 @@ function initializeCodeMirror() {
     mode: 'text/x-csrc',
     theme: 'default',
     autofocus: false,
-    readOnly: true
-  });
-  return editor;
+    readOnly: true,
+  })
+  return editor
 }
 
 /**
@@ -383,18 +397,18 @@ function initializeCodeMirror() {
 
 async function readFile(filePath) {
   try {
-    const response = await fetch(filePath);
+    const response = await fetch(filePath)
     if (!response.ok) {
       //throw new Error('Failed to load file');
       console.log(
         `Failed to load file: ${response.status} ${response.statusText}`
-      );
-      return ''; // Return
+      )
+      return '' // Return
     }
-    return await response.text();
+    return await response.text()
   } catch (error) {
-    console.log(error);
-    return ''; // Return empty string if there's an error
+    console.log(error)
+    return '' // Return empty string if there's an error
   }
 }
 
@@ -402,255 +416,255 @@ const FUNCTION_STORAGE = [
   // Array operations
   {
     id: 'CreationArray',
-    type: 'array'
+    type: 'array',
     // Description: Operation to create a new array.
   },
   {
     id: 'LinearSearch',
-    type: 'array'
+    type: 'array',
     // Description: Operation to perform linear search on an array.
   },
   {
     id: 'BinarySearch',
-    type: 'array'
+    type: 'array',
     // Description: Operation to perform binary search on a sorted array.
   },
   {
     id: 'InsertionArray',
-    type: 'array'
+    type: 'array',
     // Description: Operation to insert an element into an array.
   },
   {
     id: 'DeletionArray',
-    type: 'array'
+    type: 'array',
     // Description: Operation to delete an element from an array.
   },
   {
     id: 'MergeArrays',
-    type: 'array'
+    type: 'array',
     // Description: Operation to merge two arrays.
   },
   {
     id: 'ConcatenateArrays',
-    type: 'array'
+    type: 'array',
     // Description: Operation to concatenate two arrays.
   },
   {
     id: 'SplitArray',
-    type: 'array'
+    type: 'array',
     // Description: Operation to split an array.
   },
   {
     id: 'ReverseArray',
-    type: 'array'
+    type: 'array',
     // Description: Operation to reverse the elements of an array.
   },
 
   // Sorting algorithms
   {
     id: 'BubbleSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform bubble sort algorithm.
   },
 
   {
     id: 'InsertionSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform insertion sort algorithm.
   },
   {
     id: 'SelectionSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform selection sort algorithm.
   },
 
   {
     id: 'QuickSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform quick sort algorithm.
   },
 
   {
     id: 'ShellSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform shell sort algorithm.
   },
   {
     id: 'CountSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform count sort algorithm.
   },
 
   {
     id: 'RadixSort',
-    type: 'sorts'
+    type: 'sorts',
     // Description: Operation to perform radix sort algorithm.
   },
 
   // 2D Array operations
   {
     id: 'TransposeOf2DArray',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to Transpose  a 2D array.
   },
   {
     id: 'CreateArray2D',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to create a 2D array.
   },
   {
     id: 'SearchIn2D',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to search an element in a 2D array.
   },
   {
     id: 'AdditionOf2D',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to perform addition of two 2D arrays.
   },
   {
     id: 'SubtractionOf2D',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to perform subtraction of two 2D arrays.
   },
   {
     id: 'MultiplicationOf2D',
-    type: 'array2D'
+    type: 'array2D',
     // Description: Operation to perform multiplication of two 2D arrays.
   },
 
   // Singly Linked List operations
   {
     id: 'CreateSLL',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to create a singly linked list.
   },
   {
     id: 'TraverseInSLL',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to traverse a singly linked list.
   },
   {
     id: 'InsetAtHead',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to insert a node at the head of a singly linked list.
   },
   {
     id: 'InsertInBetween',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to insert a node in between nodes of a singly linked list.
   },
   {
     id: 'InsertAtTail',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to insert a node at the tail of a singly linked list.
   },
   {
     id: 'DeteleAtHead',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to delete a node at the head of a singly linked list.
   },
   {
     id: 'DeleteInBetween',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to delete a node in between nodes of a singly linked list.
   },
   {
     id: 'DeleteAtTail',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to delete a node at the tail of a singly linked list.
   },
   {
     id: 'ReverseSLL',
-    type: 'SLL'
+    type: 'SLL',
     // Description: Operation to reverse a singly linked list.
   },
 
   // Doubly Linked List operations
   {
     id: 'CreateDLL',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to create a doubly linked list.
   },
   {
     id: 'TraverseInDLL',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to traverse a doubly linked list.
   },
   {
     id: 'DInsertAtHead',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to insert a node at the head of a doubly linked list.
   },
   {
     id: 'DInsertInBetween',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to insert a node in between nodes of a doubly linked list.
   },
   {
     id: 'DInsertAtTail',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to insert a node at the tail of a doubly linked list.
   },
   {
     id: 'DDeteleAtHead',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to delete a node at the head of a doubly linked list.
   },
   {
     id: 'DDeleteInBetween',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to delete a node in between nodes of a doubly linked list.
   },
   {
     id: 'DDeleteAtTail',
-    type: 'DLL'
+    type: 'DLL',
     // Description: Operation to delete a node at the tail of a doubly linked list.
   },
 
   // Stack operations
   {
     id: 'StackPush',
-    type: 'stack'
+    type: 'stack',
     // Description: Operation to push an element onto a stack.
   },
   {
     id: 'StackPop',
-    type: 'stack'
+    type: 'stack',
     // Description: Operation to pop an element from a stack.
   },
   {
     id: 'CustomStack',
-    type: 'stack'
+    type: 'stack',
     // Description: Custom stack operation.
   },
 
   // Queue operations
   {
     id: 'EnQueue',
-    type: 'queue'
+    type: 'queue',
     // Description: Operation to enqueue an element into a queue.
   },
   {
     id: 'DeQueue',
-    type: 'queue'
+    type: 'queue',
     // Description: Operation to dequeue an element from a queue.
   },
   {
     id: 'Custom',
-    type: 'queue'
+    type: 'queue',
     // Description: Custom queue operation.
   },
 
   // Hash Table operation
   {
     id: 'ClosedAddressingHT',
-    type: 'HT'
+    type: 'HT',
     // Description: Operation to Close Addressing Hash table .
   },
   {
     id: 'OpenAddressingHT',
-    type: 'HT'
+    type: 'HT',
     // Description: Operation to Open Addressing Hash table .
   },
 
@@ -658,46 +672,46 @@ const FUNCTION_STORAGE = [
 
   {
     id: 'NumberToBinary',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryToNumber',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
 
   {
     id: 'BinaryAND',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryOR',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryNOT',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryXOR',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryLeftShit',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
   },
   {
     id: 'BinaryRightShift',
-    type: 'BitOperator'
+    type: 'BitOperator',
     // Description: Operation to Open Addressing Hash table .
-  }
-];
+  },
+]
 
 /**
  * Asynchronously imports a specified module from a given path and returns the requested function.
@@ -708,20 +722,20 @@ const FUNCTION_STORAGE = [
  * @throws {Error} - If there is an error importing the module.
  */
 async function moduleCollector(requestedModuleFunction, path) {
-  console.log(`Attempting to import ${requestedModuleFunction} from ${path}`);
+  console.log(`Attempting to import ${requestedModuleFunction} from ${path}`)
   try {
-    const module = await import(/*@vite-ignore*/ path);
+    const module = await import(/*@vite-ignore*/ path)
 
     if (requestedModuleFunction in module) {
       //  console.log("Module function found:", requestedModuleFunction);
-      return module[requestedModuleFunction];
+      return module[requestedModuleFunction]
     } else {
-      console.log('Requested module function not found.');
-      return null;
+      console.log('Requested module function not found.')
+      return null
     }
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error(error)
+    return null
   }
 }
 
@@ -747,39 +761,36 @@ async function initializeModule(requestedModuleType, requestedModuleFunction) {
     queue: './Programming/DSA/Queue/__QueueOperation_Imports__.js',
     HT: './Programming/DSA/HashTable/__HTOperation_Imports__.js',
 
-    BitOperator: './Programming/BitOperators/__BitOperator__.js'
-  };
+    BitOperator: './Programming/BitOperators/__BitOperator__.js',
+  }
 
   // Retrieve the module path based on the requested type
 
-  const path = modulePaths[requestedModuleType];
-  console.log(path);
+  const path = modulePaths[requestedModuleType]
+  console.log(path)
   if (path) {
-    return await moduleCollector(requestedModuleFunction, path);
+    return await moduleCollector(requestedModuleFunction, path)
   } else {
-    console.log('Requested module type not supported.');
-    return null;
+    console.log('Requested module type not supported.')
+    return null
   }
 }
 
 const Animation_Storage = FUNCTION_STORAGE.reduce((obj, animationObj) => {
-  obj[animationObj.id] = animationObj;
+  obj[animationObj.id] = animationObj
 
-  return obj;
-}, {});
+  return obj
+}, {})
 
 export default async function Animation(animation) {
   try {
     if (animation in Animation_Storage) {
       const [id, type] = [
         Animation_Storage[animation].id,
-        Animation_Storage[animation].type
-      ];
+        Animation_Storage[animation].type,
+      ]
 
-      const CURRENT_FUNCTION_ANIMATION_MODULE = await initializeModule(
-        type,
-        id
-      );
+      const CURRENT_FUNCTION_ANIMATION_MODULE = await initializeModule(type, id)
 
       if (CURRENT_FUNCTION_ANIMATION_MODULE) {
         return [
@@ -787,11 +798,12 @@ export default async function Animation(animation) {
           'Animation-',
           CURRENT_FUNCTION_ANIMATION_MODULE,
           id,
-          type
-        ];
+          type,
+          canvasHandlerPromise,
+        ]
       }
     }
   } catch (e) {
-    console.log(e);
+    console.log(e)
   }
 }
