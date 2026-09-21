@@ -1,0 +1,199 @@
+/* ============================================================
+   FOOTER MODULE STYLING
+   ============================================================ */
+
+.footerContainer {
+  width: 100%;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+  padding: 3.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footerContent {
+  max-width: 1380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Contact Info Row */
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-sm);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: all 0.25s ease;
+}
+
+.contactItem:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-raised);
+  border-color: var(--color-accent);
+}
+
+.contactIconBadge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--color-surface-inset);
+  box-shadow: var(--shadow-inset-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.contactItem:hover .contactIconBadge {
+  transform: scale(1.1);
+  color: var(--color-accent-hover);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  overflow: hidden;
+}
+
+.contactLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.contactValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Footer Navigation Links */
+.linksNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.linksList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.linkItem a {
+  text-decoration: none;
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.linkItem a:hover {
+  color: var(--color-accent);
+  background-color: var(--color-surface-inset);
+}
+
+/* Social Media Section */
+.socialSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.socialButton {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.socialButton:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-raised-lg);
+  color: var(--color-accent);
+}
+
+.socialButton:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-inset);
+}
+
+/* Copyright Row */
+.copyrightBar {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .linksList {
+    gap: 0.75rem 1.25rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footerContainer {
+    padding: 2.5rem 1rem 1.5rem 1rem;
+  }
+
+  .contactItem {
+    padding: 1rem 1.25rem;
+  }
+
+  .linksList {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
