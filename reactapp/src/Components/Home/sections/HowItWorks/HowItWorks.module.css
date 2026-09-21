@@ -1,0 +1,209 @@
+/* ============================================================
+   HOW IT WORKS MODULE STYLING
+   ============================================================ */
+
+.section {
+  width: 100%;
+  padding: 5rem 2rem;
+  background-color: var(--color-surface);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.container {
+  max-width: 1380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerArea {
+  text-align: center;
+  max-width: 640px;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+  cursor: default;
+  transition: color 0.3s ease;
+}
+
+.sectionTitle:hover {
+  background-image: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.sectionTitle::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
+  margin: 0.5rem auto 0 auto;
+}
+
+.sectionSubtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Horizontal Pipeline */
+.pipeline {
+  display: flex;
+  /* align-items: flex-start; */
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  gap: 1.5rem;
+}
+
+.stepCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised);
+  padding: 2.5rem 1.75rem 2rem 1.75rem;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.stepCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-raised-lg);
+  border-color: var(--color-accent);
+}
+
+.stepBadge {
+  position: absolute;
+  top: -14px;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-sm);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.iconContainer {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--color-surface-inset);
+  box-shadow: var(--shadow-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.85rem;
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stepCard:hover .iconContainer {
+  transform: scale(1.15) rotate(6deg);
+  color: var(--color-accent-hover);
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.stepDescription {
+  font-size: 0.925rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Connector Between Steps */
+.connectorWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 55px; */
+  flex: 0 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.connectorLine {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
+  position: relative;
+  opacity: 0.6;
+}
+
+.connectorDot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  top: -3px;
+  left: 0;
+  box-shadow: 0 0 6px var(--color-accent);
+  animation: pulseConnector 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseConnector {
+  0% {
+    left: 0%;
+    opacity: 0.2;
+  }
+  50% {
+    left: 50%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0.2;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 840px) {
+  .section {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .pipeline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2.25rem;
+  }
+
+  .stepCard {
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .connectorWrapper {
+    display: none;
+  }
+}
