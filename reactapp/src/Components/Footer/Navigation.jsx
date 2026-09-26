@@ -1,10 +1,10 @@
-import { Route, Routes } from 'react-router-dom';
-import AboutUs from './Pages/JS/AboutUs';
-import ContactUs from './Pages/JS/ContactUs';
-import Services from './Pages/JS/Services';
-import Suggestions from './Pages/JS/Suggestions';
-import FeedBack from './Pages/JS/FeedBack';
-import CopyRight from './Pages/JS/CopyRight';
+import { Route, Routes } from 'react-router-dom'
+import AboutUs from './Pages/JS/AboutUs'
+import ContactUs from './Pages/JS/ContactUs'
+import Services from './Pages/JS/Services'
+import Suggestions from './Pages/JS/Suggestions'
+import Feedback from './Pages/JS/Feedback'
+import Copyright from './Pages/JS/Copyright'
 
 export default function FooterNavigation(props) {
   const Data = [
@@ -12,9 +12,9 @@ export default function FooterNavigation(props) {
     { ref: '/contact-us', page: <ContactUs /> },
     { ref: '/services', page: <Services /> },
     { ref: '/suggestions', page: <Suggestions /> },
-    { ref: '/feedback', page: <FeedBack /> },
-    { ref: '/copyright', page: <CopyRight /> }
-  ];
+    { ref: '/feedback', page: <Feedback /> },
+    { ref: '/copyright', page: <Copyright /> },
+  ]
 
   return (
     <Routes>
@@ -22,5 +22,5 @@ export default function FooterNavigation(props) {
         <Route key={ind} path={pages.ref} element={pages.page} />
       ))}
     </Routes>
-  );
+  )
 }

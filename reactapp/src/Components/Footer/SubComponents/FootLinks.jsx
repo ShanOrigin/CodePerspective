@@ -1,49 +1,22 @@
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-export default function FootLinks(props) {
-  const Data = [
-    { ref: '/about-us', page: 'About Us' },
-    { ref: '/contact-us', page: 'Contact Us' },
-    { ref: '/services', page: 'Services' },
-    { ref: '/suggestions', page: 'Suggestions' },
-    { ref: '/feedback', page: 'FeedBack' },
-    { ref: '/copyright', page: 'CopyRight' }
-  ];
+const NAV_LINKS = [
+  { ref: '/about-us', page: 'About Us' },
+  { ref: '/contact-us', page: 'Contact Us' },
+  { ref: '/suggestions', page: 'Suggestions' },
+  { ref: '/feedback', page: 'FeedBack' },
+  { ref: '/copyright', page: 'CopyRight' },
+]
 
+export default function FootLinks({ linkItemClass }) {
   return (
     <>
-      {Data.map((pages) => (
-        <li className="services-links">
-          <NavLink exact to={pages.ref}>
-            {pages.page}
-          </NavLink>
+      {NAV_LINKS.map((item) => (
+        <li key={item.ref} className={linkItemClass}>
+          <NavLink to={item.ref}>{item.page}</NavLink>
         </li>
       ))}
     </>
-  );
+  )
 }
-
-/*
- import { NavLink } from 'react-router-dom';
-
-export default function Navigation() {
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <nav>
-      <NavLink
-        onClick={() => scrollToSection('target-section-id')}
-        className="nav-link"
-      >
-        Scroll to Section
-      </NavLink>
-    </nav>
-  );
-}
-
-*/

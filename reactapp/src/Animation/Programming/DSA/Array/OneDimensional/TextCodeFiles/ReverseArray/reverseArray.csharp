@@ -1,0 +1,29 @@
+using System;
+
+class Program
+{
+    static void ReverseArray(int[] arr)
+    {
+        int size = arr.Length;
+        for (int i = 0; i < size / 2; i++)
+        {
+            int temp = arr[i];
+            arr[i] = arr[size - i - 1];
+            arr[size - i - 1] = temp;
+        }
+    }
+
+    static void Main()
+    {
+        int[] arr = {1, 2, 3, 4, 5};
+
+        ReverseArray(arr);
+
+        Console.Write("Reversed array: ");
+        foreach (int num in arr)
+        {
+            Console.Write(num + " ");
+        }
+        Console.WriteLine();
+    }
+}

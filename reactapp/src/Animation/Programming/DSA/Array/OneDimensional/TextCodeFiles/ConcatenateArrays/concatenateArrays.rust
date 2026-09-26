@@ -1,0 +1,14 @@
+fn concatenate_arrays(arr1: &[i32], arr2: &[i32], result: &mut [i32]) {
+    result[..arr1.len()].copy_from_slice(arr1);
+    result[arr1.len()..].copy_from_slice(arr2);
+}
+
+fn main() {
+    let arr1 = [1, 2, 3];
+    let arr2 = [4, 5, 6];
+    let mut result = vec![0; arr1.len() + arr2.len()];
+
+    concatenate_arrays(&arr1, &arr2, &mut result);
+
+    println!("Concatenated array: {:?}", result);
+}

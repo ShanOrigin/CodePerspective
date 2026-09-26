@@ -1,186 +1,197 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
+import { decidePageType } from '../Components/__navigationData__'
 
+/**
+ * Canonical navigation data source for CodePerspective.
+ *
+ * Each category entry is an array of operation objects: { name, enabled }.
+ * - enabled: true  → animation is implemented and navigable
+ * - enabled: false → animation is unimplemented; hidden from UI everywhere
+ *
+ * Rules enforced here:
+ *  • Control Flows — all disabled (ControlFlows/ folder is empty)
+ *  • Strings       — all disabled (Strings/ folder is empty)
+ *  • Bit Operators — only NumberToBinary, BinaryToNumber, BinaryAND are enabled
+ *  • Data Structures and Basics categories intentionally removed
+ */
 const advanceData = {
   Path: {
-    Basics: {
-      page: 'typespage'
-    },
-
-    'Control Flows': { path: 'basics', page: 'operationpage' },
-    Strings: { path: 'basics', page: 'operationpage' },
     'Bit Operators': { path: 'basics', page: 'operationpage' },
-    'Data Structure': { page: 'typespage' },
 
     'One Dimensional Array': {
       path: 'data-structure/array',
-      page: 'operationpage'
+      page: 'operationpage',
     },
     'Two Dimensional Array': {
       path: 'data-structure/array',
-      page: 'operationpage'
+      page: 'operationpage',
     },
     'Singly Linked List': {
       path: 'data-structure/linked-list',
-      page: 'operationpage'
+      page: 'operationpage',
     },
     'Doubly Linked List': {
       path: 'data-structure/linked-list',
-      page: 'operationpage'
+      page: 'operationpage',
     },
     Stack: { path: 'data-structure', page: 'operationpage' },
     Queue: { path: 'data-structure', page: 'operationpage' },
     'Hash Table': { path: 'data-structure', page: 'operationpage' },
-    Alorithms: { path: 'basics', page: 'typespage' },
-    Sorting: { path: 'alorithms', page: 'operationpage' }
+    Sorting: { path: 'alorithms', page: 'operationpage' },
   },
 
-  Basics: {
-    0: 'Data Types',
-    1: 'Control Flows',
-    2: 'Strings',
-    3: 'Bit Operators'
-  },
-  'Control Flows': {
-    0: 'if statement',
-    1: 'if else',
-    2: 'if else ladder',
-    3: 'switch statement',
-    4: 'while loop',
-    5: 'for loop',
-    6: 'do while loop'
-  },
-  Strings: {
-    0: 'Create String',
-    1: 'Traverse String',
-    2: 'Find in String',
-    4: 'Get Length',
-    5: 'Concatenate String',
-    6: 'Reverse String',
-    7: 'Sub String',
-    8: 'Sclice String'
-  },
-  'Data Structure': {
-    0: 'Array',
-    1: 'Linked List',
-    2: 'Stack',
-    3: 'Queue',
-    4: 'Hash Table',
-    5: 'Tree',
-    6: 'Tries',
-    7: 'Graphs'
-  },
-  'One Dimensional Array': {
-    0: 'Create Array',
-    1: 'Linear Search',
-    2: 'Binary Search',
-    3: 'Merge Array',
-    4: 'Concatenate Array',
-    5: 'Reverse Array'
-  },
-  'Two Dimensional Array': {
-    0: 'Create 2D Array',
-    1: 'Traverse 2D Array',
-    2: 'Matrix Addition',
-    3: 'Matrix Subtraction',
-    4: 'Matrix Multiplication'
-  },
-  'Singly Linked List': {
-    0: 'Create SLL',
-    1: 'Traverse in SLL',
-    2: 'Insert at Head',
-    3: 'Insert in Between',
-    4: 'Insert at Tail',
-    5: 'Delete at Head',
-    6: 'Delete in Between',
-    7: 'Delete at Tail',
-    8: 'Reverse SLL'
-  },
-  'Doubly Linked List': {
-    0: 'Create DLL',
-    1: 'Traverse in DLL',
-    2: 'Insert at Head',
-    3: 'Insert in Between',
-    4: 'Insert at Tail',
-    5: 'Delete at Head',
-    6: 'Delete in Between',
-    7: 'Delete at Tail'
-  },
-  Stack: {
-    0: 'Stack Push',
-    1: 'Stack Pop',
-    2: 'Custom Stack'
-  },
-  Queue: {
-    0: 'Enqueue',
-    1: 'Dequeue',
-    2: 'Custom Queue'
-  },
-  'Hash Table': {
-    0: 'Closed Addressing',
-    1: 'Open Addressing'
-  },
-  'Bit Operators': {
-    0: 'Number to Binary',
-    1: 'Binary to Number',
-    2: 'Binary AND',
-    3: 'Binary OR',
-    4: 'Binary NOT',
-    5: 'Binary XOR',
-    6: 'Binary Left Shift',
-    7: 'Binary Right Shift'
-  },
-  Alorithms: {
-    0: 'Search Alorithms',
-    1: 'Sorting Alorithms'
-  },
-  Sorting: {
-    0: 'Bubble Sort',
-    1: 'Insertion Sort',
-    2: 'Selection Sort',
-    3: 'Quick Sort',
-    4: 'Shell Sort',
-    5: 'Count Sort',
-    6: 'Radix Sort'
-  }
-};
+  'One Dimensional Array': [
+    { name: 'Creation Array',     enabled: true  },
+    { name: 'Linear Search',      enabled: true  },
+    { name: 'Binary Search',      enabled: true  },
+    { name: 'Insertion Array',    enabled: true  },
+    { name: 'Deletion Array',     enabled: true  },
+    { name: 'Merge Arrays',       enabled: true  },
+    { name: 'Concatenate Arrays', enabled: true  },
+    { name: 'Split Array',        enabled: true  },
+    { name: 'Reverse Array',      enabled: true  },
+  ],
 
-export const contextData = createContext(advanceData);
+  Sorting: [
+    { name: 'Bubble Sort',    enabled: true },
+    { name: 'Insertion Sort', enabled: true },
+    { name: 'Selection Sort', enabled: true },
+    { name: 'Quick Sort',     enabled: true },
+    { name: 'Shell Sort',     enabled: true },
+    { name: 'Count Sort',     enabled: true },
+    { name: 'Radix Sort',     enabled: true },
+  ],
 
-// NavigationDataProvider component
-export const NavigationDataProvider = ({ children }) => {
-  return <contextData.Provider>{children}</contextData.Provider>;
-};
+  'Two Dimensional Array': [
+    { name: 'Transpose Of 2D Array', enabled: true },
+    { name: 'Create Array 2D',       enabled: true },
+    { name: 'Search In 2D',          enabled: true },
+    { name: 'Addition Of 2D',        enabled: true },
+    { name: 'Subtraction Of 2D',     enabled: true },
+    { name: 'Multiplication Of 2D',  enabled: true },
+  ],
 
-// Function to calculate URLs (using hooks)
-function urlsData(advanceData) {
-  const urls = Object.entries(advanceData)
-    .slice(1) // Using slice instead of splice to avoid modifying the original array
-    .map(([type, object]) => {
-      return [
-        type,
-        Object.entries(object).map(([key, value]) => {
-          return `programming/${advanceData.Path[type]?.path ? advanceData.Path[type].path + '/' : ''}${type.toLowerCase().replace(/\s+/g, '-')}/${value.toLowerCase().replace(/\s+/g, '-')}&${advanceData.Path[type]?.page}`;
-        })
-      ];
-    });
+  'Singly Linked List': [
+    { name: 'Create SLL',       enabled: true },
+    { name: 'Traverse In SLL',  enabled: true },
+    { name: 'Inset At Head',    enabled: true },
+    { name: 'Insert In Between',enabled: true },
+    { name: 'Insert At Tail',   enabled: true },
+    { name: 'Detele At Head',   enabled: true },
+    { name: 'Delete In Between',enabled: true },
+    { name: 'Delete At Tail',   enabled: true },
+    { name: 'Reverse SLL',      enabled: true },
+  ],
 
-  return urls;
+  'Doubly Linked List': [
+    { name: 'Create DLL',        enabled: true },
+    { name: 'Traverse In DLL',   enabled: true },
+    { name: 'D Insert At Head',  enabled: true },
+    { name: 'D Insert In Between', enabled: true },
+    { name: 'D Insert At Tail',  enabled: true },
+    { name: 'D Detele At Head',  enabled: true },
+    { name: 'D Delete In Between', enabled: true },
+    { name: 'D Delete At Tail',  enabled: true },
+  ],
+
+  Stack: [
+    { name: 'Stack Push',   enabled: true },
+    { name: 'Stack Pop',    enabled: true },
+    { name: 'Custom Stack', enabled: true },
+  ],
+
+  Queue: [
+    { name: 'En Queue', enabled: true },
+    { name: 'De Queue', enabled: true },
+    { name: 'Custom',   enabled: true },
+  ],
+
+  'Hash Table': [
+    { name: 'Closed Addressing HT', enabled: true },
+    { name: 'Open Addressing HT',   enabled: true },
+  ],
+
+  'Bit Operators': [
+    { name: 'Number To Binary',   enabled: true  },
+    { name: 'Binary To Number',   enabled: true  },
+    { name: 'Binary AND',         enabled: true  },
+    { name: 'Binary OR',          enabled: false },
+    { name: 'Binary NOT',         enabled: false },
+    { name: 'Binary XOR',         enabled: false },
+    { name: 'Binary Left Shit',   enabled: false },
+    { name: 'Binary Right Shift', enabled: false },
+  ],
 }
 
-// Create context with an initial value of `null` or an empty array
-export const urlsContext = createContext(urlsData(advanceData));
+// ─────────────────────────────────────────────
+// Helper selectors
+// ─────────────────────────────────────────────
 
-// console.log(urlsData(advanceData));
+/**
+ * Returns categories that have at least one enabled operation.
+ * @param {object} data - The navigation data object
+ */
+export function getEnabledCategories(data) {
+  return Object.entries(data)
+    .filter(([key, value]) => {
+      if (key === 'Path') return false
+      if (!Array.isArray(value)) return false
+      return value.some(op => op.enabled)
+    })
+    .map(([key]) => key)
+}
 
-/* below code for validation */
+/**
+ * Returns flat list of all enabled operations: { category, name }
+ * @param {object} data - The navigation data object
+ */
+export function getAllEnabledOperations(data) {
+  const results = []
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === 'Path' || !Array.isArray(value)) return
+    value.forEach(op => {
+      if (op.enabled) results.push({ category: key, name: op.name })
+    })
+  })
+  return results
+}
 
-// const urls = Object.entries(advanceData)
-//   .splice(1)
-//   .map(([type, object]) => {
-//     return [
-//       type,
-//       Object.entries(object).map(([key, value]) => {
-//         return `programming/${advanceData.Path[type]?.path ? advanceData.Path[type].path + '/' : ''}${type.toLowerCase().replace(/\s+/g, '-')}/${value.toLowerCase().replace(/\s+/g, '-')}&${advanceData.Path[type]?.page}`;
-//       })
-//     ];
-//   });
+// ─────────────────────────────────────────────
+// Contexts
+// ─────────────────────────────────────────────
+
+export const contextData = createContext(advanceData)
+
+/** NavigationDataProvider component */
+export const NavigationDataProvider = ({ children }) => {
+  return <contextData.Provider>{children}</contextData.Provider>
+}
+
+// ─────────────────────────────────────────────
+// URL generation (used by useUrls / Controller)
+// ─────────────────────────────────────────────
+
+/**
+ * Builds an array of [category, urlArray] pairs for ALL operations (enabled
+ * and disabled alike) — this preserves existing route-validation behaviour in
+ * Controller.jsx so that disabled routes still fail validation correctly.
+ */
+function urlsData(data) {
+  return Object.entries(data)
+    .filter(([key, value]) => key !== 'Path' && Array.isArray(value))
+    .map(([type, ops]) => {
+      const pathInfo = data.Path[type]
+      const basePath = pathInfo?.path ? pathInfo.path + '/' : ''
+      const catSlug = type.toLowerCase().replace(/\s+/g, '-')
+      const pageParam = decidePageType(pathInfo?.page)
+
+      return [
+        type,
+        ops.map(op =>
+          `programming/${basePath}${catSlug}/${op.name.toLowerCase().replace(/\s+/g, '-')}${pageParam}`
+        ),
+      ]
+    })
+}
+
+export const urlsContext = createContext(urlsData(advanceData))

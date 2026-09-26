@@ -1,0 +1,112 @@
+/* ============================================================
+   ACCORDION MODULE STYLING
+   ============================================================ */
+
+.accordionContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0.25rem;
+}
+
+.accordionItem {
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-raised-sm);
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.accordionItem:hover {
+  border-color: var(--color-accent);
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.categoryTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  flex: 1;
+}
+
+.categoryTitle:hover {
+  color: var(--color-accent);
+}
+
+.arrowButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, color 0.2s ease;
+}
+
+.arrowButton:hover {
+  background-color: var(--color-surface-inset);
+  color: var(--color-accent);
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+/* CSS Grid for smooth height transition without max-height jumps */
+.accordionGrid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordionGridShow {
+  grid-template-rows: 1fr;
+}
+
+.accordionInner {
+  overflow: hidden;
+}
+
+.contentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem 0.75rem 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.itemLink {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.itemLink:hover {
+  background-color: var(--color-surface-inset);
+  color: var(--color-accent);
+  padding-left: 1rem;
+}

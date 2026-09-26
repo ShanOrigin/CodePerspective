@@ -1,0 +1,39 @@
+using System;
+
+class Program
+{
+    static void SplitArray(int[] arr, int index, out int[] first, out int[] second)
+    {
+        first = new int[index];
+        second = new int[arr.Length - index];
+        for (int i = 0; i < index; i++)
+        {
+            first[i] = arr[i];
+        }
+        for (int i = index; i < arr.Length; i++)
+        {
+            second[i - index] = arr[i];
+        }
+    }
+
+    static void Main()
+    {
+        int[] arr = {1, 2, 3, 4, 5};
+        int index = 2;
+        int[] first, second;
+
+        SplitArray(arr, index, out first, out second);
+
+        Console.Write("First array: ");
+        foreach (int num in first)
+        {
+            Console.Write(num + " ");
+        }
+        Console.Write("\nSecond array: ");
+        foreach (int num in second)
+        {
+            Console.Write(num + " ");
+        }
+        Console.WriteLine();
+    }
+}

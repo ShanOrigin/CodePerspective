@@ -1,0 +1,60 @@
+using System;
+
+class Program
+{
+    static void MergeArrays(int[] arr1, int[] arr2, int[] result)
+    {
+        int k = 0;
+        foreach (int num1 in arr1)
+        {
+            bool found = false;
+            foreach (int num in result)
+            {
+                if (num1 == num)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                result[k++] = num1;
+            }
+        }
+        foreach (int num2 in arr2)
+        {
+            bool found = false;
+            foreach (int num in result)
+            {
+                if (num2 == num)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                result[k++] = num2;
+            }
+        }
+    }
+
+    static void Main()
+    {
+        int[] arr1 = {1, 2, 3};
+        int[] arr2 = {4, 5, 6};
+        int[] result = new int[arr1.Length + arr2.Length];
+
+        MergeArrays(arr1, arr2, result);
+
+        Console.Write("Merged array: ");
+        foreach (int num in result)
+        {
+            if (num != 0)
+            {
+                Console.Write(num + " ");
+            }
+        }
+        Console.WriteLine();
+    }
+}

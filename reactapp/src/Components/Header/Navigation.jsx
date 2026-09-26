@@ -1,14 +1,13 @@
-import { Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home';
-import LogIn from './Pages/LogIn';
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Home from '../Home/Home'
 
 function HeadNavigation() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/LogIn" element={<LogIn />} />
     </Routes>
-  );
+  )
 }
 
-export default HeadNavigation;
+export default HeadNavigation

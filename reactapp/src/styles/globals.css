@@ -1,0 +1,156 @@
+/* ============================================================
+   GLOBAL DESIGN TOKENS & RESET
+   CodePerspective Design System (30-35% Modern Neumorphism)
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Code', monospace, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   LIGHT THEME (Day Mode)
+   ============================================================ */
+:root,
+.root-container.day-mode {
+  --color-background: #edf2f7;
+  --color-surface: #f4f7fb;
+  --color-surface-raised: #ffffff;
+  --color-surface-inset: #e2e8f0;
+  --color-text-primary: #1a202c;
+  --color-text-secondary: #4a5568;
+  --color-text-muted: #718096;
+  --color-accent: #0284c7;
+  --color-accent-hover: #0369a1;
+  --color-accent-secondary: #6366f1;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-subtle: rgba(255, 255, 255, 0.8);
+  --color-focus: rgba(2, 132, 199, 0.35);
+
+  /* Standard aliases (Section 2) */
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-raised: var(--color-surface-raised);
+  --surface-inset: var(--color-surface-inset);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --accent-primary: var(--color-accent);
+  --accent-secondary: var(--color-accent-secondary);
+  --accent-gradient: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+  --border: var(--color-border);
+  --shadow-light: rgba(255, 255, 255, 0.85);
+  --shadow-dark: rgba(163, 177, 198, 0.35);
+  --focus: var(--color-focus);
+  --success: #10b981;
+  --error: #ef4444;
+
+  /* 30-35% Intensity Neumorphic Shadows (Light) */
+  --shadow-flat: 0 1px 3px rgba(163, 177, 198, 0.2), 0 1px 2px rgba(255, 255, 255, 0.8);
+  --shadow-raised: -4px -4px 10px rgba(255, 255, 255, 0.85), 4px 4px 12px rgba(163, 177, 198, 0.35);
+  --shadow-raised-sm: -2px -2px 6px rgba(255, 255, 255, 0.8), 2px 2px 8px rgba(163, 177, 198, 0.28);
+  --shadow-raised-lg: -6px -6px 16px rgba(255, 255, 255, 0.9), 6px 6px 20px rgba(163, 177, 198, 0.4);
+  --shadow-inset: inset 2px 2px 5px rgba(163, 177, 198, 0.32), inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+  --shadow-inset-sm: inset 1px 1px 3px rgba(163, 177, 198, 0.25), inset -1px -1px 3px rgba(255, 255, 255, 0.75);
+
+  /* Legacy variable compatibility */
+  --bg-color: var(--color-background);
+  --text-color: var(--color-text-primary);
+  --element-color: var(--color-surface);
+  --hover-color: #e2e8f0;
+  --link-color: var(--color-accent);
+  --button-bg: #e2e8f0;
+  --button-text: var(--color-text-primary);
+  --flow-c1: #bebebe;
+  --flow-c2: #ffffff;
+}
+
+/* ============================================================
+   DARK THEME (Night Mode)
+   ============================================================ */
+.root-container.night-mode {
+  --color-background: #0b1120;
+  --color-surface: #111b2e;
+  --color-surface-raised: #182338;
+  --color-surface-inset: #090e1a;
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-accent: #38bdf8;
+  --color-accent-hover: #7dd3fc;
+  --color-accent-secondary: #818cf8;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-focus: rgba(56, 189, 248, 0.35);
+
+  /* Standard aliases (Section 2) */
+  --bg: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-raised: var(--color-surface-raised);
+  --surface-inset: var(--color-surface-inset);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --accent-primary: var(--color-accent);
+  --accent-secondary: var(--color-accent-secondary);
+  --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  --border: var(--color-border);
+  --shadow-light: rgba(255, 255, 255, 0.035);
+  --shadow-dark: rgba(0, 0, 0, 0.55);
+  --focus: var(--color-focus);
+  --success: #34d399;
+  --error: #f87171;
+
+  /* 30-35% Intensity Neumorphic Shadows (Dark) */
+  --shadow-flat: 0 1px 3px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--color-border);
+  --shadow-raised: -3px -3px 8px rgba(255, 255, 255, 0.035), 4px 4px 12px rgba(0, 0, 0, 0.55);
+  --shadow-raised-sm: -2px -2px 5px rgba(255, 255, 255, 0.03), 2px 2px 7px rgba(0, 0, 0, 0.45);
+  --shadow-raised-lg: -5px -5px 14px rgba(255, 255, 255, 0.04), 6px 6px 18px rgba(0, 0, 0, 0.65);
+  --shadow-inset: inset 2px 2px 5px rgba(0, 0, 0, 0.6), inset -2px -2px 5px rgba(255, 255, 255, 0.035);
+  --shadow-inset-sm: inset 1px 1px 3px rgba(0, 0, 0, 0.45), inset -1px -1px 3px rgba(255, 255, 255, 0.025);
+
+  /* Legacy variable compatibility */
+  --bg-color: var(--color-background);
+  --text-color: var(--color-text-primary);
+  --element-color: var(--color-surface);
+  --hover-color: #1e293b;
+  --link-color: var(--color-accent);
+  --button-bg: #1e293b;
+  --button-text: var(--color-text-primary);
+  --flow-c1: #1b252f;
+  --flow-c2: #25333f;
+}
+
+/* ============================================================
+   ACCESSIBILITY & REDUCED MOTION
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

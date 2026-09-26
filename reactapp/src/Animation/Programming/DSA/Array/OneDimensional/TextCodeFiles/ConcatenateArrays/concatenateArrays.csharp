@@ -1,0 +1,26 @@
+using System;
+
+class Program
+{
+    static void ConcatenateArrays(int[] arr1, int[] arr2, int[] result)
+    {
+        Array.Copy(arr1, result, arr1.Length);
+        Array.Copy(arr2, 0, result, arr1.Length, arr2.Length);
+    }
+
+    static void Main()
+    {
+        int[] arr1 = {1, 2, 3};
+        int[] arr2 = {4, 5, 6};
+        int[] result = new int[arr1.Length + arr2.Length];
+
+        ConcatenateArrays(arr1, arr2, result);
+
+        Console.Write("Concatenated array: ");
+        foreach (int num in result)
+        {
+            Console.Write(num + " ");
+        }
+        Console.WriteLine();
+    }
+}
