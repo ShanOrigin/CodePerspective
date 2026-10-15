@@ -49,9 +49,6 @@ function Editor({ editorId, mode, code }) {
           cursorStyle: 'crosshair',
           highlightGutterLine: false,
           useWorker: false,
-          enableBasicAutocompletion: false,
-          enableLiveAutocompletion: false,
-          enableSnippets: false,
           tabSize: 2,
           enableMobileMenu: false,
         }}

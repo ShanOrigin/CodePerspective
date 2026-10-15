@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router-dom'
 import Controller from './Controller'
 import { useUrls } from '../../Hooks/useUrls'
@@ -5,15 +6,16 @@ import { useUrls } from '../../Hooks/useUrls'
 export default function MainNavigation() {
   const urls = useUrls()
 
-  if (!urls || urls.length === 0) return <p>Loading routes...</p>
+  if (!urls || urls.length === 0) {
+    return <p>Loading routes...</p>
+  }
 
   return (
     <Routes>
-      {/* Loop through each section */}
-      {urls.map(([sectionName, sectionUrls]) =>
-        // Loop through each URL in that section
+      {urls.flatMap(([sectionName, sectionUrls]) =>
         sectionUrls.map((url, index) => {
-          const cleanPath = '/' + url.split('?')[0] // remove ?query and ensure leading slash
+          // Remove query parameters from the route path.
+          const cleanPath = '/' + url.split('?')[0].replace(/^\/+/, '')
 
           return (
             <Route
@@ -25,7 +27,11 @@ export default function MainNavigation() {
         })
       )}
 
-      {/* Catch-all fallback route */}
+      {/* Handle paths that do not match any registered route. */}
+      <Route
+        path="*"
+        element={<p>Page not found.</p>}
+      />
     </Routes>
   )
 }
