@@ -1,13 +1,5 @@
-import {
-    Rect,
-    Arrow
-} from '../../../Source/Main.js'
-
-
-import {
-    Node,
-    Link
-} from '../../../Source/LL_main.js'
+import { Rect, Arrow } from '../../../../../Source/Components/Component.js';
+import { Node, Link } from '../../../../../Source/Utilities/__LinkedList__.js';
 
 
 export async function reverseSLL(canvas, ll) {

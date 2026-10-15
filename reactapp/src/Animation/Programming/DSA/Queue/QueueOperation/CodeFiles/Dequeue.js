@@ -1,6 +1,5 @@
-import { Rect, Arrow } from '../../../Source/Main.js'
-
-import { Queue } from '../../../Source/stack_queue_main.js'
+import { Rect, Arrow } from '../../../../../Source/Components/Component.js';
+import { Queue } from '../../../../../Source/Utilities/__Queue__.js';
 
 export async function DeQueue(canvas) {
   try {

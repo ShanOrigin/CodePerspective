@@ -1,11 +1,5 @@
-import {
-    Rect,
-    Arrow
-} from '../../../Source/Main.js' ;
-
-import {
-    stack
-} from '../../../Source/stack_queue_main.js' ;
+import { Rect, Arrow } from '../../../../../Source/Components/Component.js';
+import { Stack as stack } from '../../../../../Source/Utilities/__Stack__.js';
 
 
 

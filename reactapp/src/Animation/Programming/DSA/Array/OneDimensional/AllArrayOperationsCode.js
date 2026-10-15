@@ -2,7 +2,7 @@ import {
     Rect,
     Arrow,
     Comparator
-} from '../../../Source/Main.js'
+} from '../../../../Source/Components/Components.js'
 
 // Function To Visualization Create Array Process
 

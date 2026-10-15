@@ -1,3 +1,5 @@
+// Vite discovers these source modules and bundles them correctly.
+const animationModuleLoaders = import.meta.glob('./Programming/**/*.js')
 import { CanvasHandler } from './Source/Components/Canvas.js'
 import {
   waitForLength,
@@ -714,27 +716,38 @@ const FUNCTION_STORAGE = [
 ]
 
 /**
- * Asynchronously imports a specified module from a given path and returns the requested function.
+ * Loads a module and returns the requested exported function.
  *
- * @param {string} requestedModuleFunction - The name of the function to be imported from the module.
- * @param {string} path - The path to the module.
- * @returns {Function|null} - The requested function if found, otherwise null.
- * @throws {Error} - If there is an error importing the module.
+ * @param {string} requestedModuleFunction - Export name to retrieve.
+ * @param {string} path - Module path relative to this file.
+ * @returns {Promise<Function|null>} Requested function or null.
  */
 async function moduleCollector(requestedModuleFunction, path) {
-  console.log(`Attempting to import ${requestedModuleFunction} from ${path}`)
-  try {
-    const module = await import(/*@vite-ignore*/ path)
+  console.log(
+    `Attempting to import ${requestedModuleFunction} from ${path}`
+  )
 
-    if (requestedModuleFunction in module) {
-      //  console.log("Module function found:", requestedModuleFunction);
-      return module[requestedModuleFunction]
-    } else {
-      console.log('Requested module function not found.')
+  try {
+    const loadModule = animationModuleLoaders[path]
+
+    if (!loadModule) {
+      console.error(`Animation module not found in Vite's module map: ${path}`)
       return null
     }
+
+    const module = await loadModule()
+
+    if (typeof module[requestedModuleFunction] === 'function') {
+      return module[requestedModuleFunction]
+    }
+
+    console.error(
+      `Export "${requestedModuleFunction}" not found in module: ${path}`
+    )
+
+    return null
   } catch (error) {
-    console.error(error)
+    console.error(`Failed to load animation module: ${path}`, error)
     return null
   }
 }

@@ -3,7 +3,7 @@
 
 // utilities.js
 
-import { clearCanvas, createButton } from '../../../../Source/Utilities/utilities.js';
+import { clearCanvas, createButton } from '../../../Source/Utilities/utilities.js';
 
 const namespace = {};
 
@@ -123,7 +123,7 @@ export default namespace;
 
 // utilities.js
 
-import { clearCanvas, createButton } from '../../../../Source/Utilities/utilities.js';
+import { clearCanvas, createButton } from '../../../Source/Utilities/utilities.js';
 
 const namespace = {};
 
@@ -215,7 +215,7 @@ export default namespace;
 */
 
 
-/*import {clearCanvas, createButton } from '../../../../Source/Utilities/utilities.js';
+/*import {clearCanvas, createButton } from '../../../Source/Utilities/utilities.js';
 
 export const createButtons =  (canvas) => {
     try {
