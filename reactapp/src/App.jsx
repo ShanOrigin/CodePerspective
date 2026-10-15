@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 
 import './styles/globals.css'
@@ -52,7 +52,7 @@ function App() {
           isThemeModeDark ? 'night-mode' : 'day-mode'
         }`}
       >
-        <BrowserRouter basename="/the-code-perspective/">
+        <BrowserRouter basename="/CodePerspective/">
           <RouteTransitionWrapper>
             <NavBar theme={[isThemeModeDark, setIsThemeModeDark]} />
 
