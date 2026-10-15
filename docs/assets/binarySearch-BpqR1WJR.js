@@ -1,0 +1,1 @@
+function s(l,t){let n=0,o=l.length-1;for(;n<=o;){let e=Math.floor((n+o)/2);if(l[e]===t)return e;l[e]<t?n=e+1:o=e-1}return-1}const c=[1,2,4,5,8,9],f=8,i=s(c,f);i!==-1?console.log("Element found at index",i):console.log("Element not found");
