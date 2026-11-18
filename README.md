@@ -355,7 +355,7 @@ Distributed under the **MIT License**. See [`LICENSE`](./LICENSE) for full text.
 
 **Shantanu Manik Suryawanshi**
 
-- 📧 [shantanusuryawanshi3.14@gmail.com](mailto:shantanusuryawanshi3.14@gmail.com)
+- 📧 [codeperspective3.14@gmail.com](mailto:codeperspective3.14@gmail.com)
 - 📍 Pune, India 411003
 
 ---
