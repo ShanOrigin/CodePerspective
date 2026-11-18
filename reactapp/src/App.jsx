@@ -1,13 +1,12 @@
+
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 
 import './styles/globals.css'
 import './App.css'
 import NavBar from './Components/Header/Header'
-import HeadNavigation from './Components/Header/Navigation'
-import MainNavigation from './Components/Main/Navigation'
+import AppRoutes from './AppRoutes'
 import Footer from './Components/Footer/Footer'
-import FooterNavigation from './Components/Footer/Navigation'
 import PageTransitionLoader from './Components/common/PageTransitionLoader'
 import { ThemeContext } from './Contexts/ThemeContext'
 
@@ -52,16 +51,20 @@ function App() {
           isThemeModeDark ? 'night-mode' : 'day-mode'
         }`}
       >
-        <BrowserRouter basename="/CodePerspective/">
+        <BrowserRouter
+          basename="/CodePerspective/"
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <RouteTransitionWrapper>
             <NavBar theme={[isThemeModeDark, setIsThemeModeDark]} />
 
             <main className="main-container">
-              {/* Main section */}
-              <HeadNavigation />
-              <MainNavigation />
-              <FooterNavigation />
+              <AppRoutes />
             </main>
+
             <Footer />
           </RouteTransitionWrapper>
         </BrowserRouter>
@@ -71,4 +74,3 @@ function App() {
 }
 
 export default App
-
