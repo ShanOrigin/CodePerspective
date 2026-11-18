@@ -19,31 +19,47 @@ export default function Feedback() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const isFormValid =
+    formData.name.trim() &&
+    formData.email.trim() &&
+    formData.page.trim() &&
+    formData.type &&
+    formData.feedback.trim() &&
+    formData.stepsToReproduce.trim()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.name.trim() || !formData.page.trim() || !formData.type || !formData.feedback.trim()) {
-      setStatus({ state: 'error', message: 'Please fill in Name, Page/Visualizer, Feedback Type, and Feedback details.' })
-      return
-    }
-
     setStatus({ state: 'loading', message: 'Submitting your feedback...' })
 
-    const result = await submitForm({
-      formType: 'feedback',
-      ...formData,
-    })
-
-    if (result.success) {
-      setStatus({
-        state: 'success',
-        message: 'Thank you for your feedback! Your response helps improve CodePerspective.',
+    try {
+      const result = await submitForm({
+        formType: 'feedback',
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        page: formData.page.trim(),
+        feedbackType: formData.type,
+        details: formData.feedback.trim(),
+        stepsToReproduce: formData.stepsToReproduce.trim(),
       })
-      setFormData({ name: '', page: '', type: '', feedback: '', stepsToReproduce: '', email: '' })
-    } else {
+
+      if (result.success) {
+        setStatus({
+          state: 'success',
+          message: 'Thank you for your feedback! Your response helps improve CodePerspective.',
+        })
+        setFormData({ name: '', page: '', type: '', feedback: '', stepsToReproduce: '', email: '' })
+      } else {
+        setStatus({
+          state: 'error',
+          message: result.error || 'Failed to submit feedback. Please try again.',
+        })
+      }
+    } catch (error) {
+      console.error('Feedback form submission error:', error)
       setStatus({
         state: 'error',
-        message: result.error || 'Failed to submit feedback. Please try again.',
+        message: 'Something went wrong. Please try again later.',
       })
     }
   }
@@ -100,7 +116,7 @@ export default function Feedback() {
 
             <div className={styles.inputGroup}>
               <label htmlFor="fb-email" className={styles.label}>
-                Email Address <span className={styles.optional}>(Optional)</span>
+                Email Address <span className={styles.required}>*</span>
               </label>
               <input
                 type="email"
@@ -110,6 +126,7 @@ export default function Feedback() {
                 onChange={handleChange}
                 placeholder="For bug resolution updates"
                 className={styles.input}
+                required
                 disabled={status.state === 'loading'}
               />
             </div>
@@ -174,10 +191,9 @@ export default function Feedback() {
             />
           </div>
 
-          {formData.type === 'Bug Report' && (
-            <div className={styles.inputGroup}>
+          <div className={styles.inputGroup}>
               <label htmlFor="fb-steps" className={styles.label}>
-                Steps to Reproduce <span className={styles.optional}>(Helpful for bugs)</span>
+                Steps to Reproduce <span className={styles.required}>*</span>
               </label>
               <textarea
                 id="fb-steps"
@@ -187,15 +203,15 @@ export default function Feedback() {
                 onChange={handleChange}
                 placeholder="1. Click on Step button&#10;2. Observe pointer misalignment..."
                 className={styles.textarea}
+                required
                 disabled={status.state === 'loading'}
               />
             </div>
-          )}
 
           <button
             type="submit"
             className={styles.submitButton}
-            disabled={status.state === 'loading'}
+            disabled={status.state === 'loading' || !isFormValid}
           >
             {status.state === 'loading' ? (
               <span>Submitting Feedback...</span>

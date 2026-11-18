@@ -1,52 +1,82 @@
-import React, { useState } from 'react'
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaCheck, FaExclamationCircle } from 'react-icons/fa'
-import AnimatedIcon from '../../../common/AnimatedIcon'
-import { submitForm } from '../../../../services/formSubmissionService'
-import styles from '../CSS/ContactUs.module.css'
+import React, { useState } from "react";
+import {
+  FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaCheck,
+  FaExclamationCircle,
+} from "react-icons/fa";
+import AnimatedIcon from "../../../common/AnimatedIcon";
+import { submitForm } from "../../../../services/formSubmissionService";
+import styles from "../CSS/ContactUs.module.css";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
-  const [status, setStatus] = useState({ state: 'idle', message: '' }) // idle | loading | success | error
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [status, setStatus] = useState({ state: "idle", message: "" }); // idle | loading | success | error
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isFormValid =
+    formData.name.trim() &&
+    formData.email.trim() &&
+    formData.subject.trim() &&
+    formData.message.trim();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    // Client-side validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
-      setStatus({ state: 'error', message: 'Please fill in all required fields.' })
-      return
-    }
+    // Show loading state
+    setStatus({
+      state: "loading",
+      message: "Sending your message...",
+    });
 
-    setStatus({ state: 'loading', message: 'Sending message...' })
+    try {
+      const result = await submitForm({
+        formType: "contact",
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
-    const result = await submitForm({
-      formType: 'contact',
-      ...formData,
-    })
+      if (result.success) {
+        setStatus({
+          state: "success",
+          message: "Your message has been submitted successfully.",
+        });
 
-    if (result.success) {
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        setStatus({
+          state: "error",
+          message:
+            result.error || "Unable to submit your message. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+
       setStatus({
-        state: 'success',
-        message: 'Thank you! Your message has been delivered to our team.',
-      })
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    } else {
-      setStatus({
-        state: 'error',
-        message: result.error || 'Failed to deliver message. Please try again or email us directly.',
-      })
+        state: "error",
+        message: "Something went wrong. Please try again later.",
+      });
     }
-  }
+  };
 
   return (
     <div className={styles.contactPage}>
@@ -54,8 +84,8 @@ export default function ContactUs() {
         <span className={styles.categoryBadge}>Get In Touch</span>
         <h1 className={styles.pageTitle}>Contact Our Team</h1>
         <p className={styles.pageSubtitle}>
-          Have a question about an algorithm visualization, a technical inquiry, or feedback?
-          Reach out directly or send us a message below.
+          Have a question about an algorithm visualization, a technical inquiry,
+          or feedback? Reach out directly or send us a message below.
         </p>
       </header>
 
@@ -65,18 +95,24 @@ export default function ContactUs() {
           <div className={styles.infoCard}>
             <h2 className={styles.infoHeading}>Direct Channels</h2>
             <p className={styles.infoDesc}>
-              We are based in Pune, India and actively maintain the CodePerspective visualizers.
+              We are based in Pune, India and actively maintain the
+              CodePerspective visualizers.
             </p>
 
             <ul className={styles.channelList}>
               <li>
-                <a href="mailto:shantanusuryawanshi3.14@gmail.com" className={styles.channelLink}>
+                <a
+                  href="mailto:codeperspective3.14@gmail.com"
+                  className={styles.channelLink}
+                >
                   <AnimatedIcon size="md" variant="inset">
                     <FaEnvelope />
                   </AnimatedIcon>
                   <div className={styles.channelDetails}>
                     <span className={styles.channelLabel}>Email Address</span>
-                    <span className={styles.channelValue}>shantanusuryawanshi3.14@gmail.com</span>
+                    <span className={styles.channelValue}>
+                      codeperspective3.14@gmail.com
+                    </span>
                   </div>
                 </a>
               </li>
@@ -87,7 +123,9 @@ export default function ContactUs() {
                     <FaPhoneAlt />
                   </AnimatedIcon>
                   <div className={styles.channelDetails}>
-                    <span className={styles.channelLabel}>Phone / WhatsApp</span>
+                    <span className={styles.channelLabel}>
+                      Phone / WhatsApp
+                    </span>
                     <span className={styles.channelValue}>+91 9965963535</span>
                   </div>
                 </a>
@@ -100,7 +138,9 @@ export default function ContactUs() {
                   </AnimatedIcon>
                   <div className={styles.channelDetails}>
                     <span className={styles.channelLabel}>Location</span>
-                    <span className={styles.channelValue}>Pune, India 411003</span>
+                    <span className={styles.channelValue}>
+                      Pune, India 411003
+                    </span>
                   </div>
                 </div>
               </li>
@@ -113,14 +153,14 @@ export default function ContactUs() {
           <div className={styles.formCard}>
             <h2 className={styles.formHeading}>Send a Message</h2>
 
-            {status.state === 'success' && (
+            {status.state === "success" && (
               <div className={styles.successBanner} role="alert">
                 <FaCheck className={styles.bannerIcon} />
                 <span>{status.message}</span>
               </div>
             )}
 
-            {status.state === 'error' && (
+            {status.state === "error" && (
               <div className={styles.errorBanner} role="alert">
                 <FaExclamationCircle className={styles.bannerIcon} />
                 <span>{status.message}</span>
@@ -141,7 +181,7 @@ export default function ContactUs() {
                   placeholder="e.g. Alex Rivera"
                   className={styles.input}
                   required
-                  disabled={status.state === 'loading'}
+                  disabled={status.state === "loading"}
                 />
               </div>
 
@@ -158,7 +198,7 @@ export default function ContactUs() {
                   placeholder="name@example.com"
                   className={styles.input}
                   required
-                  disabled={status.state === 'loading'}
+                  disabled={status.state === "loading"}
                 />
               </div>
 
@@ -175,7 +215,7 @@ export default function ContactUs() {
                   placeholder="e.g. Question on Dijkstra step execution"
                   className={styles.input}
                   required
-                  disabled={status.state === 'loading'}
+                  disabled={status.state === "loading"}
                 />
               </div>
 
@@ -192,16 +232,16 @@ export default function ContactUs() {
                   placeholder="Write your message here..."
                   className={styles.textarea}
                   required
-                  disabled={status.state === 'loading'}
+                  disabled={status.state === "loading"}
                 />
               </div>
 
               <button
                 type="submit"
                 className={styles.submitButton}
-                disabled={status.state === 'loading'}
+                disabled={status.state === "loading" || !isFormValid}
               >
-                {status.state === 'loading' ? (
+                {status.state === "loading" ? (
                   <span>Sending Message...</span>
                 ) : (
                   <>
@@ -215,5 +255,5 @@ export default function ContactUs() {
         </div>
       </div>
     </div>
-  )
+  );
 }

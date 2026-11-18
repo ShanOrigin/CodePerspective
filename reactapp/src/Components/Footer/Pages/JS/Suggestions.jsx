@@ -1,51 +1,78 @@
-import React, { useState } from 'react'
-import { FaLightbulb, FaPaperPlane, FaCheck, FaExclamationCircle } from 'react-icons/fa'
-import { submitForm } from '../../../../services/formSubmissionService'
-import styles from '../CSS/Suggestions.module.css'
+import React, { useState } from "react";
+import {
+  FaLightbulb,
+  FaPaperPlane,
+  FaCheck,
+  FaExclamationCircle,
+} from "react-icons/fa";
+import { submitForm } from "../../../../services/formSubmissionService";
+import styles from "../CSS/Suggestions.module.css";
 
 export default function Suggestions() {
   const [formData, setFormData] = useState({
-    name: '',
-    topic: '',
-    category: '',
-    description: '',
-    email: '',
-  })
-  const [status, setStatus] = useState({ state: 'idle', message: '' })
+    name: "",
+    topic: "",
+    category: "",
+    description: "",
+    email: "",
+  });
+  const [status, setStatus] = useState({ state: "idle", message: "" });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isFormValid =
+    formData.name.trim() &&
+    formData.email.trim() &&
+    formData.topic.trim() &&
+    formData.category &&
+    formData.description.trim();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!formData.name.trim() || !formData.topic.trim() || !formData.category || !formData.description.trim()) {
-      setStatus({ state: 'error', message: 'Please fill in Name, Title, Category, and Description.' })
-      return
-    }
+    setStatus({ state: "loading", message: "Submitting your idea..." });
 
-    setStatus({ state: 'loading', message: 'Submitting your idea...' })
+    try {
+      const result = await submitForm({
+        formType: "suggestion",
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        suggestionTitle: formData.topic.trim(),
+        category: formData.category,
+        description: formData.description.trim(),
+      });
 
-    const result = await submitForm({
-      formType: 'suggestion',
-      ...formData,
-    })
-
-    if (result.success) {
+      if (result.success) {
+        setStatus({
+          state: "success",
+          message:
+            "Thank you for your suggestion! Our engineering team will review it.",
+        });
+        setFormData({
+          name: "",
+          topic: "",
+          category: "",
+          description: "",
+          email: "",
+        });
+      } else {
+        setStatus({
+          state: "error",
+          message:
+            result.error || "Failed to submit suggestion. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Suggestion form submission error:", error);
       setStatus({
-        state: 'success',
-        message: 'Thank you for your suggestion! Our engineering team will review it.',
-      })
-      setFormData({ name: '', topic: '', category: '', description: '', email: '' })
-    } else {
-      setStatus({
-        state: 'error',
-        message: result.error || 'Failed to submit suggestion. Please try again.',
-      })
+        state: "error",
+        message: "Something went wrong. Please try again later.",
+      });
     }
-  }
+  };
 
   return (
     <div className={styles.suggestionsPage}>
@@ -53,8 +80,9 @@ export default function Suggestions() {
         <span className={styles.categoryBadge}>Community Roadmap</span>
         <h1 className={styles.pageTitle}>Have a Visualization Idea?</h1>
         <p className={styles.pageSubtitle}>
-          What should we visualize next? A specific algorithm? A complex graph structure?
-          Share your idea and help shape the future of CodePerspective.
+          What should we visualize next? A specific algorithm? A complex graph
+          structure? Share your idea and help shape the future of
+          CodePerspective.
         </p>
       </header>
 
@@ -64,14 +92,14 @@ export default function Suggestions() {
           <h2 className={styles.formHeading}>Submit New Suggestion</h2>
         </div>
 
-        {status.state === 'success' && (
+        {status.state === "success" && (
           <div className={styles.successBanner} role="alert">
             <FaCheck className={styles.bannerIcon} />
             <span>{status.message}</span>
           </div>
         )}
 
-        {status.state === 'error' && (
+        {status.state === "error" && (
           <div className={styles.errorBanner} role="alert">
             <FaExclamationCircle className={styles.bannerIcon} />
             <span>{status.message}</span>
@@ -93,13 +121,13 @@ export default function Suggestions() {
                 placeholder="e.g. Jordan Lee"
                 className={styles.input}
                 required
-                disabled={status.state === 'loading'}
+                disabled={status.state === "loading"}
               />
             </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor="sugg-email" className={styles.label}>
-                Email Address <span className={styles.optional}>(Optional)</span>
+                Email Address <span className={styles.required}>*</span>
               </label>
               <input
                 type="email"
@@ -109,7 +137,8 @@ export default function Suggestions() {
                 onChange={handleChange}
                 placeholder="In case we have follow-up questions"
                 className={styles.input}
-                disabled={status.state === 'loading'}
+                required
+                disabled={status.state === "loading"}
               />
             </div>
           </div>
@@ -128,7 +157,7 @@ export default function Suggestions() {
                 placeholder="e.g. Red-Black Tree Balancing or A* Pathfinding"
                 className={styles.input}
                 required
-                disabled={status.state === 'loading'}
+                disabled={status.state === "loading"}
               />
             </div>
 
@@ -143,7 +172,7 @@ export default function Suggestions() {
                 onChange={handleChange}
                 className={styles.select}
                 required
-                disabled={status.state === 'loading'}
+                disabled={status.state === "loading"}
               >
                 <option value="">Select a category...</option>
                 <option value="Data Structure">Data Structure</option>
@@ -159,7 +188,8 @@ export default function Suggestions() {
 
           <div className={styles.inputGroup}>
             <label htmlFor="sugg-description" className={styles.label}>
-              Description &amp; Why It Would Be Helpful <span className={styles.required}>*</span>
+              Description &amp; Why It Would Be Helpful{" "}
+              <span className={styles.required}>*</span>
             </label>
             <textarea
               id="sugg-description"
@@ -170,16 +200,16 @@ export default function Suggestions() {
               placeholder="Tell us what you would like to see visualized and why this concept is challenging to understand without visual aid..."
               className={styles.textarea}
               required
-              disabled={status.state === 'loading'}
+              disabled={status.state === "loading"}
             />
           </div>
 
           <button
             type="submit"
             className={styles.submitButton}
-            disabled={status.state === 'loading'}
+            disabled={status.state === "loading" || !isFormValid}
           >
-            {status.state === 'loading' ? (
+            {status.state === "loading" ? (
               <span>Submitting Idea...</span>
             ) : (
               <>
@@ -191,5 +221,5 @@ export default function Suggestions() {
         </form>
       </div>
     </div>
-  )
+  );
 }
