@@ -1,171 +1,262 @@
-
-
-import { Rect, Arrow } from '../../../../../Source/Components/Component.js';
-import { drawText, waitForLength, clearCanvas , connect , createButton , canvasFunction} from '../../../../../Source/Utilities/utilities.js';
-import { Node, Link } from '../../../../../Source/Utilities/__LinkedList__.js';
+import { Rect, Arrow } from "../../../../../Source/Components/Component.js";
+import {
+  drawText,
+  waitForLength,
+  clearCanvas,
+  connect,
+  createButton,
+  canvasFunction,
+} from "../../../../../Source/Utilities/utilities.js";
+import { Node, Link } from "../../../../../Source/Utilities/__LinkedList__.js";
 
 export async function DInsertAtTail({ canvas }) {
-    try {
-        let spl = 800;
-        const centerX = canvas.canvasWidth / 2;
-        const centerY = canvas.drawYPos;
-        let t  , n , ll , firstllPos , count , llData , orgL = []  ;
-        let  L1 , L2 , title1 , title2 , newLink1 , newLink2 , modifyNodeArray =[] , modifiedNodeArray = [] ; 
+  try {
+    let spl = 800;
+    const centerX = canvas.canvasWidth / 2;
+    const centerY = canvas.drawYPos;
+    let t,
+      n,
+      ll,
+      firstllPos,
+      count,
+      llData,
+      orgL = [];
+    let L1,
+      L2,
+      title1,
+      title2,
+      newLink1,
+      newLink2,
+      modifyNodeArray = [],
+      modifiedNodeArray = [];
 
-        const initialize = async () => {
+    const initialize = async () => {
+      t = drawText({
+        canvas,
+        text: "Insert At Tail in Linked List ",
+        x: centerX,
+        y: centerY / 2,
+        fontSize: 1.1,
+        color: "#46099c",
+        Return: true,
+      });
+      canvas.drawYPos += canvas.rectHeight;
+      count = n = await waitForLength({ canvas, umin: 0, umax: 3 });
+      canvas.currentDevice.UserLength = n;
+      canvas.drawYPos += canvas.rectHeight * 2;
+      firstllPos = canvas.drawYPos;
+      let templl;
+      llData = await Node.Linked_List({
+        canvas,
+        ll: templl,
+        type: "doubly",
+        purpose: "input",
+        range: [-99, 99, 2, 3],
+        color: "#ff850a",
+      });
+      ll = [...llData[2]];
+      orgL.push(Node.NodeArray);
+      orgL.push(Link.LinkArray);
+      orgL.push(Link.prevArray);
+      Node.NodeArray = [];
+      Link.LinkArray = [];
+      Link.prevArray = [];
+      Arrow.ArrowArray = [];
 
-            t = drawText({ canvas, text: "Insert At Tail in Linked List ", x: centerX, y: centerY / 2, fontSize: 1.1 ,  color: "#46099c" , Return: true});
-            canvas.drawYPos += canvas.rectHeight ;
-            count = n = await waitForLength({ canvas , umin: 0, umax : 3 });
-            canvas.currentDevice.UserLength = n;
-            canvas.drawYPos += canvas.rectHeight * 2;
-            firstllPos = canvas.drawYPos ;
-            let templl;
-            llData = await Node.Linked_List({ canvas, ll: templl, type: "doubly", purpose: "input", range: [-99 , 99 , 2, 3], color: "#ff850a" });
-            ll = [...llData[2]];
-            orgL.push(Node.NodeArray);
-            orgL.push(Link.LinkArray);
-            orgL.push(Link.prevArray);
-            Node.NodeArray = [];
-            Link.LinkArray = [];
-            Link.prevArray = [];
-            Arrow.ArrowArray = [];
+      canvas.drawYPos += canvas.rectHeight * 3;
+      t.text.attr({ text: "Initial Linked List" });
+    };
 
-            canvas.drawYPos += canvas.rectHeight * 3;
-            t.text.attr({ text: "Initial Linked List" });
+    const clearPrevData = async (initial = true) => {
+      L2[0][1].clearArrow({ fig: true, cont: true, dfba: false });
+      L2[0][0].clearArrow({ fig: true, cont: true, dfba: false });
+      modifiedNodeArray[1].forEach((e) => e.clearLink());
+      modifiedNodeArray[2].forEach((e) => e.clearLink());
+      L2[1][0].clearRect({ rect: true, cont: true, ind: false, dfba: false });
+      L2[1][1].clearRect({ rect: true, cont: true, ind: false, dfba: false });
 
-            }
+      modifiedNodeArray[0].forEach((e) => {
+        e.nextN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.prevN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.node.clearRect({ rect: true, cont: true, ind: true, dfba: false });
+      });
+      title2.text.remove();
+      title2.rect.remove();
+      modifiedNodeArray = [];
 
-        const clearPrevData = async (initial=true) => {
+      await canvas.delay({ time: 700 });
 
-              L2[0][1].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              L2[0][0].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              modifiedNodeArray[1].forEach( e =>  e.clearLink() );
-              modifiedNodeArray[2].forEach( e =>  e.clearLink() );
-              L2[1][0].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
-              L2[1][1].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
+      L1[0][1].clearArrow({ fig: true, cont: true, dfba: false });
+      L1[0][0].clearArrow({ fig: true, cont: true, dfba: false });
+      newLink1.remove();
+      newLink2.remove();
+      modifyNodeArray[1].forEach((e) => e.clearLink());
+      modifyNodeArray[2].forEach((e) => e.clearLink());
+      L1[1][0].clearRect({ rect: true, cont: true, ind: false, dfba: false });
+      L1[1][1].clearRect({ rect: true, cont: true, ind: false, dfba: false });
 
-              modifiedNodeArray[0].forEach(( e) => {
-                  e.nextN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.prevN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.node.clearRect({ "rect": true, "cont": true, "ind": true, "dfba": false });
-                  
-              });
-              title2.text.remove();
-              title2.rect.remove();
-              modifiedNodeArray = [] ;
+      modifyNodeArray[0].forEach((e) => {
+        e.nextN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.prevN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.node.clearRect({ rect: true, cont: true, ind: true, dfba: false });
+      });
+      title1.text.remove();
+      title1.rect.remove();
+      modifyNodeArray = [];
 
-              await canvas.delay({ time: 700 });
+      await canvas.delay({ time: 700 });
 
-              L1[0][1].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              L1[0][0].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              newLink1.remove();
-              newLink2.remove();
-              modifyNodeArray[1].forEach( e =>  e.clearLink() );
-              modifyNodeArray[2].forEach( e =>  e.clearLink() );
-              L1[1][0].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
-              L1[1][1].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
+      llData[0][1].clearArrow({ fig: true, cont: true, dfba: false });
+      llData[0][0].clearArrow({ fig: true, cont: true, dfba: false });
+      orgL[1].forEach((e) => e.clearLink());
+      orgL[2].forEach((e) => e.clearLink());
+      llData[1][0].clearRect({
+        rect: true,
+        cont: true,
+        ind: false,
+        dfba: false,
+      });
+      llData[1][1].clearRect({
+        rect: true,
+        cont: true,
+        ind: false,
+        dfba: false,
+      });
 
-              modifyNodeArray[0].forEach(( e) => {
-                  e.nextN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.prevN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.node.clearRect({ "rect": true, "cont": true, "ind": true, "dfba": false });
-                  
-              });
-              title1.text.remove();
-              title1.rect.remove();
-              modifyNodeArray = [] ;
-            
-              await canvas.delay({ time: 700 });
+      orgL[0].forEach((e) => {
+        e.nextN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.prevN.clearRect({ rect: true, cont: false, ind: false, dfba: false });
+        e.node.clearRect({ rect: true, cont: true, ind: true, dfba: false });
+      });
+      orgL = [];
+      t.text.attr({ text: "Updated Linked List" });
+      canvas.drawYPos = firstllPos;
 
-              llData[0][1].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              llData[0][0].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
-              orgL[1].forEach( e =>  e.clearLink() );
-              orgL[2].forEach( e =>  e.clearLink() );
-              llData[1][0].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
-              llData[1][1].clearRect({ "rect": true, "cont": true , "ind": false, "dfba": false });
+      if (initial) {
+        llData = await Node.Linked_List({
+          canvas,
+          ll: ll,
+          type: "doubly",
+          purpose: "print",
+          range: [-99, 99, 2, 3],
+          color: "#ff850a",
+        });
+        orgL.push(Node.NodeArray);
+        orgL.push(Link.LinkArray);
+        orgL.push(Link.prevArray);
+        Node.NodeArray = [];
+        Link.LinkArray = [];
+        Link.prevArray = [];
+        Arrow.ArrowArray = [];
 
+        canvas.drawYPos += canvas.rectHeight * 3;
+        await canvas.delay({ time: 700 });
+      }
+    };
 
-              orgL[0].forEach(( e) => {
-                  e.nextN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.prevN.clearRect({ "rect": true, "cont": false , "ind": false, "dfba": false });
-                  e.node.clearRect({ "rect": true, "cont": true, "ind": true, "dfba": false });
-                  
-              });
-              orgL = [] ;
-              t.text.attr({ text: "Updated Linked List" });
-              canvas.drawYPos =  firstllPos ;
+    const execute = async () => {
+      if (count > canvas.currentDevice.UserLength) {
+        await clearPrevData();
+      }
 
-              if ( initial){
-                 llData = await Node.Linked_List({ canvas, ll: ll, type: "doubly", purpose: "print", range: [-99 , 99 ,  2, 3], color: "#ff850a" });
-                 orgL.push(Node.NodeArray);
-                 orgL.push(Link.LinkArray);
-                 orgL.push(Link.prevArray);
-                 Node.NodeArray = [];
-                 Link.LinkArray = [];
-                 Link.prevArray = [];
-                 Arrow.ArrowArray = [];
+      count++;
+      title1 = drawText({
+        canvas,
+        text: "Let's Insert Node At Last place in Linked List",
+        x: centerX,
+        y: canvas.drawYPos - canvas.rectHeight,
+        fontSize: 1.1,
+        color: "blue",
+        Return: true,
+      });
+      if (canvas.abort) return;
+      await canvas.delay({ time: 700 });
 
-                 canvas.drawYPos += canvas.rectHeight * 3;
-                 await canvas.delay({ time: 700 });
-              }
-           };
+      canvas.drawYPos += canvas.rectHeight * 1;
 
+      drawText({
+        canvas,
+        text: "Starting....",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-        const execute = async () => {
+      Node.NodeArray = [];
+      L1 = await Node.Linked_List({
+        canvas,
+        ll,
+        type: "doubly",
+        purpose: "print",
+        range: [-99, 99],
+        color: "#ff850a",
+      });
+      modifyNodeArray.push(Node.NodeArray);
+      modifyNodeArray.push(Link.LinkArray);
+      modifyNodeArray.push(Link.prevArray);
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
-           if( count > canvas.currentDevice.UserLength ) {
-               await clearPrevData(); 
-           }
+      drawText({
+        canvas,
+        text: "let's Go.....",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-           count ++ ;
-            title1 = drawText({ canvas, text: "Let's Insert Node At Last place in Linked List", x: centerX, y: canvas.drawYPos - canvas.rectHeight, fontSize: 1.1, color: "blue" , Return: true});
-            if (canvas.abort) return;
-            await canvas.delay({ time: 700 });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
-            canvas.drawYPos += canvas.rectHeight * 1;
+      drawText({
+        canvas,
+        text: "Enter data to be Inserted ?",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-            drawText({ canvas, text: "Starting....", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
-            Node.NodeArray = [];
-            L1 = await Node.Linked_List({ canvas, ll, type: "doubly", purpose: "print", range: [-99, 99], color: "#ff850a" });
-            modifyNodeArray.push(Node.NodeArray) ;
-            modifyNodeArray.push(Link.LinkArray) ;
-            modifyNodeArray.push(Link.prevArray) ;
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
+      const node = new Node({
+        canvasHandler: canvas,
+        xposition:
+          Node.NodeArray[Node.NodeArray.length - 1].node.rectElement.attr("x") +
+          canvas.rectWidth * 0.8,
+        yposition:
+          Node.NodeArray[Node.NodeArray.length - 1].node.rectElement.attr("y") +
+          canvas.rectHeight * 2.3,
+        content: "",
+        index: -1,
+        color: "#ff850a",
+      });
+      const nodeData = await node.drawNode({
+        node: true,
+        cont: true,
+        index: false,
+        popover: true,
+        next: true,
+        prev: true,
+        purpose: "input",
+      });
 
-            drawText({ canvas, text: "let's Go.....", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      const newNode = new Arrow({
+        canvasHandler: canvas,
+        cont: "newNode",
+        color: "green",
+      });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
-         
-            drawText({ canvas, text: "Enter data to be Inserted ?", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      await newNode.drawArrow({
+        rectObj: Node.NodeArray[Node.NodeArray.length - 1].node,
+      });
+      newNode.arrowFig.attr({ opacity: 0.4 });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
-
-
-            const node = new Node({
-                canvasHandler: canvas,
-                xposition: Node.NodeArray[Node.NodeArray.length-1].node.rectElement.attr("x") + canvas.rectWidth * 0.8,
-                yposition: Node.NodeArray[Node.NodeArray.length-1].node.rectElement.attr("y") + canvas.rectHeight * 2.3,
-                content: "",
-                index: -1,
-                color: "#ff850a"
-            });
-            const nodeData = await node.drawNode({ node: true, cont: true, index: false, popover: true, next: true, prev: true , purpose: "input" });
-
-            const newNode = new Arrow({ canvasHandler: canvas, cont: "newNode", color: "green" });
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
-
-            await newNode.drawArrow({ rectObj: Node.NodeArray[Node.NodeArray.length - 1].node });
-            newNode.arrowFig.attr({ opacity: 0.4 });
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
-
-/*
+      /*
             drawText({ canvas, text: "Assign newNode next to Null \n newNode -> next = Null.", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
 
             if (canvas.abort) return;
@@ -174,234 +265,350 @@ export async function DInsertAtTail({ canvas }) {
 
             newLink1 = connect(node, L1[1][1] , "NNtoN" , "black");
 */
-            const tailindex = Node.NodeArray.length-2 ; 
-            await canvas.delay({ time: spl });
-   
-            drawText({ canvas, text: "Assign tail next to newNode \n tail -> next = newNode .", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      const tailindex = Node.NodeArray.length - 2;
+      await canvas.delay({ time: spl });
 
-            await canvas.delay({ time: spl *1.5});
+      drawText({
+        canvas,
+        text: "Assign tail next to newNode \n tail -> next = newNode .",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-            newLink1 = connect( Node.NodeArray[tailindex] , node, "NtoNN" , "green", "up" );
-            //Link.LinkArray[tailindex].clearLink();
-            Node.NodeArray[tailindex].nextN.rectElement.toFront();
+      await canvas.delay({ time: spl * 1.5 });
 
+      newLink1 = connect(
+        Node.NodeArray[tailindex],
+        node,
+        "NtoNN",
+        "green",
+        "up",
+      );
+      //Link.LinkArray[tailindex].clearLink();
+      Node.NodeArray[tailindex].nextN.rectElement.toFront();
 
-            await canvas.delay({ time: spl });
-            drawText({ canvas, text: "Assign newNode prev to tail \n newNode -> prev = tail  .", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      await canvas.delay({ time: spl });
+      drawText({
+        canvas,
+        text: "Assign newNode prev to tail \n newNode -> prev = tail  .",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-            await canvas.delay({ time: spl *1.5});
+      await canvas.delay({ time: spl * 1.5 });
 
-            newLink2 = connect(node, Node.NodeArray[tailindex] , "NNtoNB" , "red", "down" );
-            Link.LinkArray[tailindex].clearLink();
-            node.prevN.rectElement.toFront();
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
+      newLink2 = connect(
+        node,
+        Node.NodeArray[tailindex],
+        "NNtoNB",
+        "red",
+        "down",
+      );
+      Link.LinkArray[tailindex].clearLink();
+      node.prevN.rectElement.toFront();
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
 
+      drawText({
+        canvas,
+        text: "Assign newNode prev to null   \n  newNode -> prev  = null.",
+        x: canvas.canvasWidth * 0.7,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl * 1.5 });
 
-            drawText({ canvas, text: "Assign newNode prev to null   \n  newNode -> prev  = null.", x: canvas.canvasWidth * 0.7, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      await L1[1][1].moveTo({
+        newX: node.node.rectElement.attr("x") + canvas.rectWidth * 2,
+        newY: node.node.rectElement.attr("y"),
+        ind: false,
+      });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl*1.5 });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl * 1.5 });
 
-            await L1[1][1].moveTo({ "newX": node.node.rectElement.attr("x") + canvas.rectWidth*2 , "newY": node.node.rectElement.attr("y")  ,  "ind": false }) ;
+      Link.LinkArray[Link.LinkArray.length - 1] = new Link({
+        color: "black",
+        direction: "next",
+        pos: "mid",
+      });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl*1.5 });
+      Link.LinkArray[Link.LinkArray.length - 1].drawLink({
+        rectObj1: node.nextN,
+        rectObj2: L1[1][1],
+      });
+      node.nextN.rectElement.toFront();
+      await canvas.delay({ time: spl });
 
-            Link.LinkArray[Link.LinkArray.length-1] = new Link({ "color":"black", "direction": "next", "pos": "mid" }) 
+      drawText({
+        canvas,
+        text: "Assign tail to newNode  \n  tail = newNode.",
+        x: canvas.canvasWidth * 0.3,
+        y: canvas.drawYPos + canvas.rectHeight * 4.5,
+        color: "#46099c",
+      });
 
-            Link.LinkArray[Link.LinkArray.length-1].drawLink({"rectObj1": node.nextN  ,"rectObj2": L1[1][1] }) ;
-            node.nextN.rectElement.toFront();
-            await canvas.delay({ time: spl });
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl * 1.5 });
 
+      newNode.clearArrow();
+      L1[0][1].clearArrow({ fig: true, cont: true, dfba: false });
 
-            drawText({ canvas, text: "Assign tail to newNode  \n  tail = newNode.", x: canvas.canvasWidth * 0.3, y: canvas.drawYPos + canvas.rectHeight * 4.5,  color: "#46099c" });
+      newNode.Atext = "tail";
+      newNode.color = "purple";
+      L1[0][1] = await newNode.drawArrow({
+        rectObj: Node.NodeArray[Node.NodeArray.length - 1].node,
+      });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl*1.5 });
+      newNode.arrowFig.attr({ opacity: 0.7 });
 
-            newNode.clearArrow();
-            L1[0][1].clearArrow({ "fig": true, "cont": true, "dfba": false } ) ;
+      if (canvas.abort) return;
+      await canvas.delay({ time: spl });
+      drawText({ canvas, clear: true });
+      ll.push(nodeData);
 
-            newNode.Atext = "tail";
-            newNode.color = "purple";
-            L1[0][1] = await newNode.drawArrow({ rectObj: Node.NodeArray[Node.NodeArray.length - 1].node });
+      const text1 = node.node.popoverRect[4].attr("text").split(" ");
+      Node.NodeArray[tailindex].nextN.popoverRect[5].attr({
+        text: `My Address Is = ${text1[text1.length - 1]}`,
+      });
 
-            newNode.arrowFig.attr({ opacity: 0.7 });
+      node.node.popoverRect[2].attr({
+        text: `👋Hi,I am ${ll.length}th Element In Linked List`,
+      });
+      node.node.popoverRect[3].attr({
+        text: `Index = ${ll.length} , Data Value = ${ll[ll.length - 1]}`,
+      });
+      node.nextN.popoverRect[5].attr({
+        text: `My Address Is = 0x000000000000`,
+      });
 
-            if (canvas.abort) return;
-            await canvas.delay({ time: spl });
-            drawText({ canvas, clear: true  });
-            ll.push(nodeData) ;
+      canvas.drawYPos += canvas.rectHeight * 6.5;
 
-            const text1= node.node.popoverRect[4].attr("text").split(" ") ;
-            Node.NodeArray[tailindex].nextN.popoverRect[5].attr( { "text" : `My Address Is = ${text1[text1.length-1]}` });
-            
-            node.node.popoverRect[2].attr( { "text" : `👋Hi,I am ${ll.length}th Element In Linked List` });
-            node.node.popoverRect[3].attr( { "text" : `Index = ${ll.length} , Data Value = ${ll[ll.length-1]}` });
-            node.nextN.popoverRect[5].attr( { "text" : `My Address Is = 0x000000000000` });
+      title2 = drawText({
+        canvas,
+        text: "Linked List After Insertion At Last place",
+        x: canvas.canvasWidth / 2,
+        y: canvas.drawYPos - canvas.rectHeight * 2,
+        fontSize: 1.1,
+        color: "#46099c",
+        Return: true,
+      });
 
-            canvas.drawYPos += canvas.rectHeight * 6.5;
+      Node.NodeArray = [];
+      Link.LinkArray = [];
+      Link.prevArray = [];
+      L2 = await Node.Linked_List({
+        canvas,
+        ll,
+        type: "doubly",
+        purpose: "print",
+        range: [-1000, 1000],
+        color: "#ff850a",
+      });
+      modifiedNodeArray.push(Node.NodeArray);
+      modifiedNodeArray.push(Link.LinkArray);
+      modifiedNodeArray.push(Link.prevArray);
+      Node.NodeArray = [];
+      Link.LinkArray = [];
+      Link.prevArray = [];
+    };
 
-            title2 = drawText({ canvas, text: "Linked List After Insertion At Last place", x: canvas.canvasWidth / 2, y: canvas.drawYPos - canvas.rectHeight * 2, fontSize: 1.1, color: "#46099c" , Return: true });
+    //-_-------_--------_------_-------_--------_---------_
 
-            Node.NodeArray = [];
-            Link.LinkArray = [] ;
-            Link.prevArray = [];
-            L2 = await Node.Linked_List({ canvas, ll, type: "doubly", purpose: "print", range: [-1000, 1000], color: "#ff850a" });
-            modifiedNodeArray.push(Node.NodeArray) ;
-            modifiedNodeArray.push(Link.LinkArray) ;
-            modifiedNodeArray.push(Link.prevArray) ;
-            Node.NodeArray = [];
-            Link.LinkArray = [] ;
-            Link.prevArray = [];
-        };
+    let operationButton;
 
- //-_-------_--------_------_-------_--------_---------_
+    const createButtons = () => {
+      try {
+        operationButton = createButton({
+          canvas,
+          x: canvas.canvasWidth - canvas.rectWidth * 1.25,
+          y: canvas.canvasHeight * 0.9,
+          colorCode: 2,
+          textContent: "Insert At Tail(last)",
+        });
+      } catch (error) {
+        console.warn("Error in createButtons:", error);
+      }
+    };
 
-        let operationButton  ;
-
-        const createButtons = ( ) => {
-            try {
-              operationButton= createButton({ canvas, x : canvas.canvasWidth - canvas.rectWidth * 1.25 , y : canvas.canvasHeight * 0.9 , colorCode : 2 , textContent : "Insert At Tail(last)"   });
-              
-            } catch (error) {
-               console.log("Error in createButtons:", error);
-            }
-        };
-
-       const toggleMenu = (show) => {
-            try {
-              if (show){
-              operationButton.enableButton();
-              canvas.resetButton.enableButton();
-              canvas.pauseButton.disableButton();
-              canvas.playButton.disableButton();
-              }else{
-              operationButton.disableButton();
-              canvas.resetButton.disableButton();
-              canvas.pauseButton.enableButton();
-              canvas.playButton.enableButton();
-              }
-
-            } catch (error) {
-               console.log("Error in toggleMenu:", error);
-            }
-       };
-
-              let limit ;
-       const action = async () => {
-            try {
-
-              if (( canvas.currentDevice.device =="mobile" || canvas.currentDevice.device =="tablet" ) && count < canvas.currentDevice.max -1 ) {
-                 toggleMenu(false);
-                 await execute();
-                 toggleMenu(true);
-                 limit = canvas.currentDevice.max-1;
-              }
-              else if ( canvas.currentDevice.device =="laptop"  && count < canvas.currentDevice.max -1   ) {
-                 toggleMenu(false);
-                 await execute();
-                 toggleMenu(true);
-                 limit = canvas.currentDevice.max - 1 ;
-              }
-              else {
-
-               if( count == limit ) {
-                 count++;
-                 await clearPrevData(false);
-                 t.text.remove();
-                 t.rect.remove();
-                 t = drawText({ canvas, text: "Initial Linked List ", x: centerX, y: centerY / 2, fontSize: 1.1 ,  color: "#46099c" , Return: true});
-
-                 await Node.Linked_List({ canvas, ll: ll.slice(0 ,canvas.currentDevice.UserLength ), type: "doubly", purpose: "print", range: [-99, 99], color: "#ff850a" });
-                 Node.NodeArray = [];
-                 Link.LinkArray = [];
-                 Arrow.ArrowArray = [];
-                 canvas.drawYPos += canvas.rectHeight * 3;
-                 title2 = drawText({ canvas, text: "updated Linked List", x: centerX, y: canvas.drawYPos - canvas.rectHeight, fontSize: 1.1, color: "blue" , Return: true});
-                  canvas.drawYPos += canvas.rectHeight * 2;
-                 await Node.Linked_List({ canvas, ll, type: "doubly", purpose: "print", range: [-99, 99], color: "#ff850a" });
-               
-               }
-
-                 drawText({ canvas, text: "Wait....", x: centerX, y: canvas.drawYPos + canvas.rectHeight * 4 , color : "green" });
-                 await canvas.delay({ time: 500 });
-                 drawText({ canvas, text: "Cannot Add Node in Linked List \n Because Canvas can't hold That much Element \n \n Create New Linked List 'click' Reset Button "  , x: centerX, y: canvas.drawYPos + canvas.rectHeight * 4 , color : "red" });
-
-                 operationButton.enableButton();
-              }
-            } catch (error) {
-               console.log("Error in action:", error);
-               toggleMenu(true);
-            }
-        };
-
-        const clearAll = () => {
-               canvas.drawYPos = centerY;
-               Rect.AllBoxe = [];
-               Rect.boxes = [];
-               Arrow.ArrowArray = [];
-               Node.NodeArray = [];
-               Link.LinkArray = [];
-               Link.prevArray = [];
-               ll =[];
+    const toggleMenu = (show) => {
+      try {
+        if (show) {
+          operationButton.enableButton();
+          canvas.resetButton.enableButton();
+          canvas.pauseButton.disableButton();
+          canvas.playButton.disableButton();
+        } else {
+          operationButton.disableButton();
+          canvas.resetButton.disableButton();
+          canvas.pauseButton.enableButton();
+          canvas.playButton.enableButton();
         }
-        const clearAllInsert = async () => {
-               
-               count = n =  firstllPos = 0 ;  
-               llData = [] ; 
-               orgL = []  ;
-               L1 = null ;  L2 = null ; t = null ;  title1 = null ;  title2 = null ; newLink1 = null ; newLink2 = null ;
-               modifyNodeArray =[] ;
-               modifiedNodeArray = [] ; 
-               ll =[];
-        }
+      } catch (error) {
+        console.warn("Error in toggleMenu:", error);
+      }
+    };
 
-        const menu = async () => {
-             try {
-               clearCanvas(canvas.paper);
-               canvas.resetButton.enableButton();
-               await createButtons();
-               toggleMenu(false);
+    let limit;
+    const action = async () => {
+      try {
+        if (
+          (canvas.currentDevice.device == "mobile" ||
+            canvas.currentDevice.device == "tablet") &&
+          count < canvas.currentDevice.max - 1
+        ) {
+          toggleMenu(false);
+          await execute();
+          toggleMenu(true);
+          limit = canvas.currentDevice.max - 1;
+        } else if (
+          canvas.currentDevice.device == "laptop" &&
+          count < canvas.currentDevice.max - 1
+        ) {
+          toggleMenu(false);
+          await execute();
+          toggleMenu(true);
+          limit = canvas.currentDevice.max - 1;
+        } else {
+          if (count == limit) {
+            count++;
+            await clearPrevData(false);
+            t.text.remove();
+            t.rect.remove();
+            t = drawText({
+              canvas,
+              text: "Initial Linked List ",
+              x: centerX,
+              y: centerY / 2,
+              fontSize: 1.1,
+              color: "#46099c",
+              Return: true,
+            });
 
-               clearAll();
-               clearAllInsert();
-               await initialize();
-
-               toggleMenu(true);
-               initializeClicks();
-             } catch (error) {
-                console.error( error);
-             }
-        };
-
-        const initializeClicks = () => {
-          try{
-           operationButton.addClickAction(action);
-
-          }catch(e){
-          console.log(e)
+            await Node.Linked_List({
+              canvas,
+              ll: ll.slice(0, canvas.currentDevice.UserLength),
+              type: "doubly",
+              purpose: "print",
+              range: [-99, 99],
+              color: "#ff850a",
+            });
+            Node.NodeArray = [];
+            Link.LinkArray = [];
+            Arrow.ArrowArray = [];
+            canvas.drawYPos += canvas.rectHeight * 3;
+            title2 = drawText({
+              canvas,
+              text: "updated Linked List",
+              x: centerX,
+              y: canvas.drawYPos - canvas.rectHeight,
+              fontSize: 1.1,
+              color: "blue",
+              Return: true,
+            });
+            canvas.drawYPos += canvas.rectHeight * 2;
+            await Node.Linked_List({
+              canvas,
+              ll,
+              type: "doubly",
+              purpose: "print",
+              range: [-99, 99],
+              color: "#ff850a",
+            });
           }
-        };
 
-       ( async ()=> {
-            await initialize();
-            canvasFunction( canvas , true);
-            canvas.resetButton.addClickAction( menu);
+          drawText({
+            canvas,
+            text: "Wait....",
+            x: centerX,
+            y: canvas.drawYPos + canvas.rectHeight * 4,
+            color: "green",
+          });
+          await canvas.delay({ time: 500 });
+          drawText({
+            canvas,
+            text: "Cannot Add Node in Linked List \n Because Canvas can't hold That much Element \n \n Create New Linked List 'click' Reset Button ",
+            x: centerX,
+            y: canvas.drawYPos + canvas.rectHeight * 4,
+            color: "red",
+          });
 
-            await createButtons( );
-            initializeClicks();
-       })();
+          operationButton.enableButton();
+        }
+      } catch (error) {
+        console.warn("Error in action:", error);
+        toggleMenu(true);
+      }
+    };
 
+    const clearAll = () => {
+      canvas.drawYPos = centerY;
+      Rect.AllBoxe = [];
+      Rect.boxes = [];
+      Arrow.ArrowArray = [];
+      Node.NodeArray = [];
+      Link.LinkArray = [];
+      Link.prevArray = [];
+      ll = [];
+    };
+    const clearAllInsert = async () => {
+      count = n = firstllPos = 0;
+      llData = [];
+      orgL = [];
+      L1 = null;
+      L2 = null;
+      t = null;
+      title1 = null;
+      title2 = null;
+      newLink1 = null;
+      newLink2 = null;
+      modifyNodeArray = [];
+      modifiedNodeArray = [];
+      ll = [];
+    };
 
+    const menu = async () => {
+      try {
+        clearCanvas(canvas.paper);
+        canvas.resetButton.enableButton();
+        await createButtons();
+        toggleMenu(false);
 
-    } catch (e) {
-        console.error(e);
-    }
+        clearAll();
+        clearAllInsert();
+        await initialize();
+
+        toggleMenu(true);
+        initializeClicks();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const initializeClicks = () => {
+      try {
+        operationButton.addClickAction(action);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+
+    (async () => {
+      await initialize();
+      canvasFunction(canvas, true);
+      canvas.resetButton.addClickAction(menu);
+
+      await createButtons();
+      initializeClicks();
+    })();
+  } catch (e) {
+    console.error(e);
+  }
 }
-
 
 /*
 import {
@@ -934,8 +1141,8 @@ export async function DInsertAtTail(canvas) {
 
 
 
-        console.log("LinkArray")
-        console.log(Link.LinkArray)
+        console.warn("LinkArray")
+        console.warn(Link.LinkArray)
 
 
         if (canvas.abort) {
@@ -976,7 +1183,7 @@ export async function DInsertAtTail(canvas) {
 
     } catch (e) {
 
-        console.log(e);
+        console.warn(e);
     }
 
 

@@ -1,12 +1,9 @@
-
-
-console.log("hi I am queue imports file");
+console.warn("hi I am queue imports file");
 /*
 export { EnQueue  } from './QueueOperation/CodeFiles/Enqueue.js' ;      
 
 export { DeQueue  } from './QueueOperation/CodeFiles/Dequeue.js' ; 
 */
-export { Custom  } from './QueueOperation/CodeFiles/custom.js' ;  
+export { Custom } from "./QueueOperation/CodeFiles/custom.js";
 
-
-console.log("import file completed ")
+console.warn("import file completed ");

@@ -155,7 +155,7 @@ class BitwiseOperation {
         try {
             this.operationButton = createButton({ canvas: this.canvas, x: this.canvas.canvasWidth - this.canvas.rectWidth * 2.25, y: this.canvas.canvasHeight - this.canvas.rectHeight * 1.5, colorCode: 0, textContent: "Binary AND", padding: 10 });
         } catch (error) {
-            console.log("Error in createButtons:", error);
+            console.warn("Error in createButtons:", error);
         }
     }
 
@@ -167,7 +167,7 @@ class BitwiseOperation {
                 this.operationButton.disableButton();
             }
         } catch (error) {
-            console.log("Error in toggleMenu:", error);
+            console.warn("Error in toggleMenu:", error);
         }
     }
 
@@ -188,7 +188,7 @@ class BitwiseOperation {
                 // Completion message logic
             }
         } catch (error) {
-            console.log("Error in action:", error);
+            console.warn("Error in action:", error);
             this.toggleMenu(true);
         }
     }
@@ -197,7 +197,7 @@ class BitwiseOperation {
         try {
             this.operationButton.addClickAction(() => this.action());
         } catch (e) {
-            console.log(e);
+            console.warn(e);
         }
     }
 
@@ -210,7 +210,7 @@ class BitwiseOperation {
             this.initializeClicks();
             this.toggleMenu(true);
         } catch (e) {
-            console.log(e);
+            console.warn(e);
         }
     }
 
@@ -390,7 +390,7 @@ export async function fn({canvas , cont }){
               operationButton  = createButton({ canvas, x : canvas.canvasWidth - canvas.rectWidth *2.25  , y :canvas.canvasHeight - canvas.rectHeight * 1.5   , colorCode :0 , textContent:"Binay AND " , padding : 10 }) 
 
             } catch (error) {
-               console.log("Error in createButtons:", error);
+               console.warn("Error in createButtons:", error);
             }
         };
 
@@ -405,7 +405,7 @@ export async function fn({canvas , cont }){
               }
 
             } catch (error) {
-               console.log("Error in toggleMenu:", error);
+               console.warn("Error in toggleMenu:", error);
             }
        };
        let count = true ;
@@ -429,7 +429,7 @@ export async function fn({canvas , cont }){
                  toggleMenu(true);
               }
             } catch (error) {
-               console.log("Error in action:", error);
+               console.warn("Error in action:", error);
                toggleMenu(true);
             }
         };
@@ -463,7 +463,7 @@ export async function fn({canvas , cont }){
            operationButton.addClickAction(action);
 
           }catch(e){
-          console.log(e)
+          console.warn(e)
           }
         };
 
@@ -480,7 +480,7 @@ export async function fn({canvas , cont }){
        })();
 
    }catch(e){
-      console.log(e);
+      console.warn(e);
    }
 
 }

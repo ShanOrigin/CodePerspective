@@ -1,13 +1,8 @@
-console.log( "Hello World!" );
+export { NumberToBinary } from "./CodeFiles/NumberToBinary.js";
 
-export { NumberToBinary } from './CodeFiles/NumberToBinary.js'
+export { BinaryToNumber } from "./CodeFiles/BinaryToNumber.js";
 
-export { BinaryToNumber } from './CodeFiles/BinaryToNumber.js'
-
-
-
-export { BinaryAND } from './CodeFiles/BinaryAND.js'
-
+export { BinaryAND } from "./CodeFiles/BinaryAND.js";
 
 /*
 export { BinaryOR } from './CodeFiles/BinaryOR.js'

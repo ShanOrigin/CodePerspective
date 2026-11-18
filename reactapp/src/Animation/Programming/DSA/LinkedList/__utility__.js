@@ -1,9 +1,9 @@
-
-
-
 // utilities.js
 
-import { clearCanvas, createButton } from '../../../Source/Utilities/utilities.js';
+import {
+  clearCanvas,
+  createButton,
+} from "../../../Source/Utilities/utilities.js";
 
 const namespace = {};
 
@@ -11,113 +11,118 @@ namespace.canvas = null; // Initialize as needed
 namespace.operationButton = null; // Initialize as needed
 namespace.resetButton = null; // Initialize as needed
 namespace.action = null; // Initialize as needed
-namespace.centerY = null ;
-          namespace.AllBoxe = null
-        namespace.boxes = null
-        namespace.ArrowArray = null
-        namespace.NodeArray = null
-        namespace.LinkArray = null
-        namespace.cnt = null
-        namespace.initialize = null ;
+namespace.centerY = null;
+namespace.AllBoxe = null;
+namespace.boxes = null;
+namespace.ArrowArray = null;
+namespace.NodeArray = null;
+namespace.LinkArray = null;
+namespace.cnt = null;
+namespace.initialize = null;
 namespace.createButtons = () => {
-    try {
-        let { canvas } = namespace; // Destructure from namespace object
+  try {
+    let { canvas } = namespace; // Destructure from namespace object
 
-        const btn1 = createButton({
-            canvas,
-            x: canvas.canvasWidth - canvas.rectWidth * 1.25,
-            y: canvas.canvasHeight * 0.75,
-            colorCode: 2,
-            textContent: "Reverse Linked List",
-            maxWidth: 0, // placeholder
-            padding: 10
-        });
+    const btn1 = createButton({
+      canvas,
+      x: canvas.canvasWidth - canvas.rectWidth * 1.25,
+      y: canvas.canvasHeight * 0.75,
+      colorCode: 2,
+      textContent: "Reverse Linked List",
+      maxWidth: 0, // placeholder
+      padding: 10,
+    });
 
-       const btn2 = createButton({
-            canvas,
-            x: canvas.canvasWidth - canvas.rectWidth * 1.25,
-            y: canvas.canvasHeight * 0.83,
-            colorCode: 1,
-            textContent: "New Linked List",
-            maxWidth: btn1.maxWidth, // use the maxWidth from btn1
-            padding: 10
-        });
+    const btn2 = createButton({
+      canvas,
+      x: canvas.canvasWidth - canvas.rectWidth * 1.25,
+      y: canvas.canvasHeight * 0.83,
+      colorCode: 1,
+      textContent: "New Linked List",
+      maxWidth: btn1.maxWidth, // use the maxWidth from btn1
+      padding: 10,
+    });
 
-        console.log("Buttons created:");
-        //console.log(btn1, btn2);
-        
-        return { btn1, btn2};
+    console.warn("Buttons created:");
+    //console.warn(btn1, btn2);
 
-    } catch (error) {
-        console.log("Error in createButtons:", error);
-        return { btn1: null, btn2: null }; // Handle error gracefully
-    }
+    return { btn1, btn2 };
+  } catch (error) {
+    console.warn("Error in createButtons:", error);
+    return { btn1: null, btn2: null }; // Handle error gracefully
+  }
 };
 
 namespace.toggleMenu = (show) => {
-    try {
-        const { operationButton, resetButton } = namespace; // Destructure from namespace object
+  try {
+    const { operationButton, resetButton } = namespace; // Destructure from namespace object
 
-        if (show) {
-            operationButton.enableButton();
-            resetButton.enableButton();
-        } else {
-            operationButton.disableButton();
-            resetButton.disableButton();
-        }
-    } catch (error) {
-        console.log("Error in toggleMenu:", error);
+    if (show) {
+      operationButton.enableButton();
+      resetButton.enableButton();
+    } else {
+      operationButton.disableButton();
+      resetButton.disableButton();
     }
+  } catch (error) {
+    console.warn("Error in toggleMenu:", error);
+  }
 };
 
 namespace.menu = async () => {
-    try {
-        let  { canvas,AllBoxe , ArrowArray , boxes , initialize , cnt ,LinkArray , NodeArray} = namespace; // Destructure from namespace object
+  try {
+    let {
+      canvas,
+      AllBoxe,
+      ArrowArray,
+      boxes,
+      initialize,
+      cnt,
+      LinkArray,
+      NodeArray,
+    } = namespace; // Destructure from namespace object
 
-        clearCanvas(canvas.paper);
+    clearCanvas(canvas.paper);
 
-//        
-        namespace.toggleMenu(false);
+    //
+    namespace.toggleMenu(false);
 
-        canvas.drawYPos = namespace.centerY;
+    canvas.drawYPos = namespace.centerY;
 
-       AllBoxe = [];
-        boxes = [];
-       ArrowArray = [];
-      NodeArray = [];
-        LinkArray = [];
-        cnt = 0;
-        await initialize();
+    AllBoxe = [];
+    boxes = [];
+    ArrowArray = [];
+    NodeArray = [];
+    LinkArray = [];
+    cnt = 0;
+    await initialize();
 
-       namespace.operationButton = null ;
-     namespace.resetButton = null ;
-const { b1 , b2 } = await namespace.createButtons(canvas);
-namespace.operationButton = b1;
-     namespace.resetButton = b2 ;
-       namespace.toggleMenu(true);
-        namespace.initializeClicks();
-
-    } catch (error) {
-        console.error( error);
-    }
+    namespace.operationButton = null;
+    namespace.resetButton = null;
+    const { b1, b2 } = await namespace.createButtons(canvas);
+    namespace.operationButton = b1;
+    namespace.resetButton = b2;
+    namespace.toggleMenu(true);
+    namespace.initializeClicks();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 namespace.initializeClicks = () => {
-    try {
-        const { canvas ,  operationButton, resetButton, action } = namespace; // Destructure from namespace object
-      console.log(namespace)
-        console.log("Initializing clicks with buttons:");
-        console.log(operationButton, resetButton);
-        operationButton.addClickAction(action);
-        resetButton.addClickAction(namespace.menu);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    const { canvas, operationButton, resetButton, action } = namespace; // Destructure from namespace object
+    console.warn(namespace);
+    console.warn("Initializing clicks with buttons:");
+    console.warn(operationButton, resetButton);
+    operationButton.addClickAction(action);
+    resetButton.addClickAction(namespace.menu);
+  } catch (e) {
+    console.warn(e);
+  }
 };
 
 export default namespace;
-
-
 
 /*
 
@@ -149,13 +154,13 @@ namespace.createButtons = (canvas )=> {
             padding: 10
         });
 
-        console.log("Buttons created:");
-        console.log(btn1, btn2);
+        console.warn("Buttons created:");
+        console.warn(btn1, btn2);
 
         return { btn1, btn2 };
 
     } catch (error) {
-        console.log("Error in createButtons:", error);
+        console.warn("Error in createButtons:", error);
         return { btn1: null, btn2: null }; // Handle error gracefully
     }
 };
@@ -170,7 +175,7 @@ namespace.toggleMenu = (show, operationButton, resetButton) => {
             resetButton.disableButton();
         }
     } catch (error) {
-        console.log("Error in toggleMenu:", error);
+        console.warn("Error in toggleMenu:", error);
     }
 };
 
@@ -200,12 +205,12 @@ namespace.menu = async (canvas, operationButton, resetButton , initialize) => {
 
 namespace.initializeClicks = (operationButton, resetButton, action ,canvas , initialize) => {
     try {
-        console.log("Initializing clicks with buttons:");
-        console.log(operationButton, resetButton);
+        console.warn("Initializing clicks with buttons:");
+        console.warn(operationButton, resetButton);
         operationButton.addClickAction(action);
         resetButton.addClickAction(()=>namespace.menu(canvas, operationButton, resetButton , initialize));
     } catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 };
 
@@ -213,7 +218,6 @@ export default namespace;
 
 
 */
-
 
 /*import {clearCanvas, createButton } from '../../../Source/Utilities/utilities.js';
 
@@ -239,12 +243,12 @@ export const createButtons =  (canvas) => {
             padding: 10
         });
 
-        console.log("button are ")
-        console.log(btn1 , btn2)
+        console.warn("button are ")
+        console.warn(btn1 , btn2)
         return { btn1 , btn2 } ;
         
     } catch (error) {
-        console.log("Error in createButtons:", error);
+        console.warn("Error in createButtons:", error);
     }
 };
 
@@ -258,7 +262,7 @@ export const toggleMenu = (show) => {
             resetButton.disableButton();
         }
     } catch (error) {
-        console.log("Error in toggleMenu:", error);
+        console.warn("Error in toggleMenu:", error);
     }
 };
 
@@ -287,12 +291,12 @@ export const menu = async () => {
 
 export const initializeClicks = (operationButton , resetButton , action) => {
     try {
-        console.log(operationButton);
-        console.log(resetButton);
+        console.warn(operationButton);
+        console.warn(resetButton);
         operationButton.addClickAction(action);
         resetButton.addClickAction(menu);
     } catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 };
 

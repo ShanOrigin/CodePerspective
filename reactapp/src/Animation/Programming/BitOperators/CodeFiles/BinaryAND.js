@@ -1,14 +1,13 @@
-
-import{fn } from '../__utils__.js'
+import { fn } from "../__utils__.js";
 
 /*
 import { Rect, Arrow, Comparator } from '../../../Source/Components/Components.js';
 import { drawText, waitForLength, clearCanvas , canvasFunction , remove , createButton , truthTable } from '../../../Source/Utilities/utilities.js';
 
 */
-export async function BinaryAND({canvas}){
-   await fn({canvas , cont:"|"});
-/*
+export async function BinaryAND({ canvas }) {
+  await fn({ canvas, cont: "|" });
+  /*
    try{
 
         canvas.fps = 150 ;
@@ -158,7 +157,7 @@ export async function BinaryAND({canvas}){
               operationButton  = createButton({ canvas, x : canvas.canvasWidth - canvas.rectWidth *2.25  , y :canvas.canvasHeight - canvas.rectHeight * 1.5   , colorCode :0 , textContent:"Binay AND " , padding : 10 }) 
 
             } catch (error) {
-               console.log("Error in createButtons:", error);
+               console.warn("Error in createButtons:", error);
             }
         };
 
@@ -173,7 +172,7 @@ export async function BinaryAND({canvas}){
               }
 
             } catch (error) {
-               console.log("Error in toggleMenu:", error);
+               console.warn("Error in toggleMenu:", error);
             }
        };
        let count = true ;
@@ -197,7 +196,7 @@ export async function BinaryAND({canvas}){
                  toggleMenu(true);
               }
             } catch (error) {
-               console.log("Error in action:", error);
+               console.warn("Error in action:", error);
                toggleMenu(true);
             }
         };
@@ -231,7 +230,7 @@ export async function BinaryAND({canvas}){
            operationButton.addClickAction(action);
 
           }catch(e){
-          console.log(e)
+          console.warn(e)
           }
         };
 
@@ -248,7 +247,7 @@ export async function BinaryAND({canvas}){
        })();
 
    }catch(e){
-      console.log(e);
+      console.warn(e);
    }
 */
 }

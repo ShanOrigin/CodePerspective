@@ -1,4 +1,3 @@
-
 // import {
 //     Rect,
 //     Arrow,
@@ -16,7 +15,7 @@
 //         // Build max heap
 //         for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
 //             if (canvas.abort) {
-//                 console.log("heap sort end");
+//                 console.warn("heap sort end");
 //                 return;
 //             }
 //        Rect.cleanup();
@@ -30,7 +29,7 @@
 //             canvas.drawYPos += canvas.rectHeight * 3;
 //             await Rect.drawArray(canvas, arr, true, true, "array");
 //             if (canvas.abort) {
-//                 console.log("heap sort end");
+//                 console.warn("heap sort end");
 //                 return;
 //             }
 //             await canvas.delay((arr.length + 1) * 200);
@@ -47,7 +46,7 @@
 //             CMP.drawComp(true, true);
 
 //             if (canvas.abort) {
-//                 console.log("heap sort end");
+//                 console.warn("heap sort end");
 //                 return;
 //             }
 //             await canvas.delay(1000);
@@ -55,7 +54,7 @@
 //        await Rect.swapping(Rect.boxes[0], Rect.boxes[i]);
 
 //             if (canvas.abort) {
-//                 console.log("heap sort end");
+//                 console.warn("heap sort end");
 //                 return;
 //             }
 //             await canvas.delay((i) * 850);
@@ -65,14 +64,13 @@
 //             arr[0] = arr[i];
 //             arr[i] = temp;
 
-            
 //             arrow1.clearArrow();
 //             arrow2.clearArrow();
 //             CMP.clearComp();
 
 //             // Call max heapify on the reduced heap
 //             canvas.drawYPos += canvas.rectHeight * 3;
-    
+
 //           //   Rect.cleanup();
 //             Rect.boxes = [];
 //             Rect.AllBox = [];
@@ -80,15 +78,15 @@
 //             await heapify(canvas, arr, i, 0);
 
 //             if (canvas.abort) {
-//                 console.log("heap sort end");
+//                 console.warn("heap sort end");
 //                 return;
 //             }
 //         }
 
-//         console.log("heap sort end successfully");
+//         console.warn("heap sort end successfully");
 //     } catch (error) {
-//         console.log(error);
-//         console.log("heap sort end");
+//         console.warn(error);
+//         console.warn("heap sort end");
 //         return;
 //     }
 //     return arr;
@@ -125,7 +123,6 @@
 
 //         // If left child is larger than root
 //         if (Left < n && arr[Left] > arr[largest]) {
-
 
 //             const compT = `${arr[Left]} > ${arr[largest]}\nShift largest (${largest}) to left (${Left}) place`;
 //             const CMP = new Comparator(Rect.boxes[largest], Rect.boxes[Left], "green", compT);
@@ -192,7 +189,6 @@
 //             arr[i] = arr[largest];
 //             arr[largest] = temp;
 
-            
 //             arrow1.clearArrow();
 //             lrg.clearArrow();
 //             leftC.clearArrow();
@@ -207,12 +203,12 @@
 //             try {
 //                 await heapify(canvas, arr, n, largest);
 //             } catch (error) {
-//                 console.log(error)
+//                 console.warn(error)
 //             }
 
 //        await Rect.drawArray(canvas, arr, true, true, "array");
 //             if (canvas.abort) {
-//                 console.log("shellsort sort end");
+//                 console.warn("shellsort sort end");
 //                 return;
 //             }
 //             await canvas.delay((arr.length + 1) * 200);
@@ -224,10 +220,9 @@
 //             lrg.clearArrow();
 //         }
 
-        
 //     } catch (error) {
-//         console.log(error);
-//         console.log("heap sort end");
+//         console.warn(error);
+//         console.warn("heap sort end");
 //         return;
 //     }
 // }

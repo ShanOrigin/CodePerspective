@@ -1,70 +1,73 @@
 let D3 = [
-    [
-        [1, 2 , 3 ],
-        [4, 5 , 6 ],
-        [7, 8 , 9 ]
-    ],
-    [
-        [10, 11 , 12 ],
-        [13, 14 , 15 ],
-        [16, 17 , 18 ]
-    ],
-    [
-        [19, 20 , 21 ],
-        [22, 23 , 24 ],
-        [25, 26 , 27 ]
-    ]
+  [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ],
+  [
+    [10, 11, 12],
+    [13, 14, 15],
+    [16, 17, 18],
+  ],
+  [
+    [19, 20, 21],
+    [22, 23, 24],
+    [25, 26, 27],
+  ],
 ];
 
 //let D3 = [ [[2 , 3 ]] , [[5,6]] , [[7 ,8]]]
 
 async function createArray3D(array3D) {
+  try {
+    let ABoxesArray = [],
+      ABoxesTextArray = [],
+      ABoxesIndTextArray = [],
+      createdArrayAP = [],
+      inputAP = [];
 
+    const array1D = array3D.flat();
 
-    try {
-        let ABoxesArray = [],
-            ABoxesTextArray = [],
-            ABoxesIndTextArray = [],
-            createdArrayAP = [],
-            inputAP = [];
+    let centerX = canvasWidth / 2;
+    let centerY = yPos - yPos * 0.7;
 
+    paper.text(centerX, centerY, "User Data").attr({
+      "font-size": cfontSize * 2,
+      fill: "#46099c",
+    });
 
-        const array1D = array3D.flat();
+    yPos += rectHeight * 0.5;
 
+    //ArrayC(paper, array1D, pass = -1, text = false, color = "#0fb1d1", sort = true);
 
-        let centerX = canvasWidth / 2;
-        let centerY = yPos - yPos * 0.7;
+    await delay((array1D.length + 1) * 200);
 
-        paper.text(centerX, centerY, "User Data").attr({
-            "font-size": cfontSize * 2,
-            fill: "#46099c"
-        });
+    yPos += rectHeight * 4;
 
-        yPos += rectHeight * 0.5;
+    paper
+      .text(centerX, yPos * 0.75, "Let's Create Two Dimensional Array ")
+      .attr({
+        "font-size": cfontSize * 1.6,
+        fill: "blue",
+      });
+    await delay(700);
 
-        //ArrayC(paper, array1D, pass = -1, text = false, color = "#0fb1d1", sort = true);
+    yPos += rectHeight * 1.5;
 
+    // Array2D(paper, array2D, index = true, text = false, sort = true, color = "#0fb1d1",setPos = true ,  BA = ABoxesArray, BTA = ABoxesTextArray, BITA = ABoxesIndTextArray, arrayAP = inputAP);
+    Array3D(
+      paper,
+      array3D,
+      (index = true),
+      (text = true),
+      (sort = true),
+      (color = "#0fb1d1"),
+      (setPos = true),
+    );
 
-        await delay((array1D.length + 1) * 200);
+    await delay((array3D.length + array3D[0].length) * 250);
 
-
-        yPos += rectHeight * 4;
-
-
-        paper.text(centerX, yPos * 0.75, "Let's Create Two Dimensional Array ").attr({
-            "font-size": cfontSize * 1.6,
-            fill: "blue"
-        });
-        await delay(700);
-
-        yPos += rectHeight * 1.5;
-
-       // Array2D(paper, array2D, index = true, text = false, sort = true, color = "#0fb1d1",setPos = true ,  BA = ABoxesArray, BTA = ABoxesTextArray, BITA = ABoxesIndTextArray, arrayAP = inputAP);
-       Array3D(paper, array3D, index = true, text = true, sort = true, color = "#0fb1d1", setPos = true );
-
-        await delay((array3D.length + array3D[0].length) * 250);
-
-/*
+    /*
 
         const numRows = array2D.length;
         const numCols = array2D[0].length;
@@ -97,11 +100,11 @@ async function createArray3D(array3D) {
 
                 await delay(500);
 
-                console.log(" 2D arrow")
-                console.log("AA")
-                console.log(ArrowArray)
-                console.log("ATA")
-                console.log(ArrowTextArray)
+                console.warn(" 2D arrow")
+                console.warn("AA")
+                console.warn(ArrowArray)
+                console.warn("ATA")
+                console.warn(ArrowTextArray)
 
 
                 if (ABoxesArray[i][j]) {
@@ -120,7 +123,7 @@ async function createArray3D(array3D) {
 
                 if (abort) {
                     cleanup();
-                    console.log("count sort end")
+                    console.warn("count sort end")
                     //abort = false;
                     return
                 }
@@ -132,7 +135,7 @@ async function createArray3D(array3D) {
 
                 if (abort) {
                     cleanup();
-                    console.log("count sort end")
+                    console.warn("count sort end")
                     //abort = false;
                     return
                 }
@@ -145,7 +148,7 @@ async function createArray3D(array3D) {
 
                 if (abort) {
                     cleanup();
-                    console.log("count sort end")
+                    console.warn("count sort end")
                     //abort = false;
                     return
                 }
@@ -171,11 +174,7 @@ async function createArray3D(array3D) {
 
 }
 */
-
-        
-
-    } catch (e) {
-        console.log(e)
-    }
-
+  } catch (e) {
+    console.warn(e);
+  }
 }
