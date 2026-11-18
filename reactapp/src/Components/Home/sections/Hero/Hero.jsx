@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+
+import { useState, useEffect, useRef } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 import styles from './Hero.module.css'
@@ -12,133 +13,200 @@ const HERO_LINES = [
   'PersPective',
 ]
 
+const GRADIENT_DIRECTIONS = [
+  'to bottom right',
+  'to bottom left',
+  'to top right',
+  'to top left',
+  'to right',
+  'to left',
+  'to bottom',
+  'to top',
+]
+
+const GRADIENT_HUES = [
+  190, 210, 235, 260, 280,
+  310, 335, 355, 165, 220,
+]
+
 /**
- * Controlled Random Gradient Generator
- * Generates high-contrast, harmonious linear gradients per character
- * Theme-aware: light mode uses deep rich tones; dark mode uses luminous bright tones.
+ * Generates one shared gradient for an entire typing cycle.
+ *
+ * Every character receives the same gradient colors and direction.
+ * The next cycle uses a different color family and direction.
+ *
+ * Light theme: rich, dark colors.
+ * Dark theme: bright, luminous colors.
  */
-function generateRandomGradients(count) {
-  const hues = [190, 210, 235, 260, 280, 310, 335, 355, 165, 220]
-  const gradients = []
+function generateCycleGradient(previousGradient = null) {
+  // Avoid repeating the previous direction.
+  const availableDirections = GRADIENT_DIRECTIONS.filter(
+    (direction) => direction !== previousGradient?.direction
+  )
 
-  for (let i = 0; i < count; i++) {
-    // Pick a base hue with random jitter
-    const baseHue = hues[Math.floor(Math.random() * hues.length)]
-    const hue1 = (baseHue + Math.floor(Math.random() * 25) - 12 + 360) % 360
-    const hue2 = (hue1 + 25 + Math.floor(Math.random() * 30)) % 360
-    const angle = 125 + Math.floor(Math.random() * 30) // 125deg - 155deg
+  const direction =
+    availableDirections[
+      Math.floor(Math.random() * availableDirections.length)
+    ]
 
-    // Light theme values (rich, dark contrast: L ~ 30-44%)
-    const satLight = 80 + Math.floor(Math.random() * 15)
-    const light1 = 32 + Math.floor(Math.random() * 12)
-    const light2 = 28 + Math.floor(Math.random() * 10)
-    const lightGrad = `linear-gradient(${angle}deg, hsl(${hue1}, ${satLight}%, ${light1}%), hsl(${hue2}, ${satLight}%, ${light2}%))`
+  // Avoid repeating the previous base hue.
+  const availableHues = GRADIENT_HUES.filter(
+    (hue) => hue !== previousGradient?.baseHue
+  )
 
-    // Dark theme values (vivid, luminous glow: L ~ 65-78%)
-    const satDark = 85 + Math.floor(Math.random() * 15)
-    const darkL1 = 66 + Math.floor(Math.random() * 12)
-    const darkL2 = 72 + Math.floor(Math.random() * 10)
-    const darkGrad = `linear-gradient(${angle}deg, hsl(${hue1}, ${satDark}%, ${darkL1}%), hsl(${hue2}, ${satDark}%, ${darkL2}%))`
+  const baseHue =
+    availableHues[Math.floor(Math.random() * availableHues.length)]
 
-    gradients.push({ light: lightGrad, dark: darkGrad })
+  const hue1 =
+    (baseHue + Math.floor(Math.random() * 25) - 12 + 360) % 360
+
+  const hue2 =
+    (hue1 + 25 + Math.floor(Math.random() * 30)) % 360
+
+  // Light theme: rich, dark colors.
+  const satLight = 80 + Math.floor(Math.random() * 15)
+  const light1 = 32 + Math.floor(Math.random() * 12)
+  const light2 = 28 + Math.floor(Math.random() * 10)
+
+  const light = `linear-gradient(${direction}, hsl(${hue1}, ${satLight}%, ${light1}%), hsl(${hue2}, ${satLight}%, ${light2}%))`
+
+  // Dark theme: vivid, luminous colors.
+  const satDark = 85 + Math.floor(Math.random() * 15)
+  const darkL1 = 66 + Math.floor(Math.random() * 12)
+  const darkL2 = 72 + Math.floor(Math.random() * 10)
+
+  const dark = `linear-gradient(${direction}, hsl(${hue1}, ${satDark}%, ${darkL1}%), hsl(${hue2}, ${satDark}%, ${darkL2}%))`
+
+  return {
+    light,
+    dark,
+    direction,
+    baseHue,
   }
-
-  return gradients
 }
 
 export default function Hero() {
   const [typedCharsCount, setTypedCharsCount] = useState(0)
   const [activeSlide, setActiveSlide] = useState(0)
   const [visualizerLog, setVisualizerLog] = useState('Initializing graph...')
-  const [gradientCycle, setGradientCycle] = useState(0)
+
+  // One gradient shared by every character during the current cycle.
+  const [cycleGradient, setCycleGradient] = useState(
+    () => generateCycleGradient()
+  )
+
   const touchStartX = useRef(null)
 
-  const totalChars = HERO_LINES.reduce((sum, line) => sum + line.length, 0)
+  const totalChars = HERO_LINES.reduce(
+    (sum, line) => sum + line.length,
+    0
+  )
 
-  // Generate random gradients once per cycle (stays stable during typing)
-  const charGradients = useMemo(() => {
-    return generateRandomGradients(totalChars + 5)
-  }, [gradientCycle, totalChars])
-
-  // Character-by-character typing animation
+  // Character-by-character typing animation.
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const mediaQuery = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    )
+
     if (mediaQuery.matches) {
       setTypedCharsCount(totalChars)
       return
     }
 
     let timer
+
     if (typedCharsCount < totalChars) {
+      // Reveal the next character.
       timer = setTimeout(() => {
         setTypedCharsCount((prev) => prev + 1)
       }, 70)
     } else {
-      // Pause at fully typed state, then cycle with fresh randomized gradients
+      // Wait after completing all four lines.
       timer = setTimeout(() => {
         setTypedCharsCount(0)
-        setGradientCycle((prev) => prev + 1)
+
+        // Generate a completely new gradient for the next cycle.
+        setCycleGradient((previousGradient) =>
+          generateCycleGradient(previousGradient)
+        )
       }, 5500)
     }
 
     return () => clearTimeout(timer)
   }, [typedCharsCount, totalChars])
 
-  // Compute characters mapping
+  // Map characters to their corresponding lines.
   let globalCharCounter = 0
   let charsRemaining = typedCharsCount
 
   const renderedLines = HERO_LINES.map((line, lineIndex) => {
     const lineChars = []
+
     for (let i = 0; i < line.length; i++) {
       const char = line[i]
       const currentGlobalIdx = globalCharCounter++
+
       const isVisible = charsRemaining > 0
-      if (isVisible) charsRemaining--
+
+      if (isVisible) {
+        charsRemaining--
+      }
 
       lineChars.push({
         char,
         isVisible,
         globalIndex: currentGlobalIdx,
         isSpace: char === ' ',
-        gradient: charGradients[currentGlobalIdx] || charGradients[0],
       })
     }
 
     const isLineActive =
       lineChars.some((c) => c.isVisible) &&
-      (lineChars.some((c) => !c.isVisible) ||
-        (lineIndex === HERO_LINES.length - 1 && charsRemaining === 0))
+      (
+        lineChars.some((c) => !c.isVisible) ||
+        (
+          lineIndex === HERO_LINES.length - 1 &&
+          charsRemaining === 0
+        )
+      )
 
     return {
       chars: lineChars,
       showCursor: isLineActive,
-      isSpecialLine: lineIndex === 3, // "PersPective"
+      isSpecialLine: lineIndex === 3,
     }
   })
 
-  // Carousel Slides
+  // Carousel slides.
   const slides = [
     {
       id: 'dijkstra',
       tag: 'Graph Algorithm',
       title: "Dijkstra's Shortest Path",
-      render: () => <HeroVisualizer onLogUpdate={setVisualizerLog} />,
+      render: () => (
+        <HeroVisualizer onLogUpdate={setVisualizerLog} />
+      ),
     },
     {
       id: 'binary_search',
       tag: 'Search Algorithm',
       title: 'Binary Search (Array)',
-      render: () => <BinarySearchVisualizer onLogUpdate={setVisualizerLog} />,
+      render: () => (
+        <BinarySearchVisualizer onLogUpdate={setVisualizerLog} />
+      ),
     },
   ]
 
   const handlePrevSlide = () => {
-    setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
+    setActiveSlide((prev) =>
+      prev === 0 ? slides.length - 1 : prev - 1
+    )
   }
 
   const handleNextSlide = () => {
-    setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
+    setActiveSlide((prev) =>
+      prev === slides.length - 1 ? 0 : prev + 1
+    )
   }
 
   const handleTouchStart = (e) => {
@@ -147,58 +215,90 @@ export default function Hero() {
 
   const handleTouchEnd = (e) => {
     if (touchStartX.current === null) return
-    const diffX = touchStartX.current - e.changedTouches[0].clientX
+
+    const diffX =
+      touchStartX.current - e.changedTouches[0].clientX
+
     if (Math.abs(diffX) > 40) {
-      if (diffX > 0) handleNextSlide()
-      else handlePrevSlide()
+      if (diffX > 0) {
+        handleNextSlide()
+      } else {
+        handlePrevSlide()
+      }
     }
+
     touchStartX.current = null
   }
 
   return (
-    <section className={styles.heroSection} aria-label="Hero Introduction">
+    <section
+      className={styles.heroSection}
+      aria-label="Hero Introduction"
+    >
       <div className={styles.heroContainer}>
+
         {/* Left Hero Content (~40%) */}
         <div className={styles.heroLeft}>
-          <div className={styles.headingWrapper} role="heading" aria-level="1">
+          <div
+            className={styles.headingWrapper}
+            role="heading"
+            aria-level="1"
+          >
             {renderedLines.map((lineData, lineIdx) => (
               <div
                 key={lineIdx}
                 className={`${styles.heroLine} ${
-                  lineData.isSpecialLine ? styles.heroLineSpecial : ''
+                  lineData.isSpecialLine
+                    ? styles.heroLineSpecial
+                    : ''
                 }`}
               >
                 {lineData.chars.map((item, charIdx) => {
                   if (!item.isVisible) return null
+
                   if (item.isSpace) {
-                    return <span key={charIdx} className={styles.heroSpace}>&nbsp;</span>
+                    return (
+                      <span
+                        key={charIdx}
+                        className={styles.heroSpace}
+                      >
+                        &nbsp;
+                      </span>
+                    )
                   }
 
                   return (
                     <span
                       key={charIdx}
                       className={`${styles.heroChar} ${
-                        lineData.isSpecialLine ? styles.perspectiveChar : ''
+                        lineData.isSpecialLine
+                          ? styles.perspectiveChar
+                          : ''
                       }`}
                       style={{
-                        '--char-grad-light': item.gradient.light,
-                        '--char-grad-dark': item.gradient.dark,
+                        '--char-grad-light': cycleGradient.light,
+                        '--char-grad-dark': cycleGradient.dark,
                       }}
                     >
                       {item.char}
                     </span>
                   )
                 })}
+
                 {lineData.showCursor && (
-                  <span className={styles.cursor} aria-hidden="true" />
+                  <span
+                    className={styles.cursor}
+                    aria-hidden="true"
+                  />
                 )}
               </div>
             ))}
           </div>
 
           <p className={styles.heroSubtitle}>
-            CodePerspective transforms complex programming concepts, abstract algorithms,
-            and data structures into clear, step-by-step visual experiences. Explore the logic
+            CodePerspective transforms complex programming concepts,
+            abstract algorithms, and data structures into clear,
+            step-by-step visual experiences. Explore the logic
             behind the code in real-time.
           </p>
         </div>
@@ -213,8 +313,13 @@ export default function Hero() {
             {/* Header with Carousel Navigation */}
             <div className={styles.visualizerHeader}>
               <div className={styles.visualizerMeta}>
-                <span className={styles.algoTag}>{slides[activeSlide].tag}</span>
-                <span className={styles.algoTitle}>{slides[activeSlide].title}</span>
+                <span className={styles.algoTag}>
+                  {slides[activeSlide].tag}
+                </span>
+
+                <span className={styles.algoTitle}>
+                  {slides[activeSlide].title}
+                </span>
               </div>
 
               <div className={styles.carouselNav}>
@@ -234,7 +339,9 @@ export default function Hero() {
                       key={dotIdx}
                       type="button"
                       className={`${styles.dot} ${
-                        activeSlide === dotIdx ? styles.activeDot : ''
+                        activeSlide === dotIdx
+                          ? styles.activeDot
+                          : ''
                       }`}
                       onClick={() => setActiveSlide(dotIdx)}
                       aria-label={`Switch to slide ${dotIdx + 1}`}
@@ -258,12 +365,19 @@ export default function Hero() {
             <div className={styles.carouselTrack}>
               <div
                 className={styles.carouselSlideContainer}
-                style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+                style={{
+                  transform: `translateX(-${activeSlide * 100}%)`,
+                }}
               >
                 {slides.map((slide, idx) => (
-                  <div key={slide.id} className={styles.carouselSlide}>
+                  <div
+                    key={slide.id}
+                    className={styles.carouselSlide}
+                  >
                     <div className={styles.svgWrapper}>
-                      {activeSlide === idx ? slide.render() : null}
+                      {activeSlide === idx
+                        ? slide.render()
+                        : null}
                     </div>
                   </div>
                 ))}
@@ -272,8 +386,13 @@ export default function Hero() {
 
             {/* Footer with active status */}
             <div className={styles.visualizerFooter}>
-              <span className={styles.footerLabel}>Status:</span>
-              <span className={styles.stepLog}>{visualizerLog}</span>
+              <span className={styles.footerLabel}>
+                Status:
+              </span>
+
+              <span className={styles.stepLog}>
+                {visualizerLog}
+              </span>
             </div>
           </div>
         </div>
