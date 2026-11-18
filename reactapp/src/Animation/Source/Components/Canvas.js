@@ -1,90 +1,90 @@
-export const grids = []
+export const grids = [];
 
 export class CanvasHandler {
   constructor() {
-    this.resetButton = null
-    this.playButton = null
-    this.pauseButton = null
-    this.bg = null
-    this.currentDevice = { min: 0, max: 0, UserLength: 0, device: null }
-    this.canvasID = ''
-    this.paper = null
-    this.canvasExists = false
-    this.backgroundColor = '#e0e0e0'
-    this.abort = false
-    this.isPaused = false
-    this.fps = 90
+    this.resetButton = null;
+    this.playButton = null;
+    this.pauseButton = null;
+    this.bg = null;
+    this.currentDevice = { min: 0, max: 0, UserLength: 0, device: null };
+    this.canvasID = "";
+    this.paper = null;
+    this.canvasExists = false;
+    this.backgroundColor = "#e0e0e0";
+    this.abort = false;
+    this.isPaused = false;
+    this.fps = 90;
 
-    this.canvasWidth = 0
-    this.canvasHeight = 0
-    this.drawXPos = 0
-    this.drawYPos = 0
+    this.canvasWidth = 0;
+    this.canvasHeight = 0;
+    this.drawXPos = 0;
+    this.drawYPos = 0;
 
-    this.rectWidth = 0
-    this.rectHeight = 0
-    this.nextPos = 0
-    this.rectRadius = 0
-    this.cfontSize = 0
-    this.ifontSize = 0
-    this.comfontSize = 0
-    this.afontSize = 0
+    this.rectWidth = 0;
+    this.rectHeight = 0;
+    this.nextPos = 0;
+    this.rectRadius = 0;
+    this.cfontSize = 0;
+    this.ifontSize = 0;
+    this.comfontSize = 0;
+    this.afontSize = 0;
   }
 
   async fetchConfigData(filePath) {
     try {
-      const response = await fetch(filePath)
+      const response = await fetch(filePath);
       if (!response.ok) {
-        //;//console.log(`Failed to fetch config file: ${response.status} ${response.statusText}`);
-        return null
+        //;//console.warn(`Failed to fetch config file: ${response.status} ${response.statusText}`);
+        return null;
       }
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        //;//console.log(`Expected JSON response but got ${contentType}`);
-        return null
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        //;//console.warn(`Expected JSON response but got ${contentType}`);
+        return null;
       }
-      const configText = await response.text()
-      return JSON.parse(configText)
+      const configText = await response.text();
+      return JSON.parse(configText);
     } catch (error) {
-      console.log(error)
-      return null
+      console.warn(error);
+      return null;
     }
   }
 
   async applyConfigurations({ fileName, structureType }) {
     try {
-      //console.log("Applying configuration for current animation");
+      //console.warn("Applying configuration for current animation");
 
-      let configData = await this.tryLoadConfig(fileName)
+      let configData = await this.tryLoadConfig(fileName);
       if (!configData) {
-        configData = this.getFallbackConfig(fileName) //console.log("Configuration applied through default data");
+        configData = this.getFallbackConfig(fileName); //console.warn("Configuration applied through default data");
       }
 
-      this.setCanvasProperties(configData, structureType) //console.log("Configuration applied successfully");
+      this.setCanvasProperties(configData, structureType); //console.warn("Configuration applied successfully");
     } catch (error) {
-      //console.log(error);
+      //console.warn(error);
     }
   }
 
   async tryLoadConfig(fileName) {
     try {
-      const pathToJson = `../Configurations/${fileName}.json`
-      const config = await import(pathToJson)
-      if (config); //console.log("Configuration applied through json file");
-      return config
+      const pathToJson = `../Configurations/${fileName}.json`;
+      const config = await import(pathToJson);
+      if (config); //console.warn("Configuration applied through json file");
+      return config;
     } catch (error) {
-      //console.log("Failed to load JSON config file:", error);
+      //console.warn("Failed to load JSON config file:", error);
     }
     /*
         try {
             const pathToTxt = `../Configurations/${fileName}.txt`;
             const config = await this.fetchConfigData(pathToTxt);
-            if (config)console.log("Configuration applied through txt file ");
+            if (config)console.warn("Configuration applied through txt file ");
             return config
         } catch (error) {
-            console.log( error);
+            console.warn( error);
         }
 */
-    return null
+    return null;
   }
 
   getFallbackConfig(fileName) {
@@ -117,7 +117,7 @@ export class CanvasHandler {
         },
         canvas: {
           defaultWidth: 0.99,
-          device: 'mobile',
+          device: "mobile",
           drawYPosFactor: 0.1,
           rectRadius: 5,
           fontSize: {
@@ -156,7 +156,7 @@ export class CanvasHandler {
         },
         canvas: {
           defaultWidth: 0.6,
-          device: 'tablet',
+          device: "tablet",
           drawYPosFactor: 0.1,
           rectRadius: 5,
           fontSize: {
@@ -195,7 +195,7 @@ export class CanvasHandler {
         },
         canvas: {
           defaultWidth: 0.6,
-          device: 'laptop',
+          device: "laptop",
           drawYPosFactor: 0.1,
           rectRadius: 9,
           fontSize: {
@@ -207,71 +207,71 @@ export class CanvasHandler {
           ScreenConfig: { minSize: 1024, maxSize: Infinity },
         },
       },
-    }
+    };
 
-    return configs[fileName] || {}
+    return configs[fileName] || {};
   }
 
   setCanvasProperties(configData, structureType) {
-    console.log(' cofig data for ', structureType, ' : ', configData)
-    const width = window.innerWidth
+    console.warn(" cofig data for ", structureType, " : ", configData);
+    const width = window.innerWidth;
 
-    this.canvasWidth = width * configData.canvas.defaultWidth
-    this.drawXPos = 0
-    this.drawYPos = this.canvasWidth * configData.canvas.drawYPosFactor
-    this.rectRadius = configData.canvas.rectRadius
-    this.currentDevice.device = configData.canvas.device
+    this.canvasWidth = width * configData.canvas.defaultWidth;
+    this.drawXPos = 0;
+    this.drawYPos = this.canvasWidth * configData.canvas.drawYPosFactor;
+    this.rectRadius = configData.canvas.rectRadius;
+    this.currentDevice.device = configData.canvas.device;
     const { cfontSize, ifontSize, comfontSize, afontSize } =
-      configData.canvas.fontSize
-    this.cfontSize = cfontSize
-    this.ifontSize = ifontSize
-    this.comfontSize = comfontSize
-    this.afontSize = afontSize
+      configData.canvas.fontSize;
+    this.cfontSize = cfontSize;
+    this.ifontSize = ifontSize;
+    this.comfontSize = comfontSize;
+    this.afontSize = afontSize;
 
-    const typeConfig = configData.types[structureType] || configData.default
+    const typeConfig = configData.types[structureType] || configData.default;
 
-    console.log(' typeConfig : ', typeConfig, typeConfig.rectHeight)
-    this.rectWidth = typeConfig.rectWidth
-    this.rectHeight = typeConfig.rectHeight
-    this.nextPos = typeConfig.nextPos
-    this.currentDevice.min = typeConfig.min
-    this.currentDevice.max = typeConfig.max
+    console.warn(" typeConfig : ", typeConfig, typeConfig.rectHeight);
+    this.rectWidth = typeConfig.rectWidth;
+    this.rectHeight = typeConfig.rectHeight;
+    this.nextPos = typeConfig.nextPos;
+    this.currentDevice.min = typeConfig.min;
+    this.currentDevice.max = typeConfig.max;
   }
 
   async selectConfiguration({ structureType }) {
     try {
-      const width = window.innerWidth
+      const width = window.innerWidth;
 
-      console.log(' creting canvas in Canvas : ', structureType)
+      console.warn(" creting canvas in Canvas : ", structureType);
 
       if (width < 525) {
-        //console.log("requested configuration is mobile");
+        //console.warn("requested configuration is mobile");
 
         await this.applyConfigurations({
-          fileName: 'mobileScreenConfig',
+          fileName: "mobileScreenConfig",
           structureType: structureType,
-        })
+        });
       } else if (width > 525 && width < 800) {
-        //console.log("requested configuration is for tablet  device");
+        //console.warn("requested configuration is for tablet  device");
         await this.applyConfigurations({
-          fileName: 'tabletScreenConfig',
+          fileName: "tabletScreenConfig",
           structureType: structureType,
-        })
+        });
       } else if (width > 800) {
-        //console.log("requested configuration is for laptop or greater than device");
+        //console.warn("requested configuration is for laptop or greater than device");
         await this.applyConfigurations({
-          fileName: 'laptop_GreaterScreenConfig',
+          fileName: "laptop_GreaterScreenConfig",
           structureType: structureType,
-        })
-      } //console.log("selected configuration applied successful");
+        });
+      } //console.warn("selected configuration applied successful");
     } catch (error) {
-      //console.log(error);
+      //console.warn(error);
     }
   }
 
   async setCanvasHeight({ ArrayLength, functorName }) {
     try {
-      //console.log("setting Canvas height start");
+      //console.warn("setting Canvas height start");
       const heightMultipliers = {
         CountSort: 5.5,
         RadixSort: 5.5,
@@ -333,50 +333,51 @@ export class CanvasHandler {
         BinaryXOR: 7,
         BinaryLeftShit: 7,
         BinaryRightShift: 7,
-      }
+      };
 
       if (functorName in heightMultipliers) {
-        //console.log("Canvas height is being set by height multipliers");
-        this.canvasHeight = this.rectHeight * 3 * heightMultipliers[functorName]
+        //console.warn("Canvas height is being set by height multipliers");
+        this.canvasHeight =
+          this.rectHeight * 3 * heightMultipliers[functorName];
       } else {
-        //console.log("Canvas height is being saved by array length");
-        this.canvasHeight = this.rectHeight * 3 * 5
+        //console.warn("Canvas height is being saved by array length");
+        this.canvasHeight = this.rectHeight * 3 * 5;
       }
       /*
   else if (ArrayLength > 0) {
-                ;//console.log("Canvas height is being saved by array length");
+                ;//console.warn("Canvas height is being saved by array length");
                 this.canvasHeight = (this.rectHeight * 3) * (ArrayLength + 0.5 );
 
 
             } else {
-                ;//console.log("something going wrong while setting Canvas height")
+                ;//console.warn("something going wrong while setting Canvas height")
             }
-*/ //console.log("Canvas height is set successfully");
+*/ //console.warn("Canvas height is set successfully");
     } catch (error) {
-      //console.log(error);
+      //console.warn(error);
     }
   }
 
   async createCanvas({ canvasID, structureType, functorName, ArrayLength }) {
     try {
-      await this.selectConfiguration({ structureType })
-      this.currentDevice.UserLength = ArrayLength
-      await this.setCanvasHeight({ ArrayLength, functorName })
+      await this.selectConfiguration({ structureType });
+      this.currentDevice.UserLength = ArrayLength;
+      await this.setCanvasHeight({ ArrayLength, functorName });
 
-      this.canvasID = canvasID
-      this.abort = false
-      this.paper = Raphael(canvasID, this.canvasWidth, this.canvasHeight)
+      this.canvasID = canvasID;
+      this.abort = false;
+      this.paper = Raphael(canvasID, this.canvasWidth, this.canvasHeight);
 
       this.bg = this.paper
         .rect(0, 0, this.canvasWidth, this.canvasHeight)
         .attr({
           fill: this.backgroundColor,
           stroke: 0,
-        })
+        });
 
-      this.bg.id = 'background'
-      const Element = document.getElementById(canvasID)
-      Element.appendChild(this.paper.canvas)
+      this.bg.id = "background";
+      const Element = document.getElementById(canvasID);
+      Element.appendChild(this.paper.canvas);
 
       /*
         const createButton = (id, x, y, color, text) => {
@@ -403,95 +404,95 @@ export class CanvasHandler {
         const { button: playButton, buttonText: playText } = createButton('play', this.canvasWidth - this.rectWidth *1.7, 5 , '#00FF00', 'Resume');
         const { button: pauseButton, buttonText: pauseText } = createButton('pause', this.canvasWidth - this.rectWidth *1.7 , this.rectHeight*1.02, '#FF0000', 'Pause');
 
-        playButton.click(() => { this.isPaused = false; ;//console.log("Resume Button Clicked", this.isPaused); });
-        playText.click(() => { this.isPaused = false; ;//console.log("Resume Button Clicked", this.isPaused); });
-        pauseButton.click(() => { this.isPaused = true; ;//console.log("Pause Button Clicked", this.isPaused); });
-        pauseText.click(() => { this.isPaused = true; ;//console.log("Pause Button Clicked", this.isPaused); });
+        playButton.click(() => { this.isPaused = false; ;//console.warn("Resume Button Clicked", this.isPaused); });
+        playText.click(() => { this.isPaused = false; ;//console.warn("Resume Button Clicked", this.isPaused); });
+        pauseButton.click(() => { this.isPaused = true; ;//console.warn("Pause Button Clicked", this.isPaused); });
+        pauseText.click(() => { this.isPaused = true; ;//console.warn("Pause Button Clicked", this.isPaused); });
 */
-      this.canvasExists = true
-      Element.style.display = 'block' //console.log("Canvas created successfully and returning paper");
-      return this.paper
+      this.canvasExists = true;
+      Element.style.display = "block"; //console.warn("Canvas created successfully and returning paper");
+      return this.paper;
     } catch (error) {
-      //console.log("Error while creating canvas:", error);
+      //console.warn("Error while creating canvas:", error);
     }
   }
 
   destroyCanvas({ canvasID, paper }) {
     try {
-      //console.log("Accessing paper to destroy Canvas");
-      const canvas = document.getElementById(canvasID)
-      const canvasplaybtn = document.getElementById('play')
-      const canvaspausebtn = document.getElementById('pause')
+      //console.warn("Accessing paper to destroy Canvas");
+      const canvas = document.getElementById(canvasID);
+      const canvasplaybtn = document.getElementById("play");
+      const canvaspausebtn = document.getElementById("pause");
 
       // Hide the canvas immediately
-      if (canvasplaybtn) canvasplaybtn.remove()
-      if (canvaspausebtn) canvaspausebtn.remove()
-      if (canvas) canvas.style.display = 'none' //console.log("Canvas identified for removal");
+      if (canvasplaybtn) canvasplaybtn.remove();
+      if (canvaspausebtn) canvaspausebtn.remove();
+      if (canvas) canvas.style.display = "none"; //console.warn("Canvas identified for removal");
 
       // Function to get all elements from the canvas
-      const getAllElements = paper => {
-        const elements = []
-        let element = paper.bottom // Start from the bottom-most element
+      const getAllElements = (paper) => {
+        const elements = [];
+        let element = paper.bottom; // Start from the bottom-most element
 
         while (element) {
-          elements.push(element)
-          element = element.next // Move to the next element in the linked list
-        } //console.log("Canvas elements:", elements);
+          elements.push(element);
+          element = element.next; // Move to the next element in the linked list
+        } //console.warn("Canvas elements:", elements);
 
-        return elements
-      }
+        return elements;
+      };
 
       // Function to clear all elements from the canvas
-      const clearCanvas = paper => {
-        //console.log("Clearing canvas elements");
-        const elements = getAllElements(paper)
-        elements.forEach(element => element.remove())
-      }
+      const clearCanvas = (paper) => {
+        //console.warn("Clearing canvas elements");
+        const elements = getAllElements(paper);
+        elements.forEach((element) => element.remove());
+      };
 
       setTimeout(() => {
-        clearCanvas(paper)
+        clearCanvas(paper);
 
         if (paper) {
-          //console.log("Clearing paper");
-          paper.clear()
-          this.paper = null
-          this.drawXPos = 0
-          this.drawYPos = this.canvasWidth * 0.1
-          this.canvasExists = false
+          //console.warn("Clearing paper");
+          paper.clear();
+          this.paper = null;
+          this.drawXPos = 0;
+          this.drawYPos = this.canvasWidth * 0.1;
+          this.canvasExists = false;
         }
 
         if (canvas) {
           while (canvas.firstChild) {
-            canvas.firstChild.remove()
+            canvas.firstChild.remove();
           }
         }
-      }, 4000) //console.log("Canvas will be destroyed after 4 seconds");
+      }, 4000); //console.warn("Canvas will be destroyed after 4 seconds");
     } catch (error) {
-      //console.log("Error while destroying canvas:", error);
+      //console.warn("Error while destroying canvas:", error);
     }
   }
 
   static async Delay({ time }) {
     try {
       // Returning a promise for the time delay in the execution of code.
-      return new Promise(resolve => setTimeout(resolve, time))
+      return new Promise((resolve) => setTimeout(resolve, time));
     } catch (error) {
-      //console.log("Error in delay:", error);
+      //console.warn("Error in delay:", error);
     }
   }
 
   async delay({ time = 500 } = {}) {
     try {
       // Returning a promise for the time delay in the execution of code.
-      return new Promise(resolve => setTimeout(resolve, time))
+      return new Promise((resolve) => setTimeout(resolve, time));
     } catch (error) {
-      //console.log("Error in delay:", error);
+      //console.warn("Error in delay:", error);
     }
   }
 
   async pauseCanvas() {
     while (this.isPaused) {
-      await this.delay({ time: 300 })
+      await this.delay({ time: 300 });
     }
   }
 } //class CanvasHandler end here
