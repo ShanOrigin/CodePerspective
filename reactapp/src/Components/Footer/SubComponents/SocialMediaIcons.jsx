@@ -1,41 +1,41 @@
-import React from 'react'
-import { FaEnvelope, FaLinkedinIn, FaFacebookF, FaTwitter } from 'react-icons/fa'
-import AnimatedIcon from '../../common/AnimatedIcon'
+import React from "react";
+import {
+  FaEnvelope,
+  FaLinkedinIn,
+  FaFacebookF,
+  FaTwitter,
+  FaGit,
+  FaGithub,
+} from "react-icons/fa";
+import AnimatedIcon from "../../common/AnimatedIcon";
 
 const SOCIAL_CHANNELS = [
   {
-    id: 'email',
-    label: 'Send Email',
-    title: 'Email: shantanusuryawanshi3.14@gmail.com',
-    link: 'mailto:shantanusuryawanshi3.14@gmail.com',
+    id: "Email",
+    label: "Send Email",
+    title: "Email: codeperspective3.14@gmail.com",
+    link: "mailto:codeperspective3.14@gmail.com",
     icon: <FaEnvelope />,
     isExternal: false,
   },
   {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    title: 'LinkedIn',
-    link: 'https://www.linkedin.com',
+    id: "LinkedIn",
+    label: "LinkedIn",
+    title: "LinkedIn",
+    link: "https://linkedin.com/in/shanorigin",
     icon: <FaLinkedinIn />,
     isExternal: true,
   },
   {
-    id: 'facebook',
-    label: 'Facebook',
-    title: 'Facebook',
-    link: 'https://www.facebook.com',
-    icon: <FaFacebookF />,
+    id: "Git",
+    label: "git",
+    title: "git",
+    link: "https://github.com/ShanOrigin/CodePerspective",
+    icon: <FaGithub />,
     isExternal: true,
   },
-  {
-    id: 'twitter',
-    label: 'Twitter',
-    title: 'Twitter / X',
-    link: 'https://www.twitter.com',
-    icon: <FaTwitter />,
-    isExternal: true,
-  },
-]
+
+];
 
 export default function SocialMediaIcons({ buttonClass }) {
   return (
@@ -47,8 +47,8 @@ export default function SocialMediaIcons({ buttonClass }) {
           className={buttonClass}
           aria-label={item.label}
           title={item.title}
-          target={item.isExternal ? '_blank' : undefined}
-          rel={item.isExternal ? 'noopener noreferrer' : undefined}
+          target={item.isExternal ? "_blank" : undefined}
+          rel={item.isExternal ? "noopener noreferrer" : undefined}
         >
           <AnimatedIcon size="sm" variant="inset">
             {item.icon}
@@ -56,5 +56,5 @@ export default function SocialMediaIcons({ buttonClass }) {
         </a>
       ))}
     </>
-  )
+  );
 }

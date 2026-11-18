@@ -1,9 +1,9 @@
-import React from 'react'
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
-import AnimatedIcon from '../common/AnimatedIcon'
-import styles from './Footer.module.css'
-import FootLinks from './SubComponents/FootLinks'
-import SocialMediaIcons from './SubComponents/SocialMediaIcons'
+import React from "react";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import AnimatedIcon from "../common/AnimatedIcon";
+import styles from "./Footer.module.css";
+import FootLinks from "./SubComponents/FootLinks";
+import SocialMediaIcons from "./SubComponents/SocialMediaIcons";
 
 export default function Footer() {
   return (
@@ -21,13 +21,18 @@ export default function Footer() {
             </div>
           </a>
 
-          <a href="mailto:shantanusuryawanshi3.14@gmail.com" className={styles.contactItem}>
+          <a
+            href="mailto:codeperspective3.14@gmail.com"
+            className={styles.contactItem}
+          >
             <AnimatedIcon size="md" variant="inset">
               <FaEnvelope />
             </AnimatedIcon>
             <div className={styles.contactDetails}>
               <span className={styles.contactLabel}>Email</span>
-              <span className={styles.contactValue}>shantanusuryawanshi3.14@gmail.com</span>
+              <span className={styles.contactValue}>
+                codeperspective3.14@gmail.com
+              </span>
             </div>
           </a>
 
@@ -56,9 +61,10 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className={styles.copyrightBar}>
-          © {new Date().getFullYear()} PersPective. Visualizing algorithms &amp; code. All rights reserved.
+          © {new Date().getFullYear()} PersPective. Visualizing algorithms
+          &amp; code. All rights reserved.
         </div>
       </div>
     </footer>
-  )
+  );
 }
