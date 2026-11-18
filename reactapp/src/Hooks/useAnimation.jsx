@@ -8,11 +8,15 @@ const useAnimation = async animation => {
       return animationData
     }
 
-    console.warn(`No animations found for: ${animation}`)
+    if (animationData === null) {
+      console.warn(`No animations found for: ${animation}`)
+      return null
+    }
+
     return null
   } catch (error) {
     console.error(`Failed to initialize animation: ${animation}`, error)
-    return null
+    throw error
   }
 }
 
