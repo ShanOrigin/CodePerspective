@@ -37,7 +37,7 @@ const advanceData = {
     Stack: { path: 'data-structure', page: 'operationpage' },
     Queue: { path: 'data-structure', page: 'operationpage' },
     'Hash Table': { path: 'data-structure', page: 'operationpage' },
-    Sorting: { path: 'alorithms', page: 'operationpage' },
+    Sorting: { path: 'algorithms', page: 'operationpage' },
   },
 
   'One Dimensional Array': [
@@ -95,14 +95,14 @@ const advanceData = {
   ],
 
   Stack: [
-    { name: 'Stack Push',   enabled: true },
-    { name: 'Stack Pop',    enabled: true },
+    { name: 'Stack Push',   enabled: false },
+    { name: 'Stack Pop',    enabled: false },
     { name: 'Custom Stack', enabled: true },
   ],
 
   Queue: [
-    { name: 'En Queue', enabled: true },
-    { name: 'De Queue', enabled: true },
+    { name: 'En Queue', enabled: false },
+    { name: 'De Queue', enabled: false },
     { name: 'Custom',   enabled: true },
   ],
 
